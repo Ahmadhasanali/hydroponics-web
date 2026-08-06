@@ -107,6 +107,22 @@ export function TankDetailPage() {
           </Link>
         </CardContent>
       </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>pH Down</CardTitle>
+          <CardDescription>pH adjustment history for this tank</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Link
+            to="/farms/$farmId/tanks/$tankId/ph-down"
+            params={{ farmId, tankId }}
+            className="text-sm font-medium text-blue-600 hover:underline"
+          >
+            View pH down →
+          </Link>
+        </CardContent>
+      </Card>
     </div>
   )
 }
