@@ -4,7 +4,7 @@ android {
     namespace = "com.hydroponics.farm"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.hydroponics.farm"
+        applicationId "com.hydrofarm.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

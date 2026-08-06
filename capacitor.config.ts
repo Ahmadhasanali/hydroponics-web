@@ -4,7 +4,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
 const PROD_URL = 'https://your-domain.example';
 
 const config: CapacitorConfig = {
-  appId: 'com.hydroponics.farm',
+  appId: 'com.hydrofarm.app',
   appName: 'Hydroponics Farm',
   webDir: 'dist',
   server: {
