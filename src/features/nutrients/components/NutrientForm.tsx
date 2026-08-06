@@ -34,6 +34,7 @@ interface NutrientFormProps {
 const today = new Date().toISOString().slice(0, 10)
 const toStr = (n?: number) => (n === undefined || n === null ? '' : String(n))
 const toDate = (s?: string) => (s ? s.slice(0, 10) : '')
+const dateOrDefault = (s?: string) => toDate(s) || today
 
 export function NutrientForm({ open, onOpenChange, tankId, record }: NutrientFormProps) {
   const createNutrient = useCreateNutrient()
@@ -41,7 +42,7 @@ export function NutrientForm({ open, onOpenChange, tankId, record }: NutrientFor
   const isSubmitting = createNutrient.isPending || updateNutrient.isPending
   const { register, handleSubmit, reset } = useForm<NutrientFormData>({
     defaultValues: {
-      log_date: toDate(record?.log_date) ?? today,
+      log_date: dateOrDefault(record?.log_date),
       ppm_before: toStr(record?.ppm_before),
       ppm_after: toStr(record?.ppm_after),
       nutrient_a_ml: toStr(record?.nutrient_a_ml),
@@ -54,7 +55,7 @@ export function NutrientForm({ open, onOpenChange, tankId, record }: NutrientFor
   useEffect(() => {
     if (open) {
       reset({
-        log_date: toDate(record?.log_date) ?? today,
+        log_date: dateOrDefault(record?.log_date),
         ppm_before: toStr(record?.ppm_before),
         ppm_after: toStr(record?.ppm_after),
         nutrient_a_ml: toStr(record?.nutrient_a_ml),
