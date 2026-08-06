@@ -11,11 +11,13 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
+import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
-import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedFarmsIndexRouteImport } from './routes/_authenticated/farms/index'
+import { Route as AuthenticatedFarmsFarmIdRouteImport } from './routes/_authenticated/farms/$farmId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
@@ -25,6 +27,11 @@ const AuthenticatedRoute = AuthenticatedRouteImport.update({
   id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => AuthRoute,
+} as any)
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -33,11 +40,6 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
 const AuthRegisterRoute = AuthRegisterRouteImport.update({
   id: '/register',
   path: '/register',
-  getParentRoute: () => AuthRoute,
-} as any)
-const AuthForgotPasswordRoute = AuthForgotPasswordRouteImport.update({
-  id: '/forgot-password',
-  path: '/forgot-password',
   getParentRoute: () => AuthRoute,
 } as any)
 const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
@@ -50,50 +52,78 @@ const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedFarmsIndexRoute = AuthenticatedFarmsIndexRouteImport.update({
+  id: '/farms/',
+  path: '/farms/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedFarmsFarmIdRoute =
+  AuthenticatedFarmsFarmIdRouteImport.update({
+    id: '/farms/$farmId',
+    path: '/farms/$farmId',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
+  '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
-  '/forgot-password': typeof AuthForgotPasswordRoute
   '/reset-password': typeof AuthResetPasswordRoute
+  '/farms/$farmId': typeof AuthenticatedFarmsFarmIdRoute
+  '/farms/': typeof AuthenticatedFarmsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRoute
+  '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
-  '/forgot-password': typeof AuthForgotPasswordRoute
   '/reset-password': typeof AuthResetPasswordRoute
+  '/farms/$farmId': typeof AuthenticatedFarmsFarmIdRoute
+  '/farms': typeof AuthenticatedFarmsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_auth': typeof AuthRouteWithChildren
   '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
-  '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/farms/$farmId': typeof AuthenticatedFarmsFarmIdRoute
+  '/_authenticated/farms/': typeof AuthenticatedFarmsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/forgot-password'
     | '/login'
     | '/register'
-    | '/forgot-password'
     | '/reset-password'
+    | '/farms/$farmId'
+    | '/farms/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/register' | '/forgot-password' | '/reset-password'
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/login'
+    | '/register'
+    | '/reset-password'
+    | '/farms/$farmId'
+    | '/farms'
   id:
     | '__root__'
     | '/_auth'
     | '/_authenticated'
+    | '/_auth/forgot-password'
     | '/_auth/login'
     | '/_auth/register'
-    | '/_auth/forgot-password'
     | '/_auth/reset-password'
     | '/_authenticated/'
+    | '/_authenticated/farms/$farmId'
+    | '/_authenticated/farms/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -117,6 +147,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_auth/forgot-password': {
+      id: '/_auth/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof AuthForgotPasswordRouteImport
+      parentRoute: typeof AuthRoute
+    }
     '/_auth/login': {
       id: '/_auth/login'
       path: '/login'
@@ -129,13 +166,6 @@ declare module '@tanstack/react-router' {
       path: '/register'
       fullPath: '/register'
       preLoaderRoute: typeof AuthRegisterRouteImport
-      parentRoute: typeof AuthRoute
-    }
-    '/_auth/forgot-password': {
-      id: '/_auth/forgot-password'
-      path: '/forgot-password'
-      fullPath: '/forgot-password'
-      preLoaderRoute: typeof AuthForgotPasswordRouteImport
       parentRoute: typeof AuthRoute
     }
     '/_auth/reset-password': {
@@ -152,20 +182,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
+    '/_authenticated/farms/': {
+      id: '/_authenticated/farms/'
+      path: '/farms'
+      fullPath: '/farms/'
+      preLoaderRoute: typeof AuthenticatedFarmsIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/farms/$farmId': {
+      id: '/_authenticated/farms/$farmId'
+      path: '/farms/$farmId'
+      fullPath: '/farms/$farmId'
+      preLoaderRoute: typeof AuthenticatedFarmsFarmIdRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
 interface AuthRouteChildren {
+  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthRegisterRoute: typeof AuthRegisterRoute
-  AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthResetPasswordRoute: typeof AuthResetPasswordRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
+  AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthRegisterRoute: AuthRegisterRoute,
-  AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthResetPasswordRoute: AuthResetPasswordRoute,
 }
 
@@ -173,10 +217,14 @@ const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 interface AuthenticatedRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedFarmsFarmIdRoute: typeof AuthenticatedFarmsFarmIdRoute
+  AuthenticatedFarmsIndexRoute: typeof AuthenticatedFarmsIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedFarmsFarmIdRoute: AuthenticatedFarmsFarmIdRoute,
+  AuthenticatedFarmsIndexRoute: AuthenticatedFarmsIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
