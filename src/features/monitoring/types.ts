@@ -21,4 +21,4 @@ export interface CreateMonitoringInput {
   notes?: string
 }
 
-export type UpdateMonitoringInput = Omit<CreateMonitoringInput, 'tank_id'>
+export type UpdateMonitoringInput = CreateMonitoringInput

@@ -65,6 +65,7 @@ export function MonitoringForm({ open, onOpenChange, tankId, record }: Monitorin
 
   const onSubmit = (data: MonitoringFormData) => {
     const payload: CreateMonitoringInput | UpdateMonitoringInput = {
+      tank_id: record?.tank_id ?? tankId,
       log_date: data.log_date,
       ppm: Number(data.ppm),
       ph: Number(data.ph),
@@ -78,7 +79,7 @@ export function MonitoringForm({ open, onOpenChange, tankId, record }: Monitorin
     if (record) {
       updateMonitoring.mutate({ id: record.id, ...payload }, { onSuccess: onDone })
     } else {
-      createMonitoring.mutate({ ...payload, tank_id: tankId }, { onSuccess: onDone })
+      createMonitoring.mutate(payload, { onSuccess: onDone })
     }
   }
 

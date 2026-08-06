@@ -32,7 +32,7 @@ export function useMonitoringReport(params: Partial<ReportParams>) {
 }
 
 export function useNutrientReport(params: Partial<ReportParams>) {
-  return useReport<NutrientAggregates>('nutrient', params)
+  return useReport<NutrientAggregates>('nutrients', params)
 }
 
 export function usePhReport(params: Partial<ReportParams>) {

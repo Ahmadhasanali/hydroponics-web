@@ -23,4 +23,4 @@ export interface CreateNutrientInput {
   notes?: string
 }
 
-export type UpdateNutrientInput = Omit<CreateNutrientInput, 'tank_id'>
+export type UpdateNutrientInput = CreateNutrientInput

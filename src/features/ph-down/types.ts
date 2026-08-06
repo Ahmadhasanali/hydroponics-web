@@ -21,4 +21,4 @@ export interface CreatePhDownInput {
   notes?: string
 }
 
-export type UpdatePhDownInput = Omit<CreatePhDownInput, 'tank_id'>
+export type UpdatePhDownInput = CreatePhDownInput

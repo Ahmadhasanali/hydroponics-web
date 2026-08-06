@@ -74,6 +74,7 @@ export function NutrientForm({ open, onOpenChange, tankId, record }: NutrientFor
     }
 
     const payload: CreateNutrientInput | UpdateNutrientInput = {
+      tank_id: record?.tank_id ?? tankId,
       log_date: data.log_date,
       ppm_before: ppmBefore,
       ppm_after: ppmAfter,
@@ -85,7 +86,7 @@ export function NutrientForm({ open, onOpenChange, tankId, record }: NutrientFor
     if (record) {
       updateNutrient.mutate({ id: record.id, ...payload }, { onSuccess: onDone })
     } else {
-      createNutrient.mutate({ ...payload, tank_id: tankId }, { onSuccess: onDone })
+      createNutrient.mutate(payload, { onSuccess: onDone })
     }
   }
 

@@ -26,4 +26,4 @@ export interface ReportParams {
   end_date: string
 }
 
-export type ReportType = 'monitoring' | 'nutrient' | 'ph-down'
+export type ReportType = 'monitoring' | 'nutrients' | 'ph-down'

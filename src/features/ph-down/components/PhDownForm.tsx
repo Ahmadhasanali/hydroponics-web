@@ -71,6 +71,7 @@ export function PhDownForm({ open, onOpenChange, tankId, record }: PhDownFormPro
     }
 
     const payload: CreatePhDownInput | UpdatePhDownInput = {
+      tank_id: record?.tank_id ?? tankId,
       log_date: data.log_date,
       ph_before: phBefore,
       ph_after: phAfter,
@@ -81,7 +82,7 @@ export function PhDownForm({ open, onOpenChange, tankId, record }: PhDownFormPro
     if (record) {
       updatePhDown.mutate({ id: record.id, ...payload }, { onSuccess: onDone })
     } else {
-      createPhDown.mutate({ ...payload, tank_id: tankId }, { onSuccess: onDone })
+      createPhDown.mutate(payload, { onSuccess: onDone })
     }
   }
 
