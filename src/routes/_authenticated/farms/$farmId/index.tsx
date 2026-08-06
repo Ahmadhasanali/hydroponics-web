@@ -122,9 +122,15 @@ function FarmDetailPage() {
         </CardContent>
       </Card>
 
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Link to="/farms/$farmId/tanks" params={{ farmId: String(id) }}>
           <Button variant="outline">Manage Tanks</Button>
+        </Link>
+        <Link to="/farms/$farmId/staff" params={{ farmId: String(id) }}>
+          <Button variant="outline">Manage Staff</Button>
+        </Link>
+        <Link to="/farms/$farmId/reminders" params={{ farmId: String(id) }}>
+          <Button variant="outline">Manage Reminders</Button>
         </Link>
       </div>
     </div>

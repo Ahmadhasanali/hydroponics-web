@@ -1,4 +1,5 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import { ChatWidget } from '../features/chat/components/ChatWidget'
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: () => {
@@ -13,6 +14,7 @@ function AppLayout() {
   return (
     <div className="min-h-screen">
       <Outlet />
+      <ChatWidget />
     </div>
   )
 }
