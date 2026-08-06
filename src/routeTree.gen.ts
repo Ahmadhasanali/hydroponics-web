@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SplatRouteImport } from './routes/$'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
@@ -29,6 +30,11 @@ import { Route as AuthenticatedFarmsFarmIdTanksTankIdMonitoringRouteImport } fro
 import { Route as AuthenticatedFarmsFarmIdTanksTankIdNutrientsRouteImport } from './routes/_authenticated/farms/$farmId/tanks/$tankId/nutrients'
 import { Route as AuthenticatedFarmsFarmIdTanksTankIdPhDownRouteImport } from './routes/_authenticated/farms/$farmId/tanks/$tankId/ph-down'
 
+const SplatRoute = SplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
   getParentRoute: () => rootRouteImport,
@@ -132,6 +138,7 @@ const AuthenticatedFarmsFarmIdTanksTankIdPhDownRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
+  '/$': typeof SplatRoute
   '/': typeof AuthenticatedIndexRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
@@ -151,6 +158,7 @@ export interface FileRoutesByFullPath {
   '/farms/$farmId/tanks/$tankId/ph-down': typeof AuthenticatedFarmsFarmIdTanksTankIdPhDownRoute
 }
 export interface FileRoutesByTo {
+  '/$': typeof SplatRoute
   '/': typeof AuthenticatedIndexRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
@@ -171,6 +179,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
+  '/$': typeof SplatRoute
   '/_auth': typeof AuthRouteWithChildren
   '/_authenticated': typeof AuthenticatedRouteWithChildren
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
@@ -194,6 +203,7 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
+    | '/$'
     | '/'
     | '/forgot-password'
     | '/login'
@@ -213,6 +223,7 @@ export interface FileRouteTypes {
     | '/farms/$farmId/tanks/$tankId/ph-down'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/$'
     | '/'
     | '/forgot-password'
     | '/login'
@@ -232,6 +243,7 @@ export interface FileRouteTypes {
     | '/farms/$farmId/tanks/$tankId/ph-down'
   id:
     | '__root__'
+    | '/$'
     | '/_auth'
     | '/_authenticated'
     | '/_auth/forgot-password'
@@ -254,12 +266,20 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
+  SplatRoute: typeof SplatRoute
   AuthRoute: typeof AuthRouteWithChildren
   AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/$': {
+      id: '/$'
+      path: '/$'
+      fullPath: '/$'
+      preLoaderRoute: typeof SplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_auth': {
       id: '/_auth'
       path: ''
@@ -479,6 +499,7 @@ const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
 )
 
 const rootRouteChildren: RootRouteChildren = {
+  SplatRoute: SplatRoute,
   AuthRoute: AuthRouteWithChildren,
   AuthenticatedRoute: AuthenticatedRouteWithChildren,
 }

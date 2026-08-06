@@ -1,5 +1,5 @@
 import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router'
-import { Button } from '../components/ui/button'
+import { BottomNav, Sidebar } from '../components/layouts/Navigation'
 import { ChatWidget } from '../features/chat/components/ChatWidget'
 import { usePushNotifications } from '../hooks/usePushNotifications'
 
@@ -17,22 +17,20 @@ function AppLayout() {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur">
-        <div className="flex items-center justify-between gap-3 px-4 py-2.5">
+      <header className="sticky top-0 z-30 h-14 border-b bg-background/95 backdrop-blur">
+        <div className="flex h-full items-center gap-3 px-4">
           <Link to="/" className="text-sm font-medium">
             HydroFarm
           </Link>
-          <nav className="flex items-center gap-1">
-            <Link to="/activity">
-              <Button variant="ghost" size="sm">Aktivitas</Button>
-            </Link>
-            <Link to="/profile">
-              <Button variant="ghost" size="sm">Profil</Button>
-            </Link>
-          </nav>
         </div>
       </header>
-      <Outlet />
+      <div className="flex">
+        <Sidebar />
+        <main className="min-w-0 flex-1 pb-24 md:pb-0">
+          <Outlet />
+        </main>
+      </div>
+      <BottomNav />
       <ChatWidget />
     </div>
   )

@@ -84,7 +84,7 @@ export function ChatWidget() {
       <Button
         onClick={() => setOpen(true)}
         aria-label="Buka chat"
-        className="fixed right-4 bottom-4 z-40 h-12 w-12 rounded-full"
+        className="fixed right-4 bottom-20 z-40 h-12 w-12 rounded-full md:bottom-4"
         size="icon"
       >
         <MessageCircleIcon className="size-5" />
