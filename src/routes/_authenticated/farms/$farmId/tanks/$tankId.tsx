@@ -15,12 +15,11 @@ export const Route = createFileRoute('/_authenticated/farms/$farmId/tanks/$tankI
 export function TankDetailPage() {
   const { farmId, tankId } = Route.useParams()
   const tankNum = Number(tankId)
+  const { data: tank, isLoading, isError } = useTank(tankNum)
 
   if (!tankId || Number.isNaN(tankNum)) {
     return <p className="text-sm text-red-500">ID tank tidak valid.</p>
   }
-
-  const { data: tank, isLoading, isError } = useTank(tankNum)
 
   if (isLoading) return <p className="text-sm text-muted-foreground">Loading tank...</p>
   if (isError) return <p className="text-sm text-red-500">Gagal memuat detail tank.</p>
@@ -80,14 +79,16 @@ export function TankDetailPage() {
       <Card>
         <CardHeader>
           <CardTitle>Monitoring</CardTitle>
-          <CardDescription>
-            History and trends will appear here.
-          </CardDescription>
+          <CardDescription>History and trends for this tank</CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-muted-foreground">
-            Empty — monitoring, nutrients and pH logs are coming in a later update.
-          </p>
+          <Link
+            to="/farms/$farmId/tanks/$tankId/monitoring"
+            params={{ farmId, tankId }}
+            className="text-sm font-medium text-blue-600 hover:underline"
+          >
+            View monitoring →
+          </Link>
         </CardContent>
       </Card>
     </div>
