@@ -24,7 +24,7 @@ function RemindersPage() {
       >
         &larr; {farm?.name ?? 'Kembali ke farm'}
       </Link>
-      <ReminderList farmId={id} />
+      <ReminderList key={farmId} farmId={id} />
     </div>
   )
 }
