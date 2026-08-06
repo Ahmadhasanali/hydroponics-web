@@ -1,7 +1,7 @@
 import { Card, CardContent } from '../../../components/ui/card'
 
 interface ReportStatsProps {
-  stats: Record<string, number>
+  stats: Record<string, number | null>
 }
 
 export function ReportStats({ stats }: ReportStatsProps) {
@@ -13,7 +13,7 @@ export function ReportStats({ stats }: ReportStatsProps) {
         <Card key={label}>
           <CardContent>
             <div className="text-xs font-medium text-muted-foreground">{label}</div>
-            <div className="mt-1 text-2xl font-semibold">{value.toLocaleString()}</div>
+            <div className="mt-1 text-2xl font-semibold">{value == null ? '–' : value.toLocaleString()}</div>
           </CardContent>
         </Card>
       ))}

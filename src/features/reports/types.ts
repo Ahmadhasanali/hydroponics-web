@@ -1,11 +1,11 @@
 export interface MonitoringAggregates {
   count: number
-  avg_ppm: number
-  highest_ppm: number
-  lowest_ppm: number
-  avg_ph: number
-  highest_ph: number
-  lowest_ph: number
+  avg_ppm: number | null
+  highest_ppm: number | null
+  lowest_ppm: number | null
+  avg_ph: number | null
+  highest_ph: number | null
+  lowest_ph: number | null
 }
 
 export interface NutrientAggregates {
