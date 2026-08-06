@@ -16,38 +16,49 @@ function inRange(value: number | undefined, min?: number, max?: number): boolean
   return min !== undefined || max !== undefined
 }
 
-export function TankCard({ farmId, tank }: { farmId: number; tank: Tank }) {
+function statusBadge(tank: Tank): string {
+  if (!tank.is_active) return 'bg-slate-100 text-slate-500'
   const hasTargets = tank.target_ppm_min !== undefined || tank.target_ppm_max !== undefined
   const ppmOk = inRange(tank.current_ppm, tank.target_ppm_min, tank.target_ppm_max)
   const phOk = inRange(tank.current_ph, tank.target_ph_min, tank.target_ph_max)
+  if (hasTargets && (!ppmOk || !phOk)) return 'bg-[#ffce54]/20 text-[#a07a10]'
+  return 'bg-[#cbe273]/25 text-[#a3c44a]'
+}
 
-  const statusClass = !tank.is_active
-    ? 'bg-gray-500/20 text-gray-400'
-    : hasTargets && (!ppmOk || !phOk)
-      ? 'bg-red-500/20 text-red-400'
-      : 'bg-green-500/20 text-green-400'
+function statusLabel(tank: Tank): string {
+  if (!tank.is_active) return 'Inactive'
+  const hasTargets = tank.target_ppm_min !== undefined || tank.target_ppm_max !== undefined
+  const ppmOk = inRange(tank.current_ppm, tank.target_ppm_min, tank.target_ppm_max)
+  const phOk = inRange(tank.current_ph, tank.target_ph_min, tank.target_ph_max)
+  return hasTargets && (!ppmOk || !phOk) ? 'Warning' : 'Optimal'
+}
 
+export function TankCard({ farmId, tank }: { farmId: number; tank: Tank }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{tank.name}</CardTitle>
+        <CardTitle className="flex items-center gap-2 font-semibold text-slate-900">
+          <span className={`h-2.5 w-2.5 rounded-full ${tank.is_active ? 'bg-[#cbe273]' : 'bg-slate-300'}`} />
+          {tank.name}
+        </CardTitle>
         <CardDescription>{tank.capacity_liter} L</CardDescription>
       </CardHeader>
       <CardContent>
-        <p className="text-sm text-muted-foreground">
-          PPM: {tank.current_ppm ?? '–'} · pH: {tank.current_ph ?? '–'}
-        </p>
+        <div className="rounded-xl bg-slate-50 p-3 text-sm text-muted-foreground">
+          PPM: <span className="font-medium text-slate-700">{tank.current_ppm ?? '–'}</span> · pH:{' '}
+          <span className="font-medium text-slate-700">{tank.current_ph ?? '–'}</span>
+        </div>
         <span
-          className={`mt-2 inline-block rounded-full px-2 py-0.5 text-xs font-medium uppercase ${statusClass}`}
+          className={`mt-3 inline-block rounded-full px-3 py-1 text-xs font-semibold tracking-[0.24em] uppercase ${statusBadge(tank)}`}
         >
-          {tank.is_active ? (hasTargets && (!ppmOk || !phOk) ? 'Warning' : 'Optimal') : 'Inactive'}
+          {statusLabel(tank)}
         </span>
       </CardContent>
       <CardFooter>
         <Link
           to="/farms/$farmId/tanks/$tankId"
           params={{ farmId: String(farmId), tankId: String(tank.id) }}
-          className="text-sm font-medium text-primary hover:underline"
+          className="text-sm font-medium text-[#d4a020] hover:text-[#8a6d00]"
         >
           Detail
         </Link>

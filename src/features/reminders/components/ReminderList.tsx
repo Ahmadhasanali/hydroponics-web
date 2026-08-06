@@ -25,7 +25,7 @@ export function ReminderList({ farmId }: { farmId: number }) {
   const [editing, setEditing] = useState<Reminder | undefined>(undefined)
 
   if (isLoading) return <p className="text-sm text-muted-foreground">Memuat reminder...</p>
-  if (isError) return <p className="text-sm text-red-500">Gagal memuat reminder.</p>
+  if (isError) return <p className="text-sm text-red-600">Gagal memuat reminder.</p>
 
   const reminders = data?.data ?? []
   const meta = data?.meta
@@ -33,7 +33,7 @@ export function ReminderList({ farmId }: { farmId: number }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-medium">Reminder</h1>
+        <h1 className="text-2xl font-semibold text-slate-900">Reminder</h1>
         <Button
           onClick={() => {
             setEditing(undefined)
@@ -57,7 +57,7 @@ export function ReminderList({ farmId }: { farmId: number }) {
                     <div className="flex items-center gap-2">
                       <p className="font-medium">{reminder.title}</p>
                       {recurring && (
-                        <span className="rounded-full bg-blue-500/20 px-2 py-0.5 text-xs font-medium text-blue-400">
+                        <span className="rounded-full bg-[#4fc3f7]/20 px-3 py-1 text-xs font-semibold tracking-[0.24em] text-[#1c6f96] uppercase">
                           Berulang
                         </span>
                       )}

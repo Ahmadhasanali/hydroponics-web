@@ -22,7 +22,7 @@ export function FarmCard({ farm }: { farm: Farm }) {
         </p>
       </CardContent>
       <CardFooter>
-        <Link to="/farms/$farmId" params={{ farmId: String(farm.id) }} className="text-sm font-medium text-primary hover:underline">
+        <Link to="/farms/$farmId" params={{ farmId: String(farm.id) }} className="text-sm font-medium text-[#d4a020] hover:text-[#8a6d00]">
           Detail
         </Link>
       </CardFooter>

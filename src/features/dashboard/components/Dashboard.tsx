@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from '@tanstack/react-router'
 import { buttonVariants } from '../../../components/ui/button'
 import { Card, CardContent } from '../../../components/ui/card'
+import { Droplets, Gauge, FlaskConical, Thermometer, Zap } from 'lucide-react'
 import { FarmSwitcher } from './FarmSwitcher'
 import { TankStatusCard } from './TankStatusCard'
 import { ActivityFeed } from './ActivityFeed'
@@ -11,12 +12,31 @@ function isStatsObject(stats: unknown): stats is DashboardStats {
   return typeof stats === 'object' && stats !== null && !Array.isArray(stats)
 }
 
-function StatItem({ label, value }: { label: string; value: string }) {
+function StatCard({
+  label,
+  value,
+  icon: Icon,
+  tint,
+}: {
+  label: string
+  value: string
+  icon: typeof Droplets
+  tint: string
+}) {
   return (
-    <div>
-      <p className="text-xs text-muted-foreground">{label}</p>
-      <p className="text-lg font-medium">{value}</p>
-    </div>
+    <Card>
+      <CardContent className="flex items-center gap-3">
+        <span className={`inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-3xl ${tint}`}>
+          <Icon className="size-6" />
+        </span>
+        <div className="min-w-0">
+          <p className="truncate text-sm font-semibold tracking-[0.25em] text-slate-500 uppercase">
+            {label}
+          </p>
+          <p className="text-3xl font-semibold text-slate-900">{value}</p>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 
@@ -25,7 +45,7 @@ export function Dashboard() {
   const { data, isLoading, isError } = useDashboard(farmId)
 
   if (isLoading) return <p className="text-sm text-muted-foreground">Memuat dashboard...</p>
-  if (isError || !data) return <p className="text-sm text-red-500">Gagal memuat dashboard.</p>
+  if (isError || !data) return <p className="text-sm text-red-600">Gagal memuat dashboard.</p>
 
   const stats = data.stats
   const hasStats = isStatsObject(stats)
@@ -33,7 +53,7 @@ export function Dashboard() {
   if (!data.farms.length) {
     return (
       <div className="space-y-6">
-        <h1 className="text-xl font-medium">Dashboard</h1>
+        <h1 className="text-2xl font-semibold text-slate-900">Dashboard</h1>
         <Card>
           <CardContent className="flex flex-col items-start gap-3 py-8">
             <h2 className="text-base font-medium">Belum ada farm</h2>
@@ -52,7 +72,7 @@ export function Dashboard() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-xl font-medium">Dashboard</h1>
+        <h1 className="text-2xl font-semibold text-slate-900">Dashboard</h1>
         <FarmSwitcher
           farms={data.farms}
           selectedFarmId={farmId}
@@ -62,11 +82,36 @@ export function Dashboard() {
 
       {hasStats && (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-          <StatItem label="Total Tanks" value={String(stats.total_tanks)} />
-          <StatItem label="Active Tanks" value={String(stats.active_tanks)} />
-          <StatItem label="Avg PPM" value={stats.avg_ppm !== null && stats.avg_ppm !== undefined ? String(stats.avg_ppm) : '–'} />
-          <StatItem label="Avg pH" value={stats.avg_ph !== null && stats.avg_ph !== undefined ? String(stats.avg_ph) : '–'} />
-          <StatItem label="Avg Temp" value={stats.avg_temp !== null && stats.avg_temp !== undefined ? `${stats.avg_temp}°C` : '–'} />
+          <StatCard
+            label="Total Tanks"
+            value={String(stats.total_tanks)}
+            icon={Droplets}
+            tint="bg-[#ffce54]/20 text-[#d4a020]"
+          />
+          <StatCard
+            label="Active Tanks"
+            value={String(stats.active_tanks)}
+            icon={Zap}
+            tint="bg-[#cbe273]/25 text-[#a3c44a]"
+          />
+          <StatCard
+            label="Avg PPM"
+            value={stats.avg_ppm !== null && stats.avg_ppm !== undefined ? String(stats.avg_ppm) : '–'}
+            icon={Gauge}
+            tint="bg-[#4fc3f7]/20 text-[#1c6f96]"
+          />
+          <StatCard
+            label="Avg pH"
+            value={stats.avg_ph !== null && stats.avg_ph !== undefined ? String(stats.avg_ph) : '–'}
+            icon={FlaskConical}
+            tint="bg-[#ffce54]/15 text-[#a07a10]"
+          />
+          <StatCard
+            label="Avg Temp"
+            value={stats.avg_temp !== null && stats.avg_temp !== undefined ? `${stats.avg_temp}°C` : '–'}
+            icon={Thermometer}
+            tint="bg-slate-100 text-slate-500"
+          />
         </div>
       )}
 

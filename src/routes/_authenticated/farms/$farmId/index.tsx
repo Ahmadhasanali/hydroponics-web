@@ -43,23 +43,23 @@ function FarmDetailPage() {
   const membersQuery = useFarmMembers(id)
 
   if (!farmId || Number.isNaN(id)) {
-    return <p className="text-sm text-red-500">ID farm tidak valid.</p>
+    return <p className="text-sm text-red-600">ID farm tidak valid.</p>
   }
 
   if (isLoading) return <p className="text-sm text-muted-foreground">Loading farm...</p>
-  if (isError) return <p className="text-sm text-red-500">Gagal memuat detail farm.</p>
+  if (isError) return <p className="text-sm text-red-600">Gagal memuat detail farm.</p>
 
   const detail = farm as FarmDetail
   const members = membersQuery.data?.users ?? []
 
   return (
     <div className="space-y-6">
-      <Link to="/farms" className="text-sm text-blue-600 hover:underline">
+      <Link to="/farms" className="text-sm text-[#d4a020] hover:text-[#8a6d00] hover:underline">
         &larr; Kembali ke daftar farm
       </Link>
 
       <div>
-        <h1 className="text-xl font-medium">{detail.name}</h1>
+        <h1 className="text-2xl font-semibold text-slate-900">{detail.name}</h1>
         {detail.location && <p className="text-sm text-muted-foreground">{detail.location}</p>}
       </div>
 

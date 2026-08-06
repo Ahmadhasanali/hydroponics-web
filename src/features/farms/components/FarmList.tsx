@@ -17,12 +17,12 @@ export function FarmList() {
   }
 
   if (isLoading) return <p className="text-sm text-muted-foreground">Memuat daftar farm...</p>
-  if (isError) return <p className="text-sm text-red-500">Gagal memuat daftar farm.</p>
+  if (isError) return <p className="text-sm text-red-600">Gagal memuat daftar farm.</p>
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-medium">Farms</h1>
+        <h1 className="text-2xl font-semibold text-slate-900">Farms</h1>
         <Button onClick={() => { setEditing(undefined); setCreateOpen(true) }}>Create Farm</Button>
       </div>
 

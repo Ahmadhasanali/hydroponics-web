@@ -42,15 +42,15 @@ export function ProfileForm() {
           <div>
             <Label htmlFor="name">Nama</Label>
             <Input id="name" type="text" {...register('name', { required: 'Nama wajib diisi' })} />
-            {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+            {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
           </div>
           <div>
             <Label htmlFor="email">Email</Label>
             <Input id="email" type="email" {...register('email', { required: 'Email wajib diisi' })} />
-            {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+            {errors.email && <p className="text-sm text-red-600">{errors.email.message}</p>}
           </div>
           {updateProfile.error && (
-            <p className="text-sm text-red-500">
+            <p className="text-sm text-red-600">
               {(updateProfile.error as { message?: string }).message ?? 'Gagal memperbarui profil.'}
             </p>
           )}

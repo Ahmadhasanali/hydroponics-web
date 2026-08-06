@@ -12,7 +12,7 @@ function StaffPage() {
   const { data: farm } = useFarm(id)
 
   if (!farmId || Number.isNaN(id)) {
-    return <p className="text-sm text-red-500">ID farm tidak valid.</p>
+    return <p className="text-sm text-red-600">ID farm tidak valid.</p>
   }
 
   return (
@@ -20,7 +20,7 @@ function StaffPage() {
       <Link
         to="/farms/$farmId"
         params={{ farmId }}
-        className="text-sm text-blue-600 hover:underline"
+        className="text-sm text-[#d4a020] hover:text-[#8a6d00] hover:underline"
       >
         &larr; {farm?.name ?? 'Kembali ke farm'}
       </Link>

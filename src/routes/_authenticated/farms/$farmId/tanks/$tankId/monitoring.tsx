@@ -13,7 +13,7 @@ function MonitoringPage() {
   const tankNum = Number(tankId)
 
   if (!farmId || !tankId || Number.isNaN(farmNum) || Number.isNaN(tankNum)) {
-    return <p className="text-sm text-red-500">ID farm atau tank tidak valid.</p>
+    return <p className="text-sm text-red-600">ID farm atau tank tidak valid.</p>
   }
 
   return (
@@ -21,7 +21,7 @@ function MonitoringPage() {
       <Link
         to="/farms/$farmId/tanks/$tankId"
         params={{ farmId, tankId }}
-        className="text-sm text-blue-600 hover:underline"
+        className="text-sm text-[#d4a020] hover:text-[#8a6d00] hover:underline"
       >
         &larr; Kembali ke detail tank
       </Link>

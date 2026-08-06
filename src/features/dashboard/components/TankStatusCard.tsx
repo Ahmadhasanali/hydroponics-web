@@ -8,51 +8,64 @@ function inRange(value: number | undefined, min?: number, max?: number): boolean
   return min !== undefined || max !== undefined
 }
 
-export function TankStatusCard({ tank }: { tank: Tank }) {
+function statusBadge(tank: Tank): string {
+  if (!tank.is_active) return 'bg-slate-100 text-slate-500'
   const hasTargets =
     tank.target_ppm_min !== undefined ||
     tank.target_ppm_max !== undefined ||
     tank.target_ph_min !== undefined ||
     tank.target_ph_max !== undefined
   const ppmOk = inRange(tank.current_ppm, tank.target_ppm_min, tank.target_ppm_max)
-  const phOk = inRange(
-    tank.current_ph,
-    tank.target_ph_min,
-    tank.target_ph_max,
-  )
-  const temp = tank.current_water_temperature
+  const phOk = inRange(tank.current_ph, tank.target_ph_min, tank.target_ph_max)
+  if (hasTargets && (!ppmOk || !phOk)) return 'bg-[#ffce54]/20 text-[#a07a10]'
+  return 'bg-[#cbe273]/25 text-[#a3c44a]'
+}
 
-  const statusClass = !tank.is_active
-    ? 'bg-gray-500/20 text-gray-400'
-    : hasTargets && (!ppmOk || !phOk)
-      ? 'bg-red-500/20 text-red-400'
-      : 'bg-green-500/20 text-green-400'
+function statusLabel(tank: Tank): string {
+  if (!tank.is_active) return 'Inactive'
+  const hasTargets =
+    tank.target_ppm_min !== undefined ||
+    tank.target_ppm_max !== undefined ||
+    tank.target_ph_min !== undefined ||
+    tank.target_ph_max !== undefined
+  const ppmOk = inRange(tank.current_ppm, tank.target_ppm_min, tank.target_ppm_max)
+  const phOk = inRange(tank.current_ph, tank.target_ph_min, tank.target_ph_max)
+  return hasTargets && (!ppmOk || !phOk) ? 'Warning' : 'Optimal'
+}
+
+export function TankStatusCard({ tank }: { tank: Tank }) {
+  const temp = tank.current_water_temperature
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-base">{tank.name}</CardTitle>
+        <CardTitle className="flex items-center gap-2 font-semibold text-slate-900">
+          <span className={`h-2.5 w-2.5 rounded-full ${tank.is_active ? 'bg-[#cbe273]' : 'bg-slate-300'}`} />
+          {tank.name}
+        </CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-xs text-muted-foreground">{tank.capacity_liter} L capacity</p>
-        <dl className="mt-2 space-y-1 text-sm">
-          <div className="flex justify-between">
-            <dt className="text-muted-foreground">PPM</dt>
-            <dd>{tank.current_ppm ?? '–'}</dd>
-          </div>
-          <div className="flex justify-between">
-            <dt className="text-muted-foreground">pH</dt>
-            <dd>{tank.current_ph ?? '–'}</dd>
-          </div>
-          <div className="flex justify-between">
-            <dt className="text-muted-foreground">Temp</dt>
-            <dd>{temp !== undefined ? `${temp}°C` : '–'}</dd>
-          </div>
-        </dl>
+        <div className="rounded-xl bg-slate-50 p-3">
+          <p className="text-xs text-muted-foreground">{tank.capacity_liter} L capacity</p>
+          <dl className="mt-2 space-y-1 text-sm">
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">PPM</dt>
+              <dd className="font-medium">{tank.current_ppm ?? '–'}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">pH</dt>
+              <dd className="font-medium">{tank.current_ph ?? '–'}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-muted-foreground">Temp</dt>
+              <dd className="font-medium">{temp !== undefined ? `${temp}°C` : '–'}</dd>
+            </div>
+          </dl>
+        </div>
         <span
-          className={`mt-3 inline-block rounded-full px-2 py-0.5 text-xs font-medium uppercase ${statusClass}`}
+          className={`mt-3 inline-block rounded-full px-3 py-1 text-xs font-semibold tracking-[0.24em] uppercase ${statusBadge(tank)}`}
         >
-          {tank.is_active ? (hasTargets && (!ppmOk || !phOk) ? 'Warning' : 'Optimal') : 'Inactive'}
+          {statusLabel(tank)}
         </span>
       </CardContent>
     </Card>

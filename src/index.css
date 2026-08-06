@@ -1,13 +1,13 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/geist";
+@import "@fontsource-variable/plus-jakarta-sans";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
     --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
+    --font-sans: 'Plus Jakarta Sans Variable', sans-serif;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -49,72 +49,103 @@
 }
 
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --background: #f8f6f2;
+    --foreground: #1a1c1e;
+    --card: #ffffff;
+    --card-foreground: #1a1c1e;
+    --popover: #ffffff;
+    --popover-foreground: #1a1c1e;
+    --primary: #ffce54;
+    --primary-foreground: #1a1c1e;
+    --secondary: #cbe273;
+    --secondary-foreground: #1a1c1e;
+    --muted: #f0eee9;
+    --muted-foreground: #62605b;
+    --accent: #eaf7d6;
+    --accent-foreground: #a3c44a;
+    --destructive: #f53003;
+    --border: #e3e3e0;
+    --input: #e3e3e0;
+    --ring: #ffce54;
+    --chart-1: #cbe273;
+    --chart-2: #ffce54;
+    --chart-3: #4fc3f7;
+    --chart-4: #a3c44a;
+    --chart-5: #62605b;
+    --radius: 1rem;
+    --sidebar: #f8f6f2;
+    --sidebar-foreground: #1a1c1e;
+    --sidebar-primary: #ffce54;
+    --sidebar-primary-foreground: #1a1c1e;
+    --sidebar-accent: #ffce54;
+    --sidebar-accent-foreground: #1a1c1e;
+    --sidebar-border: #e3e3e0;
+    --sidebar-ring: #ffce54;
 }
 
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    --background: #0d0e10;
+    --foreground: #f8f6f2;
+    --card: #1a1c1e;
+    --card-foreground: #f8f6f2;
+    --popover: #1a1c1e;
+    --popover-foreground: #f8f6f2;
+    --primary: #ffce54;
+    --primary-foreground: #1a1c1e;
+    --secondary: #cbe273;
+    --secondary-foreground: #1a1c1e;
+    --muted: #1b1b18;
+    --muted-foreground: #9ca3af;
+    --accent: #1b1b18;
+    --accent-foreground: #cbe273;
+    --destructive: #ff4433;
+    --border: rgb(255 255 255 / 10%);
+    --input: rgb(255 255 255 / 15%);
+    --ring: #ffce54;
+    --chart-1: #cbe273;
+    --chart-2: #ffce54;
+    --chart-3: #4fc3f7;
+    --chart-4: #a3c44a;
+    --chart-5: #9ca3af;
+    --sidebar: #0d0e10;
+    --sidebar-foreground: #f8f6f2;
+    --sidebar-primary: #ffce54;
+    --sidebar-primary-foreground: #1a1c1e;
+    --sidebar-accent: #1b1b18;
+    --sidebar-accent-foreground: #cbe273;
+    --sidebar-border: rgb(255 255 255 / 10%);
+    --sidebar-ring: #ffce54;
+}
+
+/* Auth (dark glassmorphism) — scoped override so shadcn components inside the
+   auth layout pick up dark/glass tokens without flipping the whole app. */
+.auth-shell {
+    --background: #0d0e10;
+    --foreground: #ffffff;
+    --card: rgb(255 255 255 / 10%);
+    --card-foreground: #ffffff;
+    --popover: rgb(255 255 255 / 10%);
+    --popover-foreground: #ffffff;
+    --primary: #ffce54;
+    --primary-foreground: #1a1c1e;
+    --muted-foreground: #94a3b8;
+    --input: rgb(255 255 255 / 10%);
+    --border: rgb(255 255 255 / 10%);
+    --ring: #ffce54;
+    --destructive: #ff4433;
+    background: radial-gradient(circle at top left, #1a1c1e 0%, #0d0e10 55%, #040506 100%);
+    color: #ffffff;
+}
+
+.auth-shell [data-slot="input"],
+.auth-shell select {
+    background-color: rgb(255 255 255 / 5%);
+    border-radius: 1rem;
+    color: #ffffff;
+}
+
+.auth-shell [data-slot="input"]::placeholder {
+    color: #94a3b8;
 }
 
 @layer base {

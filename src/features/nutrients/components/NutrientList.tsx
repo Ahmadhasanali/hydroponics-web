@@ -23,12 +23,12 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
   const meta = data?.meta
 
   if (isLoading) return <p className="text-sm text-muted-foreground">Memuat riwayat nutrisi...</p>
-  if (isError) return <p className="text-sm text-red-500">Gagal memuat riwayat nutrisi.</p>
+  if (isError) return <p className="text-sm text-red-600">Gagal memuat riwayat nutrisi.</p>
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-medium">Nutrient Addition</h1>
+        <h1 className="text-2xl font-semibold text-slate-900">Nutrient Addition</h1>
         <Button
           onClick={() => {
             setEditing(undefined)

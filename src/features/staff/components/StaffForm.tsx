@@ -57,12 +57,12 @@ export function StaffForm({ open, onOpenChange, farmId }: StaffFormProps) {
           <div>
             <Label htmlFor="name">Nama</Label>
             <Input id="name" {...register('name', { required: 'Nama wajib diisi' })} />
-            {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+            {errors.name && <p className="text-sm text-red-600">{errors.name.message}</p>}
           </div>
           <div>
             <Label htmlFor="username">Username</Label>
             <Input id="username" {...register('username', { required: 'Username wajib diisi' })} />
-            {errors.username && <p className="text-sm text-red-500">{errors.username.message}</p>}
+            {errors.username && <p className="text-sm text-red-600">{errors.username.message}</p>}
           </div>
           <div>
             <Label htmlFor="password">Password</Label>
@@ -74,10 +74,10 @@ export function StaffForm({ open, onOpenChange, farmId }: StaffFormProps) {
                 minLength: { value: 8, message: 'Password minimal 8 karakter' },
               })}
             />
-            {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+            {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
           </div>
           {createStaff.error && (
-            <p className="text-sm text-red-500">
+            <p className="text-sm text-red-600">
               {(createStaff.error as { message?: string }).message ?? 'Gagal membuat petugas.'}
             </p>
           )}

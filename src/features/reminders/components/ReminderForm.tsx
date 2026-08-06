@@ -150,12 +150,12 @@ export function ReminderForm({ open, onOpenChange, farmId, reminder }: ReminderF
           <div>
             <Label htmlFor="title">Judul</Label>
             <Input id="title" {...register('title', { required: 'Judul wajib diisi' })} />
-            {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
+            {errors.title && <p className="text-sm text-red-600">{errors.title.message}</p>}
           </div>
           <div>
             <Label htmlFor="body">Isi</Label>
             <textarea id="body" className={textareaClass} {...register('body', { required: 'Isi wajib diisi' })} />
-            {errors.body && <p className="text-sm text-red-500">{errors.body.message}</p>}
+            {errors.body && <p className="text-sm text-red-600">{errors.body.message}</p>}
           </div>
           <div>
             <Label htmlFor="starts_at">Waktu Mulai</Label>
@@ -164,7 +164,7 @@ export function ReminderForm({ open, onOpenChange, farmId, reminder }: ReminderF
               type="datetime-local"
               {...register('starts_at', { required: 'Waktu mulai wajib diisi' })}
             />
-            {errors.starts_at && <p className="text-sm text-red-500">{errors.starts_at.message}</p>}
+            {errors.starts_at && <p className="text-sm text-red-600">{errors.starts_at.message}</p>}
           </div>
           <div>
             <Label htmlFor="recurrence_type">Pengulangan</Label>
@@ -232,12 +232,12 @@ export function ReminderForm({ open, onOpenChange, farmId, reminder }: ReminderF
             />
           </div>
           {createReminder.error && (
-            <p className="text-sm text-red-500">
+            <p className="text-sm text-red-600">
               {(createReminder.error as { message?: string }).message ?? 'Gagal menyimpan reminder.'}
             </p>
           )}
           {updateReminder.error && (
-            <p className="text-sm text-red-500">
+            <p className="text-sm text-red-600">
               {(updateReminder.error as { message?: string }).message ?? 'Gagal menyimpan reminder.'}
             </p>
           )}

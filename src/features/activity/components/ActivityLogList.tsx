@@ -19,7 +19,7 @@ export function ActivityLogList({ farmId }: { farmId: number }) {
   const { data, isLoading, isError, isFetching } = useActivityLogs(farmId, page)
 
   if (isLoading) return <p className="text-sm text-muted-foreground">Memuat aktivitas...</p>
-  if (isError) return <p className="text-sm text-red-500">Gagal memuat aktivitas.</p>
+  if (isError) return <p className="text-sm text-red-600">Gagal memuat aktivitas.</p>
 
   const logs = data?.data ?? []
   const meta = data?.meta

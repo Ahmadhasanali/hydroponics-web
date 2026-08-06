@@ -13,11 +13,15 @@ function formatDate(value?: string): string {
   })
 }
 
+function initial(name?: string): string {
+  return name?.trim().charAt(0).toUpperCase() ?? 'A'
+}
+
 export function ActivityFeed({ logs }: { logs: ActivityLog[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Recent Activity</CardTitle>
+        <CardTitle className="font-semibold text-slate-900">Recent Activity</CardTitle>
       </CardHeader>
       <CardContent>
         {logs.length === 0 ? (
@@ -25,9 +29,15 @@ export function ActivityFeed({ logs }: { logs: ActivityLog[] }) {
         ) : (
           <ul className="space-y-3">
             {logs.map((log) => (
-              <li key={log.id} className="flex items-start justify-between gap-3 text-sm">
-                <div>
-                  <p>{log.description || log.log_type || 'Activity'}</p>
+              <li
+                key={log.id}
+                className="flex items-start gap-3 rounded-[2rem] border border-slate-200/60 bg-white p-4 text-sm"
+              >
+                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#ffce54]/15 text-sm font-bold text-[#d4a020]">
+                  {initial(log.user?.name)}
+                </span>
+                <div className="min-w-0 flex-1">
+                  <p className="font-medium text-slate-900">{log.description || log.log_type || 'Activity'}</p>
                   {log.user?.name && (
                     <p className="text-xs text-muted-foreground">{log.user.name}</p>
                   )}

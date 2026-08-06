@@ -84,10 +84,10 @@ export function ChatWidget() {
       <Button
         onClick={() => setOpen(true)}
         aria-label="Buka chat"
-        className="fixed right-4 bottom-20 z-40 h-12 w-12 rounded-full md:bottom-4"
+        className="fixed right-6 bottom-20 z-40 h-14 w-14 rounded-full bg-[#ffce54] text-[#1a1c1e] shadow-lg shadow-[#ffce54]/30 hover:bg-[#f0b830] lg:bottom-6"
         size="icon"
       >
-        <MessageCircleIcon className="size-5" />
+        <MessageCircleIcon className="size-6" />
       </Button>
 
       <Dialog open={open} onOpenChange={setOpen}>
@@ -95,9 +95,18 @@ export function ChatWidget() {
           showCloseButton={false}
           className="flex h-[70vh] w-full flex-col gap-0 overflow-hidden p-0 sm:max-w-2xl"
         >
-          <DialogHeader className="flex flex-row items-center justify-between gap-2 border-b px-4 py-3">
-            <DialogTitle>Asisten Hidroponik</DialogTitle>
-            <DialogClose render={<Button variant="ghost" size="icon-sm" aria-label="Tutup chat" />}>
+          <DialogHeader className="flex flex-row items-center justify-between gap-2 rounded-t-[2rem] border-b border-white/10 bg-[#1a1c1e] px-4 py-3">
+            <DialogTitle className="text-white">Asisten Hidroponik</DialogTitle>
+            <DialogClose
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon-sm"
+                  aria-label="Tutup chat"
+                  className="text-white/70 hover:bg-white/10 hover:text-white"
+                />
+              }
+            >
               <XIcon />
             </DialogClose>
           </DialogHeader>
@@ -173,7 +182,7 @@ export function ChatWidget() {
                 {sendMutation.isPending && (
                   <p className="mt-2 text-xs text-muted-foreground">Asisten sedang mengetik...</p>
                 )}
-                {error && <p className="mt-2 text-xs text-red-500">{error}</p>}
+                {error && <p className="mt-2 text-xs text-red-600">{error}</p>}
               </div>
             </section>
           </div>

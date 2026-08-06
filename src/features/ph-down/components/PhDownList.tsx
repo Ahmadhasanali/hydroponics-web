@@ -23,12 +23,12 @@ export function PhDownList({ farmId, tankId }: { farmId: number; tankId: number 
   const meta = data?.meta
 
   if (isLoading) return <p className="text-sm text-muted-foreground">Memuat riwayat pH down...</p>
-  if (isError) return <p className="text-sm text-red-500">Gagal memuat riwayat pH down.</p>
+  if (isError) return <p className="text-sm text-red-600">Gagal memuat riwayat pH down.</p>
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-medium">pH Down</h1>
+        <h1 className="text-2xl font-semibold text-slate-900">pH Down</h1>
         <Button
           onClick={() => {
             setEditing(undefined)

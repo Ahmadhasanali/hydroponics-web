@@ -21,12 +21,12 @@ export function StaffList({ farmId }: { farmId: number }) {
   const [resetTarget, setResetTarget] = useState<Staff | null>(null)
 
   if (isLoading) return <p className="text-sm text-muted-foreground">Memuat daftar petugas...</p>
-  if (isError) return <p className="text-sm text-red-500">Gagal memuat daftar petugas.</p>
+  if (isError) return <p className="text-sm text-red-600">Gagal memuat daftar petugas.</p>
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-medium">Petugas</h1>
+        <h1 className="text-2xl font-semibold text-slate-900">Petugas</h1>
         <Button onClick={() => setCreateOpen(true)}>Tambah Petugas</Button>
       </div>
 
@@ -48,10 +48,10 @@ export function StaffList({ farmId }: { farmId: number }) {
                   <TableCell>{member.username}</TableCell>
                   <TableCell>
                     <span
-                      className={`rounded-full px-2 py-0.5 text-xs font-medium uppercase ${
+                      className={`rounded-full px-3 py-1 text-xs font-semibold tracking-[0.24em] uppercase ${
                         member.is_active
-                          ? 'bg-green-500/20 text-green-400'
-                          : 'bg-gray-500/20 text-gray-400'
+                          ? 'bg-[#cbe273]/25 text-[#a3c44a]'
+                          : 'bg-slate-100 text-slate-500'
                       }`}
                     >
                       {member.is_active ? 'Aktif' : 'Nonaktif'}

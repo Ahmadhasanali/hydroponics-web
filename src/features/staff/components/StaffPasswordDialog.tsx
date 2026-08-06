@@ -68,10 +68,10 @@ export function StaffPasswordDialog({ farmId, target, onClose }: StaffPasswordDi
                 minLength: { value: 8, message: 'Password minimal 8 karakter' },
               })}
             />
-            {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+            {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
           </div>
           {resetPassword.error && (
-            <p className="text-sm text-red-500">
+            <p className="text-sm text-red-600">
               {(resetPassword.error as { message?: string }).message ?? 'Gagal mereset password.'}
             </p>
           )}

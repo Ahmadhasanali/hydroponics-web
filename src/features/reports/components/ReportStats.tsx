@@ -12,8 +12,8 @@ export function ReportStats({ stats }: ReportStatsProps) {
       {entries.map(([label, value]) => (
         <Card key={label}>
           <CardContent>
-            <div className="text-xs font-medium text-muted-foreground">{label}</div>
-            <div className="mt-1 text-2xl font-semibold">{value == null ? '–' : value.toLocaleString()}</div>
+            <div className="truncate text-sm font-semibold tracking-[0.25em] text-slate-500 uppercase">{label}</div>
+            <div className="mt-1 text-3xl font-semibold text-slate-900">{value == null ? '–' : value.toLocaleString()}</div>
           </CardContent>
         </Card>
       ))}

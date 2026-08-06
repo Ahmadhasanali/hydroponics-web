@@ -18,11 +18,11 @@ export function TankDetailPage() {
   const { data: tank, isLoading, isError } = useTank(tankNum)
 
   if (!tankId || Number.isNaN(tankNum)) {
-    return <p className="text-sm text-red-500">ID tank tidak valid.</p>
+    return <p className="text-sm text-red-600">ID tank tidak valid.</p>
   }
 
   if (isLoading) return <p className="text-sm text-muted-foreground">Loading tank...</p>
-  if (isError) return <p className="text-sm text-red-500">Gagal memuat detail tank.</p>
+  if (isError) return <p className="text-sm text-red-600">Gagal memuat detail tank.</p>
   if (!tank) return null
 
   const targetPpm = tank.target_ppm_min !== undefined || tank.target_ppm_max !== undefined
@@ -37,17 +37,17 @@ export function TankDetailPage() {
       <Link
         to="/farms/$farmId/tanks"
         params={{ farmId }}
-        className="text-sm text-blue-600 hover:underline"
+        className="text-sm text-[#d4a020] hover:text-[#8a6d00] hover:underline"
       >
         &larr; Kembali ke daftar tank
       </Link>
 
       <div>
         <div className="flex items-center gap-3">
-          <h1 className="text-xl font-medium">{tank.name}</h1>
+          <h1 className="text-2xl font-semibold text-slate-900">{tank.name}</h1>
           <span
-            className={`rounded-full px-2 py-0.5 text-xs font-medium uppercase ${
-              tank.is_active ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'
+            className={`rounded-full px-3 py-1 text-xs font-semibold tracking-[0.24em] uppercase ${
+              tank.is_active ? 'bg-[#cbe273]/25 text-[#a3c44a]' : 'bg-slate-100 text-slate-500'
             }`}
           >
             {tank.is_active ? 'Active' : 'Inactive'}
@@ -85,7 +85,7 @@ export function TankDetailPage() {
           <Link
             to="/farms/$farmId/tanks/$tankId/monitoring"
             params={{ farmId, tankId }}
-            className="text-sm font-medium text-blue-600 hover:underline"
+            className="text-sm font-medium text-[#d4a020] hover:text-[#8a6d00] hover:underline"
           >
             View monitoring →
           </Link>
@@ -101,7 +101,7 @@ export function TankDetailPage() {
           <Link
             to="/farms/$farmId/tanks/$tankId/nutrients"
             params={{ farmId, tankId }}
-            className="text-sm font-medium text-blue-600 hover:underline"
+            className="text-sm font-medium text-[#d4a020] hover:text-[#8a6d00] hover:underline"
           >
             View nutrients →
           </Link>
@@ -117,7 +117,7 @@ export function TankDetailPage() {
           <Link
             to="/farms/$farmId/tanks/$tankId/ph-down"
             params={{ farmId, tankId }}
-            className="text-sm font-medium text-blue-600 hover:underline"
+            className="text-sm font-medium text-[#d4a020] hover:text-[#8a6d00] hover:underline"
           >
             View pH down →
           </Link>

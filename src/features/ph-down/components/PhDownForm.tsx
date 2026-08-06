@@ -103,7 +103,7 @@ export function PhDownForm({ open, onOpenChange, tankId, record }: PhDownFormPro
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {warning && (
-            <p className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-400">
+            <p className="rounded-xl border border-[#ffce54]/30 bg-[#ffce54]/15 px-3 py-2 text-sm text-[#a07a10]">
               {warning}
             </p>
           )}
