@@ -1,6 +1,7 @@
 import { createFileRoute, Link, Outlet, redirect } from '@tanstack/react-router'
 import { Button } from '../components/ui/button'
 import { ChatWidget } from '../features/chat/components/ChatWidget'
+import { usePushNotifications } from '../hooks/usePushNotifications'
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: () => {
@@ -12,6 +13,8 @@ export const Route = createFileRoute('/_authenticated')({
 })
 
 function AppLayout() {
+  usePushNotifications()
+
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur">

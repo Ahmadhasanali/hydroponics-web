@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Hydroponics Farm</string>
+    <string name="title_activity_main">Hydroponics Farm</string>
+    <string name="package_name">com.hydroponics.farm</string>
+    <string name="custom_url_scheme">com.hydroponics.farm</string>
+</resources>
