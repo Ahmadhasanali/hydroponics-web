@@ -59,7 +59,7 @@ export function MonitoringList({ farmId, tankId }: { farmId: number; tankId: num
                   <TableCell>{record.ppm}</TableCell>
                   <TableCell>{record.ph}</TableCell>
                   <TableCell>
-                    {record.water_temperature !== undefined ? record.water_temperature : '–'}
+                    {record.water_temperature != null ? record.water_temperature : '–'}
                   </TableCell>
                   <TableCell>{record.notes || '–'}</TableCell>
                   <TableCell className="text-right">

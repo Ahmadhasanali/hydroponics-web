@@ -58,7 +58,7 @@ export function TankStatusCard({ tank }: { tank: Tank }) {
             </div>
             <div className="flex justify-between">
               <dt className="text-muted-foreground">Temp</dt>
-              <dd className="font-medium">{temp !== undefined ? `${temp}°C` : '–'}</dd>
+              <dd className="font-medium">{temp != null ? `${temp}°C` : '–'}</dd>
             </div>
           </dl>
         </div>

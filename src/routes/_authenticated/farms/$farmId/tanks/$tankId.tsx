@@ -64,11 +64,11 @@ export function TankDetailPage() {
         <CardContent>
           <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
             <Metric label="Capacity" value={`${tank.capacity_liter} L`} />
-            <Metric label="PPM" value={tank.current_ppm !== undefined ? String(tank.current_ppm) : '–'} />
-            <Metric label="pH" value={tank.current_ph !== undefined ? String(tank.current_ph) : '–'} />
+            <Metric label="PPM" value={tank.current_ppm != null ? String(tank.current_ppm) : '–'} />
+            <Metric label="pH" value={tank.current_ph != null ? String(tank.current_ph) : '–'} />
             <Metric
               label="Temp (°C)"
-              value={tank.current_water_temperature !== undefined ? String(tank.current_water_temperature) : '–'}
+              value={tank.current_water_temperature != null ? String(tank.current_water_temperature) : '–'}
             />
             <Metric label="Target PPM" value={targetPpm} />
             <Metric label="Target pH" value={targetPh} />
