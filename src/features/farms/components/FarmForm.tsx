@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import type { Farm } from '../../../lib/types'
 import { useCreateFarm, useUpdateFarm } from '../hooks/useFarms'
@@ -32,6 +33,12 @@ export function FarmForm({ open, onOpenChange, farm }: FarmFormProps) {
   const { register, handleSubmit, reset } = useForm<FarmFormData>({
     defaultValues: { name: farm?.name ?? '', location: farm?.location ?? '' },
   })
+
+  useEffect(() => {
+    if (open) {
+      reset({ name: farm?.name ?? '', location: farm?.location ?? '' })
+    }
+  }, [open, farm, reset])
 
   const onSubmit = (data: FarmFormData) => {
     if (farm) {
