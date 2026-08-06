@@ -16,6 +16,7 @@ import { Route as AuthLoginRouteImport } from './routes/_auth/login'
 import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
+import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
 import { Route as AuthenticatedFarmsIndexRouteImport } from './routes/_authenticated/farms/index'
 import { Route as AuthenticatedFarmsFarmIdIndexRouteImport } from './routes/_authenticated/farms/$farmId/index'
 import { Route as AuthenticatedFarmsFarmIdTanksRouteImport } from './routes/_authenticated/farms/$farmId/tanks'
@@ -55,6 +56,11 @@ const AuthResetPasswordRoute = AuthResetPasswordRouteImport.update({
 const AuthenticatedIndexRoute = AuthenticatedIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedFarmsIndexRoute = AuthenticatedFarmsIndexRouteImport.update({
@@ -105,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
+  '/reports': typeof AuthenticatedReportsRoute
   '/farms/': typeof AuthenticatedFarmsIndexRoute
   '/farms/$farmId/tanks': typeof AuthenticatedFarmsFarmIdTanksRouteWithChildren
   '/farms/$farmId/': typeof AuthenticatedFarmsFarmIdIndexRoute
@@ -119,6 +126,7 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
+  '/reports': typeof AuthenticatedReportsRoute
   '/farms': typeof AuthenticatedFarmsIndexRoute
   '/farms/$farmId/tanks': typeof AuthenticatedFarmsFarmIdTanksRouteWithChildren
   '/farms/$farmId': typeof AuthenticatedFarmsFarmIdIndexRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/_auth/login': typeof AuthLoginRoute
   '/_auth/register': typeof AuthRegisterRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
+  '/_authenticated/reports': typeof AuthenticatedReportsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/farms/': typeof AuthenticatedFarmsIndexRoute
   '/_authenticated/farms/$farmId/tanks': typeof AuthenticatedFarmsFarmIdTanksRouteWithChildren
@@ -152,6 +161,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/reset-password'
+    | '/reports'
     | '/farms/'
     | '/farms/$farmId/tanks'
     | '/farms/$farmId/'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/reset-password'
+    | '/reports'
     | '/farms'
     | '/farms/$farmId/tanks'
     | '/farms/$farmId'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/_auth/login'
     | '/_auth/register'
     | '/_auth/reset-password'
+    | '/_authenticated/reports'
     | '/_authenticated/'
     | '/_authenticated/farms/'
     | '/_authenticated/farms/$farmId/tanks'
@@ -245,6 +257,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AuthenticatedIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/reports': {
+      id: '/_authenticated/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AuthenticatedReportsRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/farms/': {
@@ -352,6 +371,7 @@ const AuthenticatedFarmsFarmIdTanksRouteWithChildren =
   )
 
 interface AuthenticatedRouteChildren {
+  AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedFarmsIndexRoute: typeof AuthenticatedFarmsIndexRoute
   AuthenticatedFarmsFarmIdTanksRoute: typeof AuthenticatedFarmsFarmIdTanksRouteWithChildren
@@ -359,6 +379,7 @@ interface AuthenticatedRouteChildren {
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedReportsRoute: AuthenticatedReportsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedFarmsIndexRoute: AuthenticatedFarmsIndexRoute,
   AuthenticatedFarmsFarmIdTanksRoute:
