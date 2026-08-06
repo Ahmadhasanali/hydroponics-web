@@ -1,10 +1,10 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
 import { useQuery } from '@tanstack/react-query'
-import { api } from '../../../lib/api'
-import type { ApiResponse } from '../../../lib/types'
-import { useFarm } from '../../../features/farms/hooks/useFarms'
-import type { FarmDetail, FarmMember } from '../../../features/farms/types'
-import { Button } from '../../../components/ui/button'
+import { api } from '../../../../lib/api'
+import type { ApiResponse } from '../../../../lib/types'
+import { useFarm } from '../../../../features/farms/hooks/useFarms'
+import type { FarmDetail, FarmMember } from '../../../../features/farms/types'
+import { Button } from '../../../../components/ui/button'
 import {
   Table,
   TableHeader,
@@ -12,16 +12,16 @@ import {
   TableRow,
   TableHead,
   TableCell,
-} from '../../../components/ui/table'
+} from '../../../../components/ui/table'
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardContent,
-} from '../../../components/ui/card'
+} from '../../../../components/ui/card'
 
-export const Route = createFileRoute('/_authenticated/farms/$farmId')({
+export const Route = createFileRoute('/_authenticated/farms/$farmId/')({
   component: FarmDetailPage,
 })
 
@@ -123,8 +123,9 @@ function FarmDetailPage() {
       </Card>
 
       <div className="flex gap-2">
-        <Button variant="outline">Manage Tanks</Button>
-        <Button variant="outline">Manage Members</Button>
+        <Link to="/farms/$farmId/tanks" params={{ farmId: String(id) }}>
+          <Button variant="outline">Manage Tanks</Button>
+        </Link>
       </div>
     </div>
   )

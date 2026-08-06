@@ -17,7 +17,9 @@ import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
 import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-password'
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedFarmsIndexRouteImport } from './routes/_authenticated/farms/index'
-import { Route as AuthenticatedFarmsFarmIdRouteImport } from './routes/_authenticated/farms/$farmId'
+import { Route as AuthenticatedFarmsFarmIdIndexRouteImport } from './routes/_authenticated/farms/$farmId/index'
+import { Route as AuthenticatedFarmsFarmIdTanksRouteImport } from './routes/_authenticated/farms/$farmId/tanks'
+import { Route as AuthenticatedFarmsFarmIdTanksTankIdRouteImport } from './routes/_authenticated/farms/$farmId/tanks/$tankId'
 
 const AuthRoute = AuthRouteImport.update({
   id: '/_auth',
@@ -57,11 +59,23 @@ const AuthenticatedFarmsIndexRoute = AuthenticatedFarmsIndexRouteImport.update({
   path: '/farms/',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedFarmsFarmIdRoute =
-  AuthenticatedFarmsFarmIdRouteImport.update({
-    id: '/farms/$farmId',
-    path: '/farms/$farmId',
+const AuthenticatedFarmsFarmIdIndexRoute =
+  AuthenticatedFarmsFarmIdIndexRouteImport.update({
+    id: '/farms/$farmId/',
+    path: '/farms/$farmId/',
     getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedFarmsFarmIdTanksRoute =
+  AuthenticatedFarmsFarmIdTanksRouteImport.update({
+    id: '/farms/$farmId/tanks',
+    path: '/farms/$farmId/tanks',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedFarmsFarmIdTanksTankIdRoute =
+  AuthenticatedFarmsFarmIdTanksTankIdRouteImport.update({
+    id: '/$tankId',
+    path: '/$tankId',
+    getParentRoute: () => AuthenticatedFarmsFarmIdTanksRoute,
   } as any)
 
 export interface FileRoutesByFullPath {
@@ -70,8 +84,10 @@ export interface FileRoutesByFullPath {
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
-  '/farms/$farmId': typeof AuthenticatedFarmsFarmIdRoute
   '/farms/': typeof AuthenticatedFarmsIndexRoute
+  '/farms/$farmId/tanks': typeof AuthenticatedFarmsFarmIdTanksRouteWithChildren
+  '/farms/$farmId/': typeof AuthenticatedFarmsFarmIdIndexRoute
+  '/farms/$farmId/tanks/$tankId': typeof AuthenticatedFarmsFarmIdTanksTankIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRoute
@@ -79,8 +95,10 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/register': typeof AuthRegisterRoute
   '/reset-password': typeof AuthResetPasswordRoute
-  '/farms/$farmId': typeof AuthenticatedFarmsFarmIdRoute
   '/farms': typeof AuthenticatedFarmsIndexRoute
+  '/farms/$farmId/tanks': typeof AuthenticatedFarmsFarmIdTanksRouteWithChildren
+  '/farms/$farmId': typeof AuthenticatedFarmsFarmIdIndexRoute
+  '/farms/$farmId/tanks/$tankId': typeof AuthenticatedFarmsFarmIdTanksTankIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -91,8 +109,10 @@ export interface FileRoutesById {
   '/_auth/register': typeof AuthRegisterRoute
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
-  '/_authenticated/farms/$farmId': typeof AuthenticatedFarmsFarmIdRoute
   '/_authenticated/farms/': typeof AuthenticatedFarmsIndexRoute
+  '/_authenticated/farms/$farmId/tanks': typeof AuthenticatedFarmsFarmIdTanksRouteWithChildren
+  '/_authenticated/farms/$farmId/': typeof AuthenticatedFarmsFarmIdIndexRoute
+  '/_authenticated/farms/$farmId/tanks/$tankId': typeof AuthenticatedFarmsFarmIdTanksTankIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -102,8 +122,10 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/reset-password'
-    | '/farms/$farmId'
     | '/farms/'
+    | '/farms/$farmId/tanks'
+    | '/farms/$farmId/'
+    | '/farms/$farmId/tanks/$tankId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -111,8 +133,10 @@ export interface FileRouteTypes {
     | '/login'
     | '/register'
     | '/reset-password'
-    | '/farms/$farmId'
     | '/farms'
+    | '/farms/$farmId/tanks'
+    | '/farms/$farmId'
+    | '/farms/$farmId/tanks/$tankId'
   id:
     | '__root__'
     | '/_auth'
@@ -122,8 +146,10 @@ export interface FileRouteTypes {
     | '/_auth/register'
     | '/_auth/reset-password'
     | '/_authenticated/'
-    | '/_authenticated/farms/$farmId'
     | '/_authenticated/farms/'
+    | '/_authenticated/farms/$farmId/tanks'
+    | '/_authenticated/farms/$farmId/'
+    | '/_authenticated/farms/$farmId/tanks/$tankId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -189,12 +215,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFarmsIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/farms/$farmId': {
-      id: '/_authenticated/farms/$farmId'
+    '/_authenticated/farms/$farmId/': {
+      id: '/_authenticated/farms/$farmId/'
       path: '/farms/$farmId'
-      fullPath: '/farms/$farmId'
-      preLoaderRoute: typeof AuthenticatedFarmsFarmIdRouteImport
+      fullPath: '/farms/$farmId/'
+      preLoaderRoute: typeof AuthenticatedFarmsFarmIdIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/farms/$farmId/tanks': {
+      id: '/_authenticated/farms/$farmId/tanks'
+      path: '/farms/$farmId/tanks'
+      fullPath: '/farms/$farmId/tanks'
+      preLoaderRoute: typeof AuthenticatedFarmsFarmIdTanksRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/farms/$farmId/tanks/$tankId': {
+      id: '/_authenticated/farms/$farmId/tanks/$tankId'
+      path: '/$tankId'
+      fullPath: '/farms/$farmId/tanks/$tankId'
+      preLoaderRoute: typeof AuthenticatedFarmsFarmIdTanksTankIdRouteImport
+      parentRoute: typeof AuthenticatedFarmsFarmIdTanksRoute
     }
   }
 }
@@ -215,16 +255,34 @@ const AuthRouteChildren: AuthRouteChildren = {
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
+interface AuthenticatedFarmsFarmIdTanksRouteChildren {
+  AuthenticatedFarmsFarmIdTanksTankIdRoute: typeof AuthenticatedFarmsFarmIdTanksTankIdRoute
+}
+
+const AuthenticatedFarmsFarmIdTanksRouteChildren: AuthenticatedFarmsFarmIdTanksRouteChildren =
+  {
+    AuthenticatedFarmsFarmIdTanksTankIdRoute:
+      AuthenticatedFarmsFarmIdTanksTankIdRoute,
+  }
+
+const AuthenticatedFarmsFarmIdTanksRouteWithChildren =
+  AuthenticatedFarmsFarmIdTanksRoute._addFileChildren(
+    AuthenticatedFarmsFarmIdTanksRouteChildren,
+  )
+
 interface AuthenticatedRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
-  AuthenticatedFarmsFarmIdRoute: typeof AuthenticatedFarmsFarmIdRoute
   AuthenticatedFarmsIndexRoute: typeof AuthenticatedFarmsIndexRoute
+  AuthenticatedFarmsFarmIdTanksRoute: typeof AuthenticatedFarmsFarmIdTanksRouteWithChildren
+  AuthenticatedFarmsFarmIdIndexRoute: typeof AuthenticatedFarmsFarmIdIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
-  AuthenticatedFarmsFarmIdRoute: AuthenticatedFarmsFarmIdRoute,
   AuthenticatedFarmsIndexRoute: AuthenticatedFarmsIndexRoute,
+  AuthenticatedFarmsFarmIdTanksRoute:
+    AuthenticatedFarmsFarmIdTanksRouteWithChildren,
+  AuthenticatedFarmsFarmIdIndexRoute: AuthenticatedFarmsFarmIdIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
