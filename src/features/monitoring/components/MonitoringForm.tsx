@@ -32,6 +32,7 @@ interface MonitoringFormProps {
 
 const today = new Date().toISOString().slice(0, 10)
 const toStr = (s?: number) => (s === undefined || s === null ? '' : String(s))
+const toDate = (s?: string) => (s ? s.slice(0, 10) : '')
 
 export function MonitoringForm({ open, onOpenChange, tankId, record }: MonitoringFormProps) {
   const createMonitoring = useCreateMonitoring()
@@ -39,7 +40,7 @@ export function MonitoringForm({ open, onOpenChange, tankId, record }: Monitorin
   const isSubmitting = createMonitoring.isPending || updateMonitoring.isPending
   const { register, handleSubmit, reset } = useForm<MonitoringFormData>({
     defaultValues: {
-      log_date: record?.log_date ?? today,
+      log_date: toDate(record?.log_date) ?? today,
       ppm: toStr(record?.ppm),
       ph: toStr(record?.ph),
       water_temperature: toStr(record?.water_temperature),
@@ -51,7 +52,7 @@ export function MonitoringForm({ open, onOpenChange, tankId, record }: Monitorin
   useEffect(() => {
     if (open) {
       reset({
-        log_date: record?.log_date ?? today,
+        log_date: toDate(record?.log_date) ?? today,
         ppm: toStr(record?.ppm),
         ph: toStr(record?.ph),
         water_temperature: toStr(record?.water_temperature),

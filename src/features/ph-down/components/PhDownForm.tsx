@@ -32,6 +32,7 @@ interface PhDownFormProps {
 
 const today = new Date().toISOString().slice(0, 10)
 const toStr = (n?: number) => (n === undefined || n === null ? '' : String(n))
+const toDate = (s?: string) => (s ? s.slice(0, 10) : '')
 
 export function PhDownForm({ open, onOpenChange, tankId, record }: PhDownFormProps) {
   const createPhDown = useCreatePhDown()
@@ -39,7 +40,7 @@ export function PhDownForm({ open, onOpenChange, tankId, record }: PhDownFormPro
   const isSubmitting = createPhDown.isPending || updatePhDown.isPending
   const { register, handleSubmit, reset } = useForm<PhDownFormData>({
     defaultValues: {
-      log_date: record?.log_date ?? today,
+      log_date: toDate(record?.log_date) ?? today,
       ph_before: toStr(record?.ph_before),
       ph_after: toStr(record?.ph_after),
       ph_down_ml: toStr(record?.ph_down_ml),
@@ -51,7 +52,7 @@ export function PhDownForm({ open, onOpenChange, tankId, record }: PhDownFormPro
   useEffect(() => {
     if (open) {
       reset({
-        log_date: record?.log_date ?? today,
+        log_date: toDate(record?.log_date) ?? today,
         ph_before: toStr(record?.ph_before),
         ph_after: toStr(record?.ph_after),
         ph_down_ml: toStr(record?.ph_down_ml),
