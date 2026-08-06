@@ -91,6 +91,22 @@ export function TankDetailPage() {
           </Link>
         </CardContent>
       </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Nutrients</CardTitle>
+          <CardDescription>Nutrient addition history for this tank</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <Link
+            to="/farms/$farmId/tanks/$tankId/nutrients"
+            params={{ farmId, tankId }}
+            className="text-sm font-medium text-blue-600 hover:underline"
+          >
+            View nutrients →
+          </Link>
+        </CardContent>
+      </Card>
     </div>
   )
 }

@@ -1,0 +1,153 @@
+import { useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import type { NutrientAddition, CreateNutrientInput, UpdateNutrientInput } from '../types'
+import { useCreateNutrient, useUpdateNutrient } from '../hooks/useNutrients'
+import { Button } from '../../../components/ui/button'
+import { Input } from '../../../components/ui/input'
+import { Label } from '../../../components/ui/label'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+  DialogClose,
+} from '../../../components/ui/dialog'
+
+interface NutrientFormData {
+  log_date: string
+  ppm_before: string
+  ppm_after: string
+  nutrient_a_ml: string
+  nutrient_b_ml: string
+  notes?: string
+}
+
+interface NutrientFormProps {
+  open: boolean
+  onOpenChange: (open: boolean) => void
+  tankId: number
+  record?: NutrientAddition
+}
+
+const today = new Date().toISOString().slice(0, 10)
+const toStr = (n?: number) => (n === undefined || n === null ? '' : String(n))
+
+export function NutrientForm({ open, onOpenChange, tankId, record }: NutrientFormProps) {
+  const createNutrient = useCreateNutrient()
+  const updateNutrient = useUpdateNutrient()
+  const isSubmitting = createNutrient.isPending || updateNutrient.isPending
+  const { register, handleSubmit, reset } = useForm<NutrientFormData>({
+    defaultValues: {
+      log_date: record?.log_date ?? today,
+      ppm_before: toStr(record?.ppm_before),
+      ppm_after: toStr(record?.ppm_after),
+      nutrient_a_ml: toStr(record?.nutrient_a_ml),
+      nutrient_b_ml: toStr(record?.nutrient_b_ml),
+      notes: record?.notes ?? '',
+    },
+  })
+  const [warning, setWarning] = useState<string>('')
+
+  useEffect(() => {
+    if (open) {
+      reset({
+        log_date: record?.log_date ?? today,
+        ppm_before: toStr(record?.ppm_before),
+        ppm_after: toStr(record?.ppm_after),
+        nutrient_a_ml: toStr(record?.nutrient_a_ml),
+        nutrient_b_ml: toStr(record?.nutrient_b_ml),
+        notes: record?.notes ?? '',
+      })
+      setWarning('')
+    }
+  }, [open, record, reset])
+
+  const onSubmit = (data: NutrientFormData) => {
+    const ppmBefore = Number(data.ppm_before)
+    const ppmAfter = Number(data.ppm_after)
+
+    if (!(ppmAfter > ppmBefore)) {
+      setWarning('PPM setelah (ppm_after) harus lebih besar dari PPM sebelum (ppm_before).')
+      return
+    }
+
+    const payload: CreateNutrientInput | UpdateNutrientInput = {
+      log_date: data.log_date,
+      ppm_before: ppmBefore,
+      ppm_after: ppmAfter,
+      nutrient_a_ml: Number(data.nutrient_a_ml),
+      nutrient_b_ml: Number(data.nutrient_b_ml),
+      notes: data.notes,
+    }
+    const onDone = () => onOpenChange(false)
+    if (record) {
+      updateNutrient.mutate({ id: record.id, ...payload }, { onSuccess: onDone })
+    } else {
+      createNutrient.mutate({ ...payload, tank_id: tankId }, { onSuccess: onDone })
+    }
+  }
+
+  return (
+    <Dialog
+      open={open}
+      onOpenChange={(o) => {
+        onOpenChange(o)
+        if (!o) setWarning('')
+      }}
+    >
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>{record ? 'Edit Nutrient Addition' : 'Add Nutrient'}</DialogTitle>
+          <DialogDescription>
+            {record ? 'Update the nutrient addition record.' : 'Log a new nutrient addition for this tank.'}
+          </DialogDescription>
+        </DialogHeader>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {warning && (
+            <p className="rounded-md border border-amber-500/40 bg-amber-500/10 px-3 py-2 text-sm text-amber-400">
+              {warning}
+            </p>
+          )}
+          <div>
+            <Label htmlFor="log_date">Log Date</Label>
+            <Input id="log_date" type="date" {...register('log_date', { required: 'Tanggal wajib diisi' })} />
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="ppm_before">PPM Before</Label>
+              <Input id="ppm_before" type="number" min={0} max={3000} step="any" {...register('ppm_before', { required: 'PPM sebelum wajib diisi' })} />
+            </div>
+            <div>
+              <Label htmlFor="ppm_after">PPM After</Label>
+              <Input id="ppm_after" type="number" min={0} max={3000} step="any" {...register('ppm_after', { required: 'PPM setelah wajib diisi' })} />
+            </div>
+          </div>
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <Label htmlFor="nutrient_a_ml">Nutrient A (ml)</Label>
+              <Input id="nutrient_a_ml" type="number" min={0} max={10000} step="any" {...register('nutrient_a_ml', { required: 'Nutrient A wajib diisi' })} />
+            </div>
+            <div>
+              <Label htmlFor="nutrient_b_ml">Nutrient B (ml)</Label>
+              <Input id="nutrient_b_ml" type="number" min={0} max={10000} step="any" {...register('nutrient_b_ml', { required: 'Nutrient B wajib diisi' })} />
+            </div>
+          </div>
+          <div>
+            <Label htmlFor="notes">Notes</Label>
+            <Input id="notes" {...register('notes')} />
+          </div>
+          <DialogFooter>
+            <DialogClose render={<Button type="button" variant="outline" />}>
+              Cancel
+            </DialogClose>
+            <Button type="submit" disabled={isSubmitting}>
+              {isSubmitting ? 'Saving...' : record ? 'Update' : 'Create'}
+            </Button>
+          </DialogFooter>
+        </form>
+      </DialogContent>
+    </Dialog>
+  )
+}
