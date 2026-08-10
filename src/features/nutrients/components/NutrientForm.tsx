@@ -109,7 +109,7 @@ export function NutrientForm({ open, onOpenChange, tankId, record }: NutrientFor
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           {warning && (
-            <p className="rounded-xl border border-[#ffce54]/30 bg-[#ffce54]/15 px-3 py-2 text-sm text-[#a07a10]">
+            <p className="rounded-xl border border-warning/30 bg-warning/15 px-3 py-2 text-sm text-warning">
               {warning}
             </p>
           )}

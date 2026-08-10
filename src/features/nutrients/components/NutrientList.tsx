@@ -28,7 +28,7 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-slate-900">AB Mix</h1>
+        <h1 className="text-2xl font-semibold text-foreground">AB Mix</h1>
         <Button
           onClick={() => {
             setEditing(undefined)
