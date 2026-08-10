@@ -26,7 +26,7 @@ export function LoginForm() {
         <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[#ffce54] text-[#1a1c1e]">
           <DropletsIcon className="size-5" />
         </div>
-        <CardTitle className="text-lg text-white">Login</CardTitle>
+        <CardTitle className="text-lg text-white">Masuk</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -36,17 +36,17 @@ export function LoginForm() {
             {errors.email && <p className="text-rose-300 text-sm">{errors.email.message}</p>}
           </div>
           <div>
-            <Label htmlFor="password" className="text-white">Password</Label>
-            <Input id="password" type="password" {...register('password', { required: 'Password wajib diisi' })} />
+            <Label htmlFor="password" className="text-white">Kata Sandi</Label>
+            <Input id="password" type="password" {...register('password', { required: 'Kata sandi wajib diisi' })} />
             {errors.password && <p className="text-rose-300 text-sm">{errors.password.message}</p>}
           </div>
           {loginError && <p className="text-rose-300 text-sm">{(loginError as { message: string }).message}</p>}
           <Button type="submit" className="w-full" disabled={isLoggingIn}>
-            {isLoggingIn ? 'Loading...' : 'Login'}
+            {isLoggingIn ? 'Memuat...' : 'Masuk'}
           </Button>
         </form>
         <div className="mt-4 text-sm text-center space-y-1">
-          <p><Link to="/forgot-password" className="text-[#ffce54] hover:text-[#f0b830]">Lupa password?</Link></p>
+          <p><Link to="/forgot-password" className="text-[#ffce54] hover:text-[#f0b830]">Lupa kata sandi?</Link></p>
           <p>Belum punya akun? <Link to="/register" className="text-[#ffce54] hover:text-[#f0b830]">Daftar</Link></p>
         </div>
       </CardContent>

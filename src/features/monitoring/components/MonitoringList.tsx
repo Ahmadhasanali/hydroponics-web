@@ -35,7 +35,7 @@ export function MonitoringList({ farmId, tankId }: { farmId: number; tankId: num
             setCreateOpen(true)
           }}
         >
-          Add Monitoring
+          Catat Monitoring
         </Button>
       </div>
 
@@ -44,12 +44,12 @@ export function MonitoringList({ farmId, tankId }: { farmId: number; tankId: num
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Log Date</TableHead>
+                <TableHead>Tanggal</TableHead>
                 <TableHead>PPM</TableHead>
                 <TableHead>pH</TableHead>
-                <TableHead>Temp (°C)</TableHead>
-                <TableHead>Notes</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>Suhu (°C)</TableHead>
+                <TableHead>Catatan</TableHead>
+                <TableHead className="text-right">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -72,7 +72,7 @@ export function MonitoringList({ farmId, tankId }: { farmId: number; tankId: num
                           setCreateOpen(true)
                         }}
                       >
-                        Edit
+                        Ubah
                       </Button>
                       <Button
                         variant="destructive"
@@ -84,7 +84,7 @@ export function MonitoringList({ farmId, tankId }: { farmId: number; tankId: num
                         }}
                         disabled={deleteMonitoring.isPending}
                       >
-                        Delete
+                        Hapus
                       </Button>
                     </div>
                   </TableCell>
@@ -105,10 +105,10 @@ export function MonitoringList({ farmId, tankId }: { farmId: number; tankId: num
             disabled={page <= 1 || isFetching}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
           >
-            Prev
+            Sebelumnya
           </Button>
           <span className="text-muted-foreground">
-            Page {meta.current_page} of {meta.last_page}
+            Halaman {meta.current_page} dari {meta.last_page}
           </span>
           <Button
             variant="outline"
@@ -116,7 +116,7 @@ export function MonitoringList({ farmId, tankId }: { farmId: number; tankId: num
             disabled={page >= meta.last_page || isFetching}
             onClick={() => setPage((p) => p + 1)}
           >
-            Next
+            Berikutnya
           </Button>
         </div>
       )}

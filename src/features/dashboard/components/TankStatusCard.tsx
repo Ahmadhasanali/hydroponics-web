@@ -22,7 +22,7 @@ function statusBadge(tank: Tank): string {
 }
 
 function statusLabel(tank: Tank): string {
-  if (!tank.is_active) return 'Inactive'
+  if (!tank.is_active) return 'Nonaktif'
   const hasTargets =
     tank.target_ppm_min !== undefined ||
     tank.target_ppm_max !== undefined ||
@@ -30,7 +30,7 @@ function statusLabel(tank: Tank): string {
     tank.target_ph_max !== undefined
   const ppmOk = inRange(tank.current_ppm, tank.target_ppm_min, tank.target_ppm_max)
   const phOk = inRange(tank.current_ph, tank.target_ph_min, tank.target_ph_max)
-  return hasTargets && (!ppmOk || !phOk) ? 'Warning' : 'Optimal'
+  return hasTargets && (!ppmOk || !phOk) ? 'Perhatian' : 'Optimal'
 }
 
 export function TankStatusCard({ tank }: { tank: Tank }) {
@@ -46,7 +46,7 @@ export function TankStatusCard({ tank }: { tank: Tank }) {
       </CardHeader>
       <CardContent>
         <div className="rounded-xl bg-slate-50 p-3">
-          <p className="text-xs text-muted-foreground">{tank.capacity_liter} L capacity</p>
+          <p className="text-xs text-muted-foreground">Kapasitas {tank.capacity_liter} L</p>
           <dl className="mt-2 space-y-1 text-sm">
             <div className="flex justify-between">
               <dt className="text-muted-foreground">PPM</dt>
@@ -57,7 +57,7 @@ export function TankStatusCard({ tank }: { tank: Tank }) {
               <dd className="font-medium">{tank.current_ph ?? '–'}</dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-muted-foreground">Temp</dt>
+              <dt className="text-muted-foreground">Suhu</dt>
               <dd className="font-medium">{temp != null ? `${temp}°C` : '–'}</dd>
             </div>
           </dl>

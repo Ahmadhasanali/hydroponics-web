@@ -102,9 +102,9 @@ export function NutrientForm({ open, onOpenChange, tankId, record }: NutrientFor
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{record ? 'Edit Nutrient Addition' : 'Add Nutrient'}</DialogTitle>
+          <DialogTitle>{record ? 'Edit AB Mix' : 'Catat AB Mix'}</DialogTitle>
           <DialogDescription>
-            {record ? 'Update the nutrient addition record.' : 'Log a new nutrient addition for this tank.'}
+            {record ? 'Perbarui data penambahan nutrisi.' : 'Catat penambahan nutrisi baru untuk tank ini.'}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -114,39 +114,39 @@ export function NutrientForm({ open, onOpenChange, tankId, record }: NutrientFor
             </p>
           )}
           <div>
-            <Label htmlFor="log_date">Log Date</Label>
+            <Label htmlFor="log_date">Tanggal</Label>
             <Input id="log_date" type="date" {...register('log_date', { required: 'Tanggal wajib diisi' })} />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="ppm_before">PPM Before</Label>
+              <Label htmlFor="ppm_before">PPM Sebelum</Label>
               <Input id="ppm_before" type="number" min={0} max={3000} step="any" {...register('ppm_before', { required: 'PPM sebelum wajib diisi' })} />
             </div>
             <div>
-              <Label htmlFor="ppm_after">PPM After</Label>
+              <Label htmlFor="ppm_after">PPM Setelah</Label>
               <Input id="ppm_after" type="number" min={0} max={3000} step="any" {...register('ppm_after', { required: 'PPM setelah wajib diisi' })} />
             </div>
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="nutrient_a_ml">Nutrient A (ml)</Label>
-              <Input id="nutrient_a_ml" type="number" min={0} max={10000} step="any" {...register('nutrient_a_ml', { required: 'Nutrient A wajib diisi' })} />
+              <Label htmlFor="nutrient_a_ml">Nutrisi A (ml)</Label>
+              <Input id="nutrient_a_ml" type="number" min={0} max={10000} step="any" {...register('nutrient_a_ml', { required: 'Nutrisi A wajib diisi' })} />
             </div>
             <div>
-              <Label htmlFor="nutrient_b_ml">Nutrient B (ml)</Label>
-              <Input id="nutrient_b_ml" type="number" min={0} max={10000} step="any" {...register('nutrient_b_ml', { required: 'Nutrient B wajib diisi' })} />
+              <Label htmlFor="nutrient_b_ml">Nutrisi B (ml)</Label>
+              <Input id="nutrient_b_ml" type="number" min={0} max={10000} step="any" {...register('nutrient_b_ml', { required: 'Nutrisi B wajib diisi' })} />
             </div>
           </div>
           <div>
-            <Label htmlFor="notes">Notes</Label>
+            <Label htmlFor="notes">Catatan</Label>
             <Input id="notes" {...register('notes')} />
           </div>
           <DialogFooter>
             <DialogClose render={<Button type="button" variant="outline" />}>
-              Cancel
+              Batal
             </DialogClose>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Saving...' : record ? 'Update' : 'Create'}
+              {isSubmitting ? 'Menyimpan...' : record ? 'Simpan' : 'Buat'}
             </Button>
           </DialogFooter>
         </form>

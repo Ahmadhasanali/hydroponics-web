@@ -52,27 +52,27 @@ export function StaffPasswordDialog({ farmId, target, onClose }: StaffPasswordDi
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Reset Password</DialogTitle>
+          <DialogTitle>Atur Ulang Kata Sandi</DialogTitle>
           <DialogDescription>
-            {target ? `Set password baru untuk ${target.name}.` : ''}
+            {target ? `Set kata sandi baru untuk ${target.name}.` : ''}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <Label htmlFor="password">Password Baru</Label>
+            <Label htmlFor="password">Kata Sandi Baru</Label>
             <Input
               id="password"
               type="password"
               {...register('password', {
-                required: 'Password wajib diisi',
-                minLength: { value: 8, message: 'Password minimal 8 karakter' },
+                required: 'Kata sandi wajib diisi',
+                minLength: { value: 8, message: 'Kata sandi minimal 8 karakter' },
               })}
             />
             {errors.password && <p className="text-sm text-red-600">{errors.password.message}</p>}
           </div>
           {resetPassword.error && (
             <p className="text-sm text-red-600">
-              {(resetPassword.error as { message?: string }).message ?? 'Gagal mereset password.'}
+              {(resetPassword.error as { message?: string }).message ?? 'Gagal mengatur ulang kata sandi.'}
             </p>
           )}
           <DialogFooter>

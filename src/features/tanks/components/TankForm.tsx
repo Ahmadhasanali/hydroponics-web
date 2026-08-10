@@ -100,19 +100,19 @@ export function TankForm({ open, onOpenChange, farmId, tank }: TankFormProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{tank ? 'Edit Tank' : 'Create Tank'}</DialogTitle>
+          <DialogTitle>{tank ? 'Edit Tank' : 'Buat Tank'}</DialogTitle>
           <DialogDescription>
-            {tank ? 'Update the tank details.' : 'Add a new tank to this farm.'}
+            {tank ? 'Perbarui detail tank.' : 'Tambahkan tank baru ke farm ini.'}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="name">Name</Label>
+              <Label htmlFor="name">Nama</Label>
               <Input id="name" {...register('name', { required: 'Nama wajib diisi' })} />
             </div>
             <div>
-              <Label htmlFor="capacity_liter">Capacity (L)</Label>
+              <Label htmlFor="capacity_liter">Kapasitas (L)</Label>
               <Input
                 id="capacity_liter"
                 type="number"
@@ -124,7 +124,7 @@ export function TankForm({ open, onOpenChange, farmId, tank }: TankFormProps) {
           </div>
 
           <div>
-            <Label htmlFor="notes">Notes</Label>
+            <Label htmlFor="notes">Catatan</Label>
             <Input id="notes" {...register('notes')} />
           </div>
 
@@ -133,7 +133,7 @@ export function TankForm({ open, onOpenChange, farmId, tank }: TankFormProps) {
             <div className="flex items-center gap-2">
               <Input id="target_ppm_min" type="number" min={0} max={3000} placeholder="Min" {...register('target_ppm_min')} />
               <span className="text-muted-foreground">–</span>
-              <Input type="number" min={0} max={3000} placeholder="Max" {...register('target_ppm_max')} />
+              <Input type="number" min={0} max={3000} placeholder="Maks" {...register('target_ppm_max')} />
             </div>
           </div>
 
@@ -142,12 +142,12 @@ export function TankForm({ open, onOpenChange, farmId, tank }: TankFormProps) {
             <div className="flex items-center gap-2">
               <Input type="number" min={0} max={14} step="any" placeholder="Min" {...register('target_ph_min')} />
               <span className="text-muted-foreground">–</span>
-              <Input type="number" min={0} max={14} step="any" placeholder="Max" {...register('target_ph_max')} />
+              <Input type="number" min={0} max={14} step="any" placeholder="Maks" {...register('target_ph_max')} />
             </div>
           </div>
 
           <div className="flex items-center justify-between">
-            <Label htmlFor="is_active">Active</Label>
+            <Label htmlFor="is_active">Aktif</Label>
             <Button
               type="button"
               variant={isActive ? 'default' : 'outline'}
@@ -155,16 +155,16 @@ export function TankForm({ open, onOpenChange, farmId, tank }: TankFormProps) {
               onClick={() => setIsActive(!isActive)}
               aria-pressed={isActive}
             >
-              {isActive ? 'Active' : 'Inactive'}
+              {isActive ? 'Aktif' : 'Nonaktif'}
             </Button>
           </div>
 
           <DialogFooter>
             <DialogClose render={<Button type="button" variant="outline" />}>
-              Cancel
+              Batal
             </DialogClose>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Saving...' : tank ? 'Update' : 'Create'}
+              {isSubmitting ? 'Menyimpan...' : tank ? 'Simpan' : 'Buat'}
             </Button>
           </DialogFooter>
         </form>

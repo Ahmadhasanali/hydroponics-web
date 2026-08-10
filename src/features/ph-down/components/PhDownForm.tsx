@@ -98,9 +98,9 @@ export function PhDownForm({ open, onOpenChange, tankId, record }: PhDownFormPro
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{record ? 'Edit pH Down' : 'Add pH Down'}</DialogTitle>
+          <DialogTitle>{record ? 'Edit pH Down' : 'Catat pH Down'}</DialogTitle>
           <DialogDescription>
-            {record ? 'Update the pH down record.' : 'Log a new pH down for this tank.'}
+            {record ? 'Perbarui data pH down.' : 'Catat penggunaan pH down baru untuk tank ini.'}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -110,16 +110,16 @@ export function PhDownForm({ open, onOpenChange, tankId, record }: PhDownFormPro
             </p>
           )}
           <div>
-            <Label htmlFor="log_date">Log Date</Label>
+            <Label htmlFor="log_date">Tanggal</Label>
             <Input id="log_date" type="date" {...register('log_date', { required: 'Tanggal wajib diisi' })} />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <Label htmlFor="ph_before">pH Before</Label>
+              <Label htmlFor="ph_before">pH Sebelum</Label>
               <Input id="ph_before" type="number" min={0} max={14} step="any" {...register('ph_before', { required: 'pH sebelum wajib diisi' })} />
             </div>
             <div>
-              <Label htmlFor="ph_after">pH After</Label>
+              <Label htmlFor="ph_after">pH Setelah</Label>
               <Input id="ph_after" type="number" min={0} max={14} step="any" {...register('ph_after', { required: 'pH setelah wajib diisi' })} />
             </div>
           </div>
@@ -128,15 +128,15 @@ export function PhDownForm({ open, onOpenChange, tankId, record }: PhDownFormPro
             <Input id="ph_down_ml" type="number" min={0} max={1000} step="any" {...register('ph_down_ml', { required: 'pH down wajib diisi' })} />
           </div>
           <div>
-            <Label htmlFor="notes">Notes</Label>
+            <Label htmlFor="notes">Catatan</Label>
             <Input id="notes" {...register('notes')} />
           </div>
           <DialogFooter>
             <DialogClose render={<Button type="button" variant="outline" />}>
-              Cancel
+              Batal
             </DialogClose>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Saving...' : record ? 'Update' : 'Create'}
+              {isSubmitting ? 'Menyimpan...' : record ? 'Simpan' : 'Buat'}
             </Button>
           </DialogFooter>
         </form>

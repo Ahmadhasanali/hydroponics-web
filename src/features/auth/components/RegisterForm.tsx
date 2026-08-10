@@ -45,21 +45,21 @@ export function RegisterForm() {
             {errors.email && <p className="text-rose-300 text-sm">{errors.email.message}</p>}
           </div>
           <div>
-            <Label htmlFor="password" className="text-white">Password</Label>
-            <Input id="password" type="password" {...field('password', { required: 'Password wajib diisi', minLength: { value: 8, message: 'Password minimal 8 karakter' } })} />
+            <Label htmlFor="password" className="text-white">Kata Sandi</Label>
+            <Input id="password" type="password" {...field('password', { required: 'Kata sandi wajib diisi', minLength: { value: 8, message: 'Kata sandi minimal 8 karakter' } })} />
             {errors.password && <p className="text-rose-300 text-sm">{errors.password.message}</p>}
           </div>
           <div>
-            <Label htmlFor="password_confirmation" className="text-white">Konfirmasi Password</Label>
+            <Label htmlFor="password_confirmation" className="text-white">Konfirmasi Kata Sandi</Label>
             <Input id="password_confirmation" type="password" {...field('password_confirmation', {
-              required: 'Konfirmasi password wajib diisi',
-              validate: (value) => value === password || 'Konfirmasi password tidak cocok',
+              required: 'Konfirmasi kata sandi wajib diisi',
+              validate: (value) => value === password || 'Konfirmasi kata sandi tidak cocok',
             })} />
             {errors.password_confirmation && <p className="text-rose-300 text-sm">{errors.password_confirmation.message}</p>}
           </div>
           {registerError && <p className="text-rose-300 text-sm">{(registerError as { message: string }).message}</p>}
           <Button type="submit" className="w-full" disabled={isRegistering}>
-            {isRegistering ? 'Loading...' : 'Daftar'}
+            {isRegistering ? 'Memuat...' : 'Daftar'}
           </Button>
         </form>
         <div className="mt-4 text-sm text-center">

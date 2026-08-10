@@ -16,7 +16,7 @@ export const Route = createFileRoute('/_authenticated')({
 
 const TITLES: Record<string, string> = {
   '/': 'Dashboard',
-  '/farms': 'Farms',
+  '/farms': 'Farm',
   '/reports': 'Laporan',
   '/activity': 'Aktivitas',
   '/profile': 'Profil',
@@ -34,9 +34,9 @@ function topTitle(pathname: string): string {
     const tankIndex = segs.indexOf('tanks')
     if (tankIndex !== -1) {
       const rest = segs.slice(tankIndex + 1)
-      if (rest.length === 1) return 'Tank Detail'
+      if (rest.length === 1) return 'Detail Tank'
       if (rest.length >= 2) return capitalize(rest[1].replace(/-/g, ' '))
-      return 'Tanks'
+      return 'Tank'
     }
     return capitalize(segs[2] ?? 'Detail Farm')
   }

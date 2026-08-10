@@ -46,7 +46,7 @@ function FarmDetailPage() {
     return <p className="text-sm text-red-600">ID farm tidak valid.</p>
   }
 
-  if (isLoading) return <p className="text-sm text-muted-foreground">Loading farm...</p>
+  if (isLoading) return <p className="text-sm text-muted-foreground">Memuat farm...</p>
   if (isError) return <p className="text-sm text-red-600">Gagal memuat detail farm.</p>
 
   const detail = farm as FarmDetail
@@ -65,7 +65,7 @@ function FarmDetailPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Tanks</CardTitle>
+          <CardTitle>Tank</CardTitle>
           <CardDescription>
             {detail.tanks?.length ?? 0} tank di farm ini
           </CardDescription>
@@ -75,8 +75,8 @@ function FarmDetailPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Capacity (L)</TableHead>
+                  <TableHead>Nama</TableHead>
+                  <TableHead>Kapasitas (L)</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -96,15 +96,15 @@ function FarmDetailPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Members</CardTitle>
+          <CardTitle>Anggota</CardTitle>
         </CardHeader>
         <CardContent>
           {members.length ? (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Name</TableHead>
-                  <TableHead>Role</TableHead>
+                  <TableHead>Nama</TableHead>
+                  <TableHead>Peran</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -124,13 +124,13 @@ function FarmDetailPage() {
 
       <div className="flex flex-wrap gap-2">
         <Link to="/farms/$farmId/tanks" params={{ farmId: String(id) }}>
-          <Button variant="outline">Manage Tanks</Button>
+          <Button variant="outline">Kelola Tank</Button>
         </Link>
         <Link to="/farms/$farmId/staff" params={{ farmId: String(id) }}>
-          <Button variant="outline">Manage Staff</Button>
+          <Button variant="outline">Kelola Petugas</Button>
         </Link>
         <Link to="/farms/$farmId/reminders" params={{ farmId: String(id) }}>
-          <Button variant="outline">Manage Reminders</Button>
+          <Button variant="outline">Kelola Pengingat</Button>
         </Link>
       </div>
     </div>

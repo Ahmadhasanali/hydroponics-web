@@ -58,26 +58,26 @@ export function FarmForm({ open, onOpenChange, farm }: FarmFormProps) {
     }}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{farm ? 'Edit Farm' : 'Create Farm'}</DialogTitle>
+          <DialogTitle>{farm ? 'Edit Farm' : 'Buat Farm'}</DialogTitle>
           <DialogDescription>
-            {farm ? 'Update the farm details.' : 'Add a new farm to your workspace.'}
+            {farm ? 'Perbarui detail farm.' : 'Tambahkan farm baru ke ruang kerja Anda.'}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">Nama</Label>
             <Input id="name" {...register('name', { required: 'Nama wajib diisi' })} />
           </div>
           <div>
-            <Label htmlFor="location">Location</Label>
+            <Label htmlFor="location">Lokasi</Label>
             <Input id="location" {...register('location')} />
           </div>
           <DialogFooter>
             <DialogClose render={<Button type="button" variant="outline" />}>
-              Cancel
+              Batal
             </DialogClose>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Saving...' : farm ? 'Update' : 'Create'}
+              {isSubmitting ? 'Menyimpan...' : farm ? 'Simpan' : 'Buat'}
             </Button>
           </DialogFooter>
         </form>

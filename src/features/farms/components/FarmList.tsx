@@ -22,8 +22,8 @@ export function FarmList() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-slate-900">Farms</h1>
-        <Button onClick={() => { setEditing(undefined); setCreateOpen(true) }}>Create Farm</Button>
+        <h1 className="text-2xl font-semibold text-slate-900">Farm</h1>
+        <Button onClick={() => { setEditing(undefined); setCreateOpen(true) }}>Buat Farm</Button>
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -32,7 +32,7 @@ export function FarmList() {
             <FarmCard farm={farm} />
             <div className="absolute top-3 right-3 flex gap-2">
               <Button variant="outline" size="sm" onClick={() => handleEdit(farm)}>
-                Edit
+                Ubah
               </Button>
               <Button
                 variant="destructive"
@@ -42,7 +42,7 @@ export function FarmList() {
                 }}
                 disabled={deleteFarm.isPending}
               >
-                Delete
+                Hapus
               </Button>
             </div>
           </div>

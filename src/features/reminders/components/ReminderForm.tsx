@@ -141,7 +141,7 @@ export function ReminderForm({ open, onOpenChange, farmId, reminder }: ReminderF
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{reminder ? 'Edit Reminder' : 'Tambah Reminder'}</DialogTitle>
+          <DialogTitle>{reminder ? 'Edit Pengingat' : 'Tambah Pengingat'}</DialogTitle>
           <DialogDescription>
             {reminder ? 'Perbarui detail reminder.' : 'Buat pengingat baru untuk kebun ini.'}
           </DialogDescription>

@@ -95,9 +95,9 @@ export function MonitoringForm({ open, onOpenChange, tankId, record }: Monitorin
     >
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{record ? 'Edit Monitoring' : 'Create Monitoring'}</DialogTitle>
+          <DialogTitle>{record ? 'Edit Monitoring' : 'Catat Monitoring'}</DialogTitle>
           <DialogDescription>
-            {record ? 'Update the monitoring record.' : 'Add a new monitoring reading for this tank.'}
+            {record ? 'Perbarui data monitoring.' : 'Catat pembacaan monitoring baru untuk tank ini.'}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -107,7 +107,7 @@ export function MonitoringForm({ open, onOpenChange, tankId, record }: Monitorin
             </p>
           )}
           <div>
-            <Label htmlFor="log_date">Log Date</Label>
+            <Label htmlFor="log_date">Tanggal</Label>
             <Input id="log_date" type="date" {...register('log_date', { required: 'Tanggal wajib diisi' })} />
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
@@ -121,19 +121,19 @@ export function MonitoringForm({ open, onOpenChange, tankId, record }: Monitorin
             </div>
           </div>
           <div>
-            <Label htmlFor="water_temperature">Water Temperature (°C)</Label>
+            <Label htmlFor="water_temperature">Suhu Air (°C)</Label>
             <Input id="water_temperature" type="number" min={-10} max={60} step="any" {...register('water_temperature')} />
           </div>
           <div>
-            <Label htmlFor="notes">Notes</Label>
+            <Label htmlFor="notes">Catatan</Label>
             <Input id="notes" {...register('notes')} />
           </div>
           <DialogFooter>
             <DialogClose render={<Button type="button" variant="outline" />}>
-              Cancel
+              Batal
             </DialogClose>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Saving...' : record ? 'Update' : 'Create'}
+              {isSubmitting ? 'Menyimpan...' : record ? 'Simpan' : 'Buat'}
             </Button>
           </DialogFooter>
         </form>

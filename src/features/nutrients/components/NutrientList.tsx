@@ -28,14 +28,14 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-slate-900">Nutrient Addition</h1>
+        <h1 className="text-2xl font-semibold text-slate-900">AB Mix</h1>
         <Button
           onClick={() => {
             setEditing(undefined)
             setCreateOpen(true)
           }}
         >
-          Add Nutrient
+          Catat AB Mix
         </Button>
       </div>
 
@@ -44,13 +44,13 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Log Date</TableHead>
-                <TableHead>PPM Before</TableHead>
-                <TableHead>PPM After</TableHead>
+                <TableHead>Tanggal</TableHead>
+                <TableHead>PPM Sebelum</TableHead>
+                <TableHead>PPM Setelah</TableHead>
                 <TableHead>A (ml)</TableHead>
                 <TableHead>B (ml)</TableHead>
-                <TableHead>Notes</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead>Catatan</TableHead>
+                <TableHead className="text-right">Aksi</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -72,7 +72,7 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
                           setCreateOpen(true)
                         }}
                       >
-                        Edit
+                        Ubah
                       </Button>
                       <Button
                         variant="destructive"
@@ -84,7 +84,7 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
                         }}
                         disabled={deleteNutrient.isPending}
                       >
-                        Delete
+                        Hapus
                       </Button>
                     </div>
                   </TableCell>
@@ -105,10 +105,10 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
             disabled={page <= 1 || isFetching}
             onClick={() => setPage((p) => Math.max(1, p - 1))}
           >
-            Prev
+            Sebelumnya
           </Button>
           <span className="text-muted-foreground">
-            Page {meta.current_page} of {meta.last_page}
+            Halaman {meta.current_page} dari {meta.last_page}
           </span>
           <Button
             variant="outline"
@@ -116,7 +116,7 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
             disabled={page >= meta.last_page || isFetching}
             onClick={() => setPage((p) => p + 1)}
           >
-            Next
+            Berikutnya
           </Button>
         </div>
       )}

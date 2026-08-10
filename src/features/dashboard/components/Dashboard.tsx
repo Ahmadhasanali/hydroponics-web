@@ -30,7 +30,7 @@ function StatCard({
           <Icon className="size-6" />
         </span>
         <div className="min-w-0">
-          <p className="truncate text-sm font-semibold tracking-[0.25em] text-slate-500 uppercase">
+          <p className="text-sm font-semibold tracking-[0.25em] text-slate-500 uppercase">
             {label}
           </p>
           <p className="text-3xl font-semibold text-slate-900">{value}</p>
@@ -61,7 +61,7 @@ export function Dashboard() {
               Buat farm pertama Anda untuk mulai memantau tank hidroponik.
             </p>
             <Link to="/farms" className={buttonVariants()}>
-              Create Farm
+              Buat Farm
             </Link>
           </CardContent>
         </Card>
@@ -81,33 +81,33 @@ export function Dashboard() {
       </div>
 
       {hasStats && (
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           <StatCard
-            label="Total Tanks"
+            label="Total Tank"
             value={String(stats.total_tanks)}
             icon={Droplets}
             tint="bg-[#ffce54]/20 text-[#d4a020]"
           />
           <StatCard
-            label="Active Tanks"
+            label="Tank Aktif"
             value={String(stats.active_tanks)}
             icon={Zap}
             tint="bg-[#cbe273]/25 text-[#a3c44a]"
           />
           <StatCard
-            label="Avg PPM"
+            label="Rata-rata PPM"
             value={stats.avg_ppm !== null && stats.avg_ppm !== undefined ? String(stats.avg_ppm) : '–'}
             icon={Gauge}
             tint="bg-[#4fc3f7]/20 text-[#1c6f96]"
           />
           <StatCard
-            label="Avg pH"
+            label="Rata-rata pH"
             value={stats.avg_ph !== null && stats.avg_ph !== undefined ? String(stats.avg_ph) : '–'}
             icon={FlaskConical}
             tint="bg-[#ffce54]/15 text-[#a07a10]"
           />
           <StatCard
-            label="Avg Temp"
+            label="Rata-rata Suhu"
             value={stats.avg_temp !== null && stats.avg_temp !== undefined ? `${stats.avg_temp}°C` : '–'}
             icon={Thermometer}
             tint="bg-slate-100 text-slate-500"

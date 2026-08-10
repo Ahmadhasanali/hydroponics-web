@@ -58,7 +58,7 @@ export function ResetPasswordForm() {
         <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[#ffce54] text-[#1a1c1e]">
           <DropletsIcon className="size-5" />
         </div>
-        <CardTitle className="text-lg text-white">Reset Password</CardTitle>
+        <CardTitle className="text-lg text-white">Atur Ulang Kata Sandi</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -69,26 +69,26 @@ export function ResetPasswordForm() {
             {errors.email && <p className="text-rose-300 text-sm">{errors.email.message}</p>}
           </div>
           <div>
-            <Label htmlFor="password" className="text-white">Password Baru</Label>
-            <Input id="password" type="password" {...register('password', { required: 'Password wajib diisi', minLength: { value: 8, message: 'Password minimal 8 karakter' } })} />
+            <Label htmlFor="password" className="text-white">Kata Sandi Baru</Label>
+            <Input id="password" type="password" {...register('password', { required: 'Kata sandi wajib diisi', minLength: { value: 8, message: 'Kata sandi minimal 8 karakter' } })} />
             {errors.password && <p className="text-rose-300 text-sm">{errors.password.message}</p>}
           </div>
           <div>
-            <Label htmlFor="password_confirmation" className="text-white">Konfirmasi Password</Label>
+            <Label htmlFor="password_confirmation" className="text-white">Konfirmasi Kata Sandi</Label>
             <Input id="password_confirmation" type="password" {...register('password_confirmation', {
-              required: 'Konfirmasi password wajib diisi',
-              validate: (value) => value === password || 'Konfirmasi password tidak cocok',
+              required: 'Konfirmasi kata sandi wajib diisi',
+              validate: (value) => value === password || 'Konfirmasi kata sandi tidak cocok',
             })} />
             {errors.password_confirmation && <p className="text-rose-300 text-sm">{errors.password_confirmation.message}</p>}
           </div>
           {error && <p className="text-rose-300 text-sm">{error}</p>}
           {success && <p className="text-[#a3c44a] text-sm">{success}</p>}
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Loading...' : 'Reset Password'}
+            {loading ? 'Memuat...' : 'Atur Ulang Kata Sandi'}
           </Button>
         </form>
         <div className="mt-4 text-sm text-center">
-          <p><Link to="/login" className="text-[#ffce54] hover:text-[#f0b830]">Kembali ke Login</Link></p>
+          <p><Link to="/login" className="text-[#ffce54] hover:text-[#f0b830]">Kembali ke Masuk</Link></p>
         </div>
       </CardContent>
     </Card>

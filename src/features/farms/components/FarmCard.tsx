@@ -18,7 +18,7 @@ export function FarmCard({ farm }: { farm: Farm }) {
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground">
-          {farm.tanks_count ?? 0} tank{farm.tanks_count === 1 ? '' : 's'}
+          {farm.tanks_count ?? 0} tank
         </p>
       </CardContent>
       <CardFooter>

@@ -21,11 +21,11 @@ export function ActivityFeed({ logs }: { logs: ActivityLog[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-semibold text-slate-900">Recent Activity</CardTitle>
+        <CardTitle className="font-semibold text-slate-900">Aktivitas Terbaru</CardTitle>
       </CardHeader>
       <CardContent>
         {logs.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No recent activity.</p>
+          <p className="text-sm text-muted-foreground">Belum ada aktivitas terbaru.</p>
         ) : (
           <ul className="space-y-3">
             {logs.map((log) => (
@@ -37,7 +37,7 @@ export function ActivityFeed({ logs }: { logs: ActivityLog[] }) {
                   {initial(log.user?.name)}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="font-medium text-slate-900">{log.description || log.log_type || 'Activity'}</p>
+                  <p className="font-medium text-slate-900">{log.description || log.log_type || 'Aktivitas'}</p>
                   {log.user?.name && (
                     <p className="text-xs text-muted-foreground">{log.user.name}</p>
                   )}

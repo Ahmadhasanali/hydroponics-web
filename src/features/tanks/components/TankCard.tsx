@@ -26,11 +26,11 @@ function statusBadge(tank: Tank): string {
 }
 
 function statusLabel(tank: Tank): string {
-  if (!tank.is_active) return 'Inactive'
+  if (!tank.is_active) return 'Nonaktif'
   const hasTargets = tank.target_ppm_min !== undefined || tank.target_ppm_max !== undefined
   const ppmOk = inRange(tank.current_ppm, tank.target_ppm_min, tank.target_ppm_max)
   const phOk = inRange(tank.current_ph, tank.target_ph_min, tank.target_ph_max)
-  return hasTargets && (!ppmOk || !phOk) ? 'Warning' : 'Optimal'
+  return hasTargets && (!ppmOk || !phOk) ? 'Perhatian' : 'Optimal'
 }
 
 export function TankCard({ farmId, tank }: { farmId: number; tank: Tank }) {

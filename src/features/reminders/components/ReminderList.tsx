@@ -33,7 +33,7 @@ export function ReminderList({ farmId }: { farmId: number }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-slate-900">Reminder</h1>
+        <h1 className="text-2xl font-semibold text-slate-900">Pengingat</h1>
         <Button
           onClick={() => {
             setEditing(undefined)

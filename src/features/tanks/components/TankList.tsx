@@ -17,14 +17,14 @@ export function TankList({ farmId }: { farmId: number }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-slate-900">Tanks</h1>
+        <h1 className="text-2xl font-semibold text-slate-900">Tank</h1>
         <Button
           onClick={() => {
             setEditing(undefined)
             setCreateOpen(true)
           }}
         >
-          Create Tank
+          Buat Tank
         </Button>
       </div>
 
@@ -34,7 +34,7 @@ export function TankList({ farmId }: { farmId: number }) {
             <TankCard farmId={farmId} tank={tank} />
             <div className="absolute top-3 right-3 flex gap-2">
               <Button variant="outline" size="sm" onClick={() => { setEditing(tank); setCreateOpen(true) }}>
-                Edit
+                Ubah
               </Button>
               <Button
                 variant="destructive"
@@ -44,7 +44,7 @@ export function TankList({ farmId }: { farmId: number }) {
                 }}
                 disabled={deleteTank.isPending}
               >
-                Delete
+                Hapus
               </Button>
             </div>
           </div>

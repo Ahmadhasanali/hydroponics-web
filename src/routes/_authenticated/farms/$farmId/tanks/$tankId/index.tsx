@@ -21,7 +21,7 @@ export function TankDetailPage() {
     return <p className="text-sm text-red-600">ID tank tidak valid.</p>
   }
 
-  if (isLoading) return <p className="text-sm text-muted-foreground">Loading tank...</p>
+  if (isLoading) return <p className="text-sm text-muted-foreground">Memuat tank...</p>
   if (isError) return <p className="text-sm text-red-600">Gagal memuat detail tank.</p>
   if (!tank) return null
 
@@ -50,7 +50,7 @@ export function TankDetailPage() {
               tank.is_active ? 'bg-[#cbe273]/25 text-[#a3c44a]' : 'bg-slate-100 text-slate-500'
             }`}
           >
-            {tank.is_active ? 'Active' : 'Inactive'}
+            {tank.is_active ? 'Aktif' : 'Nonaktif'}
           </span>
         </div>
         {tank.notes && <p className="text-sm text-muted-foreground">{tank.notes}</p>}
@@ -58,16 +58,16 @@ export function TankDetailPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Current Metrics</CardTitle>
-          <CardDescription>Last reported sensor values</CardDescription>
+          <CardTitle>Metrik Saat Ini</CardTitle>
+          <CardDescription>Nilai sensor terakhir yang dilaporkan</CardDescription>
         </CardHeader>
         <CardContent>
           <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-            <Metric label="Capacity" value={`${tank.capacity_liter} L`} />
+            <Metric label="Kapasitas" value={`${tank.capacity_liter} L`} />
             <Metric label="PPM" value={tank.current_ppm != null ? String(tank.current_ppm) : '–'} />
             <Metric label="pH" value={tank.current_ph != null ? String(tank.current_ph) : '–'} />
             <Metric
-              label="Temp (°C)"
+              label="Suhu (°C)"
               value={tank.current_water_temperature != null ? String(tank.current_water_temperature) : '–'}
             />
             <Metric label="Target PPM" value={targetPpm} />
@@ -79,7 +79,7 @@ export function TankDetailPage() {
       <Card>
         <CardHeader>
           <CardTitle>Monitoring</CardTitle>
-          <CardDescription>History and trends for this tank</CardDescription>
+          <CardDescription>Riwayat dan tren tank ini</CardDescription>
         </CardHeader>
         <CardContent>
           <Link
@@ -87,15 +87,15 @@ export function TankDetailPage() {
             params={{ farmId, tankId }}
             className="text-sm font-medium text-[#d4a020] hover:text-[#8a6d00] hover:underline"
           >
-            View monitoring →
+            Lihat monitoring →
           </Link>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Nutrients</CardTitle>
-          <CardDescription>Nutrient addition history for this tank</CardDescription>
+          <CardTitle>Nutrisi</CardTitle>
+          <CardDescription>Riwayat penambahan nutrisi tank ini</CardDescription>
         </CardHeader>
         <CardContent>
           <Link
@@ -103,7 +103,7 @@ export function TankDetailPage() {
             params={{ farmId, tankId }}
             className="text-sm font-medium text-[#d4a020] hover:text-[#8a6d00] hover:underline"
           >
-            View nutrients →
+            Lihat nutrisi →
           </Link>
         </CardContent>
       </Card>
@@ -111,7 +111,7 @@ export function TankDetailPage() {
       <Card>
         <CardHeader>
           <CardTitle>pH Down</CardTitle>
-          <CardDescription>pH adjustment history for this tank</CardDescription>
+          <CardDescription>Riwayat penyesuaian pH tank ini</CardDescription>
         </CardHeader>
         <CardContent>
           <Link
@@ -119,7 +119,7 @@ export function TankDetailPage() {
             params={{ farmId, tankId }}
             className="text-sm font-medium text-[#d4a020] hover:text-[#8a6d00] hover:underline"
           >
-            View pH down →
+            Lihat pH down →
           </Link>
         </CardContent>
       </Card>
