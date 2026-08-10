@@ -26,7 +26,7 @@ export function StaffList({ farmId }: { farmId: number }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-slate-900">Petugas</h1>
+        <h1 className="text-2xl font-semibold text-foreground">Petugas</h1>
         <Button onClick={() => setCreateOpen(true)}>Tambah Petugas</Button>
       </div>
 
@@ -50,8 +50,8 @@ export function StaffList({ farmId }: { farmId: number }) {
                     <span
                       className={`rounded-full px-3 py-1 text-xs font-semibold tracking-[0.24em] uppercase ${
                         member.is_active
-                          ? 'bg-[#cbe273]/25 text-[#a3c44a]'
-                          : 'bg-slate-100 text-slate-500'
+                          ? 'bg-success/20 text-success'
+                          : 'bg-muted text-muted-foreground'
                       }`}
                     >
                       {member.is_active ? 'Aktif' : 'Nonaktif'}

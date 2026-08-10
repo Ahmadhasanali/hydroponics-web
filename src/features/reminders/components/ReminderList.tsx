@@ -33,7 +33,7 @@ export function ReminderList({ farmId }: { farmId: number }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-slate-900">Pengingat</h1>
+        <h1 className="text-2xl font-semibold text-foreground">Pengingat</h1>
         <Button
           onClick={() => {
             setEditing(undefined)
@@ -57,7 +57,7 @@ export function ReminderList({ farmId }: { farmId: number }) {
                     <div className="flex items-center gap-2">
                       <p className="font-medium">{reminder.title}</p>
                       {recurring && (
-                        <span className="rounded-full bg-[#4fc3f7]/20 px-3 py-1 text-xs font-semibold tracking-[0.24em] text-[#1c6f96] uppercase">
+                        <span className="rounded-full bg-info/20 px-3 py-1 text-xs font-semibold tracking-[0.24em] text-info uppercase">
                           Berulang
                         </span>
                       )}
