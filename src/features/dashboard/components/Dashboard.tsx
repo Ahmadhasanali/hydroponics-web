@@ -30,10 +30,10 @@ function StatCard({
           <Icon className="size-6" />
         </span>
         <div className="min-w-0">
-          <p className="text-sm font-semibold tracking-[0.25em] text-slate-500 uppercase">
+          <p className="text-sm font-semibold tracking-[0.25em] text-muted-foreground uppercase">
             {label}
           </p>
-          <p className="text-3xl font-semibold text-slate-900">{value}</p>
+          <p className="text-3xl font-semibold text-foreground">{value}</p>
         </div>
       </CardContent>
     </Card>
@@ -53,7 +53,7 @@ export function Dashboard() {
   if (!data.farms.length) {
     return (
       <div className="space-y-6">
-        <h1 className="text-2xl font-semibold text-slate-900">Dashboard</h1>
+        <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
         <Card>
           <CardContent className="flex flex-col items-start gap-3 py-8">
             <h2 className="text-base font-medium">Belum ada farm</h2>
@@ -72,7 +72,7 @@ export function Dashboard() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-semibold text-slate-900">Dashboard</h1>
+        <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
         <FarmSwitcher
           farms={data.farms}
           selectedFarmId={farmId}
@@ -86,31 +86,31 @@ export function Dashboard() {
             label="Total Tank"
             value={String(stats.total_tanks)}
             icon={Droplets}
-            tint="bg-[#ffce54]/20 text-[#d4a020]"
+            tint="bg-chart-2/20 text-chart-2"
           />
           <StatCard
             label="Tank Aktif"
             value={String(stats.active_tanks)}
             icon={Zap}
-            tint="bg-[#cbe273]/25 text-[#a3c44a]"
+            tint="bg-chart-1/20 text-chart-1"
           />
           <StatCard
             label="Rata-rata PPM"
             value={stats.avg_ppm !== null && stats.avg_ppm !== undefined ? String(stats.avg_ppm) : '–'}
             icon={Gauge}
-            tint="bg-[#4fc3f7]/20 text-[#1c6f96]"
+            tint="bg-chart-3/20 text-chart-3"
           />
           <StatCard
             label="Rata-rata pH"
             value={stats.avg_ph !== null && stats.avg_ph !== undefined ? String(stats.avg_ph) : '–'}
             icon={FlaskConical}
-            tint="bg-[#ffce54]/15 text-[#a07a10]"
+            tint="bg-chart-2/15 text-chart-2"
           />
           <StatCard
             label="Rata-rata Suhu"
             value={stats.avg_temp !== null && stats.avg_temp !== undefined ? `${stats.avg_temp}°C` : '–'}
             icon={Thermometer}
-            tint="bg-slate-100 text-slate-500"
+            tint="bg-muted text-muted-foreground"
           />
         </div>
       )}

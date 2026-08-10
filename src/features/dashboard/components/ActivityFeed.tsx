@@ -21,7 +21,7 @@ export function ActivityFeed({ logs }: { logs: ActivityLog[] }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="font-semibold text-slate-900">Aktivitas Terbaru</CardTitle>
+        <CardTitle className="font-semibold text-foreground">Aktivitas Terbaru</CardTitle>
       </CardHeader>
       <CardContent>
         {logs.length === 0 ? (
@@ -31,13 +31,13 @@ export function ActivityFeed({ logs }: { logs: ActivityLog[] }) {
             {logs.map((log) => (
               <li
                 key={log.id}
-                className="flex items-start gap-3 rounded-[2rem] border border-slate-200/60 bg-white p-4 text-sm"
+                className="flex items-start gap-3 rounded-[2rem] border border-border bg-card p-4 text-sm"
               >
-                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#ffce54]/15 text-sm font-bold text-[#d4a020]">
+                <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-secondary/15 text-sm font-bold text-secondary">
                   {initial(log.user?.name)}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="font-medium text-slate-900">{log.description || log.log_type || 'Aktivitas'}</p>
+                  <p className="font-medium text-foreground">{log.description || log.log_type || 'Aktivitas'}</p>
                   {log.user?.name && (
                     <p className="text-xs text-muted-foreground">{log.user.name}</p>
                   )}

@@ -9,7 +9,7 @@ function inRange(value: number | undefined, min?: number, max?: number): boolean
 }
 
 function statusBadge(tank: Tank): string {
-  if (!tank.is_active) return 'bg-slate-100 text-slate-500'
+  if (!tank.is_active) return 'bg-muted text-muted-foreground'
   const hasTargets =
     tank.target_ppm_min !== undefined ||
     tank.target_ppm_max !== undefined ||
@@ -17,8 +17,8 @@ function statusBadge(tank: Tank): string {
     tank.target_ph_max !== undefined
   const ppmOk = inRange(tank.current_ppm, tank.target_ppm_min, tank.target_ppm_max)
   const phOk = inRange(tank.current_ph, tank.target_ph_min, tank.target_ph_max)
-  if (hasTargets && (!ppmOk || !phOk)) return 'bg-[#ffce54]/20 text-[#a07a10]'
-  return 'bg-[#cbe273]/25 text-[#a3c44a]'
+  if (hasTargets && (!ppmOk || !phOk)) return 'bg-warning/20 text-warning'
+  return 'bg-success/20 text-success'
 }
 
 function statusLabel(tank: Tank): string {
@@ -39,13 +39,13 @@ export function TankStatusCard({ tank }: { tank: Tank }) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2 font-semibold text-slate-900">
-          <span className={`h-2.5 w-2.5 rounded-full ${tank.is_active ? 'bg-[#cbe273]' : 'bg-slate-300'}`} />
+        <CardTitle className="flex items-center gap-2 font-semibold text-foreground">
+          <span className={`h-2.5 w-2.5 rounded-full ${tank.is_active ? 'bg-success' : 'bg-muted-foreground/40'}`} />
           {tank.name}
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="rounded-xl bg-slate-50 p-3">
+        <div className="rounded-xl bg-muted p-3">
           <p className="text-xs text-muted-foreground">Kapasitas {tank.capacity_liter} L</p>
           <dl className="mt-2 space-y-1 text-sm">
             <div className="flex justify-between">
