@@ -34,7 +34,11 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
     if (theme === 'system') {
       const mq = window.matchMedia('(prefers-color-scheme: dark)')
-      const onChange = () => setResolvedTheme(getSystemTheme())
+      const onChange = () => {
+        const resolved = getSystemTheme()
+        setResolvedTheme(resolved)
+        document.documentElement.classList.toggle('dark', resolved === 'dark')
+      }
       mq.addEventListener('change', onChange)
       return () => mq.removeEventListener('change', onChange)
     }
