@@ -17,7 +17,7 @@ export function TankList({ farmId }: { farmId: number }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-slate-900">Tank</h1>
+        <h1 className="text-2xl font-semibold text-foreground">Tank</h1>
         <Button
           onClick={() => {
             setEditing(undefined)
