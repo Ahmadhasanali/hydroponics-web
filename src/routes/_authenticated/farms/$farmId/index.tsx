@@ -54,12 +54,12 @@ function FarmDetailPage() {
 
   return (
     <div className="space-y-6">
-      <Link to="/farms" className="text-sm text-[#d4a020] hover:text-[#8a6d00] hover:underline">
+      <Link to="/farms" className="text-sm text-secondary hover:text-foreground hover:underline">
         &larr; Kembali ke daftar farm
       </Link>
 
       <div>
-        <h1 className="text-2xl font-semibold text-slate-900">{detail.name}</h1>
+        <h1 className="text-2xl font-semibold text-foreground">{detail.name}</h1>
         {detail.location && <p className="text-sm text-muted-foreground">{detail.location}</p>}
       </div>
 

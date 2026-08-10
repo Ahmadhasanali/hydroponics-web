@@ -37,17 +37,17 @@ export function TankDetailPage() {
       <Link
         to="/farms/$farmId/tanks"
         params={{ farmId }}
-        className="text-sm text-[#d4a020] hover:text-[#8a6d00] hover:underline"
+        className="text-sm text-secondary hover:text-foreground hover:underline"
       >
         &larr; Kembali ke daftar tank
       </Link>
 
       <div>
         <div className="flex items-center gap-3">
-          <h1 className="text-2xl font-semibold text-slate-900">{tank.name}</h1>
+          <h1 className="text-2xl font-semibold text-foreground">{tank.name}</h1>
           <span
             className={`rounded-full px-3 py-1 text-xs font-semibold tracking-[0.24em] uppercase ${
-              tank.is_active ? 'bg-[#cbe273]/25 text-[#a3c44a]' : 'bg-slate-100 text-slate-500'
+              tank.is_active ? 'bg-success/20 text-success' : 'bg-muted text-muted-foreground'
             }`}
           >
             {tank.is_active ? 'Aktif' : 'Nonaktif'}
@@ -85,7 +85,7 @@ export function TankDetailPage() {
           <Link
             to="/farms/$farmId/tanks/$tankId/monitoring"
             params={{ farmId, tankId }}
-            className="text-sm font-medium text-[#d4a020] hover:text-[#8a6d00] hover:underline"
+            className="text-sm font-medium text-secondary hover:text-foreground hover:underline"
           >
             Lihat monitoring →
           </Link>
@@ -101,7 +101,7 @@ export function TankDetailPage() {
           <Link
             to="/farms/$farmId/tanks/$tankId/nutrients"
             params={{ farmId, tankId }}
-            className="text-sm font-medium text-[#d4a020] hover:text-[#8a6d00] hover:underline"
+            className="text-sm font-medium text-secondary hover:text-foreground hover:underline"
           >
             Lihat nutrisi →
           </Link>
@@ -117,7 +117,7 @@ export function TankDetailPage() {
           <Link
             to="/farms/$farmId/tanks/$tankId/ph-down"
             params={{ farmId, tankId }}
-            className="text-sm font-medium text-[#d4a020] hover:text-[#8a6d00] hover:underline"
+            className="text-sm font-medium text-secondary hover:text-foreground hover:underline"
           >
             Lihat pH down →
           </Link>
