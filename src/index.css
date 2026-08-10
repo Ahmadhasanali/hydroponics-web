@@ -39,101 +39,124 @@
     --color-card: var(--card);
     --color-foreground: var(--foreground);
     --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
+    --radius-sm: 5px;
+    --radius-md: 8px;
+    --radius-lg: 8px;
+    --radius-xl: 15px;
+    --radius-2xl: 20px;
+    --radius-3xl: 24px;
+    --radius-4xl: 30px;
 }
 
 :root {
-    --background: #f8f6f2;
-    --foreground: #1a1c1e;
+    --background: #f5f5f5;
+    --foreground: #1a1a1a;
     --card: #ffffff;
-    --card-foreground: #1a1c1e;
+    --card-foreground: #1a1a1a;
     --popover: #ffffff;
-    --popover-foreground: #1a1c1e;
-    --primary: #ffce54;
-    --primary-foreground: #1a1c1e;
-    --secondary: #cbe273;
-    --secondary-foreground: #1a1c1e;
-    --muted: #f0eee9;
-    --muted-foreground: #62605b;
-    --accent: #eaf7d6;
-    --accent-foreground: #a3c44a;
-    --destructive: #f53003;
-    --border: #e3e3e0;
-    --input: #e3e3e0;
-    --ring: #ffce54;
-    --chart-1: #cbe273;
-    --chart-2: #ffce54;
-    --chart-3: #4fc3f7;
-    --chart-4: #a3c44a;
-    --chart-5: #62605b;
-    --radius: 1rem;
-    --sidebar: #f8f6f2;
-    --sidebar-foreground: #1a1c1e;
-    --sidebar-primary: #ffce54;
-    --sidebar-primary-foreground: #1a1c1e;
-    --sidebar-accent: #ffce54;
-    --sidebar-accent-foreground: #1a1c1e;
-    --sidebar-border: #e3e3e0;
-    --sidebar-ring: #ffce54;
+    --popover-foreground: #1a1a1a;
+    --primary: #000000;
+    --primary-foreground: #ffffff;
+    --secondary: #0099ff;
+    --secondary-foreground: #ffffff;
+    --muted: rgba(0, 0, 0, 0.03);
+    --muted-foreground: #999999;
+    --accent: rgba(0, 0, 0, 0.03);
+    --accent-foreground: #1a1a1a;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: rgba(0, 0, 0, 0.1);
+    --input: rgba(0, 0, 0, 0.1);
+    --ring: #0099ff;
+    --success: #10b981;
+    --success-foreground: #ffffff;
+    --warning: #f59e0b;
+    --warning-foreground: #ffffff;
+    --info: #0ea5e9;
+    --info-foreground: #ffffff;
+    --chart-1: #10b981;
+    --chart-2: #f59e0b;
+    --chart-3: #0ea5e9;
+    --chart-4: #0099ff;
+    --chart-5: #a6a6a6;
+    --radius: 8px;
+    --sidebar: #f5f5f5;
+    --sidebar-foreground: #1a1a1a;
+    --sidebar-primary: #0099ff;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #0099ff;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: rgba(0, 0, 0, 0.08);
+    --sidebar-ring: #0099ff;
 }
 
 .dark {
-    --background: #0d0e10;
-    --foreground: #f8f6f2;
-    --card: #1a1c1e;
-    --card-foreground: #f8f6f2;
-    --popover: #1a1c1e;
-    --popover-foreground: #f8f6f2;
-    --primary: #ffce54;
-    --primary-foreground: #1a1c1e;
-    --secondary: #cbe273;
-    --secondary-foreground: #1a1c1e;
-    --muted: #1b1b18;
-    --muted-foreground: #9ca3af;
-    --accent: #1b1b18;
-    --accent-foreground: #cbe273;
-    --destructive: #ff4433;
-    --border: rgb(255 255 255 / 10%);
-    --input: rgb(255 255 255 / 15%);
-    --ring: #ffce54;
-    --chart-1: #cbe273;
-    --chart-2: #ffce54;
-    --chart-3: #4fc3f7;
-    --chart-4: #a3c44a;
-    --chart-5: #9ca3af;
-    --sidebar: #0d0e10;
-    --sidebar-foreground: #f8f6f2;
-    --sidebar-primary: #ffce54;
-    --sidebar-primary-foreground: #1a1c1e;
-    --sidebar-accent: #1b1b18;
-    --sidebar-accent-foreground: #cbe273;
-    --sidebar-border: rgb(255 255 255 / 10%);
-    --sidebar-ring: #ffce54;
+    --background: #000000;
+    --foreground: #ffffff;
+    --card: #090909;
+    --card-foreground: #ffffff;
+    --popover: #090909;
+    --popover-foreground: #ffffff;
+    --primary: #ffffff;
+    --primary-foreground: #000000;
+    --secondary: #0099ff;
+    --secondary-foreground: #ffffff;
+    --muted: rgba(255, 255, 255, 0.04);
+    --muted-foreground: rgba(255, 255, 255, 0.6);
+    --accent: rgba(255, 255, 255, 0.04);
+    --accent-foreground: #ffffff;
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+    --border: rgba(255, 255, 255, 0.08);
+    --input: rgba(255, 255, 255, 0.08);
+    --ring: #0099ff;
+    --success: #10b981;
+    --success-foreground: #ffffff;
+    --warning: #f59e0b;
+    --warning-foreground: #000000;
+    --info: #0ea5e9;
+    --info-foreground: #ffffff;
+    --chart-1: #10b981;
+    --chart-2: #f59e0b;
+    --chart-3: #0ea5e9;
+    --chart-4: #0099ff;
+    --chart-5: #8a8a8a;
+    --radius: 8px;
+    --sidebar: #000000;
+    --sidebar-foreground: #ffffff;
+    --sidebar-primary: #0099ff;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #0099ff;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: rgba(255, 255, 255, 0.08);
+    --sidebar-ring: #0099ff;
 }
 
 /* Auth (dark glassmorphism) — scoped override so shadcn components inside the
    auth layout pick up dark/glass tokens without flipping the whole app. */
 .auth-shell {
-    --background: #0d0e10;
+    --background: #000000;
     --foreground: #ffffff;
-    --card: rgb(255 255 255 / 10%);
+    --card: rgb(255 255 255 / 6%);
     --card-foreground: #ffffff;
-    --popover: rgb(255 255 255 / 10%);
+    --popover: rgb(255 255 255 / 6%);
     --popover-foreground: #ffffff;
-    --primary: #ffce54;
-    --primary-foreground: #1a1c1e;
-    --muted-foreground: #94a3b8;
+    --primary: #0099ff;
+    --primary-foreground: #ffffff;
+    --secondary: #0099ff;
+    --secondary-foreground: #ffffff;
+    --muted-foreground: #9ca3af;
     --input: rgb(255 255 255 / 10%);
     --border: rgb(255 255 255 / 10%);
-    --ring: #ffce54;
+    --ring: #0099ff;
     --destructive: #ff4433;
-    background: radial-gradient(circle at top left, #1a1c1e 0%, #0d0e10 55%, #040506 100%);
+    background: radial-gradient(circle at top left, #0a0a0d 0%, #000000 55%, #040506 100%);
     color: #ffffff;
 }
 
@@ -145,7 +168,7 @@
 }
 
 .auth-shell [data-slot="input"]::placeholder {
-    color: #94a3b8;
+    color: #9ca3af;
 }
 
 @layer base {
