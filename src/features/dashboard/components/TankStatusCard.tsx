@@ -1,3 +1,4 @@
+import { Link } from '@tanstack/react-router'
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card'
 import type { Tank } from '../../../lib/types'
 
@@ -37,7 +38,12 @@ export function TankStatusCard({ tank }: { tank: Tank }) {
   const temp = tank.current_water_temperature
 
   return (
-    <Card>
+    <Link
+      to="/farms/$farmId/tanks/$tankId"
+      params={{ farmId: String(tank.farm_id), tankId: String(tank.id) }}
+      className="block rounded-3xl transition-shadow hover:shadow-md"
+    >
+      <Card className="h-full">
       <CardHeader>
         <CardTitle className="flex items-center gap-2 font-semibold text-foreground">
           <span className={`h-2.5 w-2.5 rounded-full ${tank.is_active ? 'bg-success' : 'bg-muted-foreground/40'}`} />
@@ -69,5 +75,6 @@ export function TankStatusCard({ tank }: { tank: Tank }) {
         </span>
       </CardContent>
     </Card>
+    </Link>
   )
 }

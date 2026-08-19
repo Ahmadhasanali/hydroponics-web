@@ -1,4 +1,4 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useRouter, useLocation } from '@tanstack/react-router'
 import { useTank } from '../../../../../../features/tanks/hooks/useTanks'
 import {
   Card,
@@ -14,6 +14,10 @@ export const Route = createFileRoute('/_authenticated/farms/$farmId/tanks/$tankI
 
 export function TankDetailPage() {
   const { farmId, tankId } = Route.useParams()
+  const router = useRouter()
+  const { pathname } = useLocation()
+  const canGoBack = window.history.length > 1
+  const cameFromDashboard = pathname.startsWith('/') && !pathname.includes('/farms/')
   const tankNum = Number(tankId)
   const { data: tank, isLoading, isError } = useTank(tankNum)
 
@@ -32,15 +36,33 @@ export function TankDetailPage() {
     ? `${tank.target_ph_min ?? '–'} – ${tank.target_ph_max ?? '–'}`
     : '–'
 
+  const backLink = cameFromDashboard ? (
+    <Link to="/" className="text-sm text-secondary hover:text-foreground hover:underline">
+      &larr; Kembali ke dashboard
+    </Link>
+  ) : (
+    <Link
+      to="/farms/$farmId/tanks"
+      params={{ farmId }}
+      className="text-sm text-secondary hover:text-foreground hover:underline"
+    >
+      &larr; Kembali ke daftar tank
+    </Link>
+  )
+
   return (
     <div className="space-y-6">
-      <Link
-        to="/farms/$farmId/tanks"
-        params={{ farmId }}
-        className="text-sm text-secondary hover:text-foreground hover:underline"
-      >
-        &larr; Kembali ke daftar tank
-      </Link>
+      {canGoBack && !cameFromDashboard ? (
+        <button
+          type="button"
+          onClick={() => router.history.back()}
+          className="text-sm text-secondary hover:text-foreground hover:underline"
+        >
+          &larr; Kembali
+        </button>
+      ) : (
+        backLink
+      )}
 
       <div>
         <div className="flex items-center gap-3">
