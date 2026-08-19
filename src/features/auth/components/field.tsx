@@ -16,7 +16,7 @@ export function Field({ label, htmlFor, hint, error, children, className }: Fiel
   return (
     <div className={cn('space-y-2', className)}>
       <div className="flex items-center justify-between gap-2">
-        <Label htmlFor={htmlFor} className="text-[13px] font-medium text-foreground">
+        <Label htmlFor={htmlFor} className="mb-0 text-[13px] font-medium text-foreground">
           {label}
         </Label>
         {hint}
