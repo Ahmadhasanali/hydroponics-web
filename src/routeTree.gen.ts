@@ -19,6 +19,7 @@ import { Route as AuthResetPasswordRouteImport } from './routes/_auth/reset-pass
 import { Route as AuthenticatedIndexRouteImport } from './routes/_authenticated/index'
 import { Route as AuthenticatedActivityRouteImport } from './routes/_authenticated/activity'
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedRemindersRouteImport } from './routes/_authenticated/reminders'
 import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
 import { Route as AuthenticatedFarmsIndexRouteImport } from './routes/_authenticated/farms/index'
 import { Route as AuthenticatedFarmsFarmIdIndexRouteImport } from './routes/_authenticated/farms/$farmId/index'
@@ -78,6 +79,11 @@ const AuthenticatedActivityRoute = AuthenticatedActivityRouteImport.update({
 const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedRemindersRoute = AuthenticatedRemindersRouteImport.update({
+  id: '/reminders',
+  path: '/reminders',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
 const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
@@ -160,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/reset-password': typeof AuthResetPasswordRoute
   '/activity': typeof AuthenticatedActivityRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/reminders': typeof AuthenticatedRemindersRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/farms/': typeof AuthenticatedFarmsIndexRoute
   '/farms/$farmId/reminders': typeof AuthenticatedFarmsFarmIdRemindersRoute
@@ -182,6 +189,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof AuthResetPasswordRoute
   '/activity': typeof AuthenticatedActivityRoute
   '/profile': typeof AuthenticatedProfileRoute
+  '/reminders': typeof AuthenticatedRemindersRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/farms': typeof AuthenticatedFarmsIndexRoute
   '/farms/$farmId/reminders': typeof AuthenticatedFarmsFarmIdRemindersRoute
@@ -204,6 +212,7 @@ export interface FileRoutesById {
   '/_auth/reset-password': typeof AuthResetPasswordRoute
   '/_authenticated/activity': typeof AuthenticatedActivityRoute
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/reminders': typeof AuthenticatedRemindersRoute
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/farms/': typeof AuthenticatedFarmsIndexRoute
@@ -229,6 +238,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/activity'
     | '/profile'
+    | '/reminders'
     | '/reports'
     | '/farms/'
     | '/farms/$farmId/reminders'
@@ -251,6 +261,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/activity'
     | '/profile'
+    | '/reminders'
     | '/reports'
     | '/farms'
     | '/farms/$farmId/reminders'
@@ -272,6 +283,7 @@ export interface FileRouteTypes {
     | '/_auth/reset-password'
     | '/_authenticated/activity'
     | '/_authenticated/profile'
+    | '/_authenticated/reminders'
     | '/_authenticated/reports'
     | '/_authenticated/'
     | '/_authenticated/farms/'
@@ -363,6 +375,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/reminders': {
+      id: '/_authenticated/reminders'
+      path: '/reminders'
+      fullPath: '/reminders'
+      preLoaderRoute: typeof AuthenticatedRemindersRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/reports': {
@@ -513,6 +532,7 @@ const AuthenticatedFarmsFarmIdTanksRouteWithChildren =
 interface AuthenticatedRouteChildren {
   AuthenticatedActivityRoute: typeof AuthenticatedActivityRoute
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedRemindersRoute: typeof AuthenticatedRemindersRoute
   AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedFarmsIndexRoute: typeof AuthenticatedFarmsIndexRoute
@@ -525,6 +545,7 @@ interface AuthenticatedRouteChildren {
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedActivityRoute: AuthenticatedActivityRoute,
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedRemindersRoute: AuthenticatedRemindersRoute,
   AuthenticatedReportsRoute: AuthenticatedReportsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedFarmsIndexRoute: AuthenticatedFarmsIndexRoute,

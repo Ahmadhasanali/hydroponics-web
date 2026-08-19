@@ -2,11 +2,13 @@ import { useState } from 'react'
 import { Link, useNavigate } from '@tanstack/react-router'
 import {
   BarChart3,
+  Bell,
   Droplets,
   FlaskConical,
   History,
   LayoutDashboard,
   Plus,
+  Settings,
   Thermometer,
   User,
   Warehouse,
@@ -22,6 +24,7 @@ import {
 import { useFarms } from '../../features/farms/hooks/useFarms'
 import { useTanks } from '../../features/tanks/hooks/useTanks'
 import { ThemeToggle } from '../theme/ThemeToggle'
+import { SettingsSheet } from '../../features/settings/components/SettingsSheet'
 
 type NavItem = {
   to: string
@@ -36,6 +39,14 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/reports', label: 'Laporan', icon: BarChart3 },
   { to: '/activity', label: 'Aktivitas', icon: History },
   { to: '/profile', label: 'Profil', icon: User },
+]
+
+const MOBILE_NAV: (NavItem | { kind: 'catat' } | { kind: 'settings' })[] = [
+  { to: '/', label: 'Dashboard', icon: LayoutDashboard, exact: true },
+  { to: '/farms', label: 'Farms', icon: Warehouse },
+  { kind: 'catat' },
+  { to: '/reminders', label: 'Pengingat', icon: Bell },
+  { kind: 'settings' },
 ]
 
 const rowLinkBase =
@@ -170,40 +181,43 @@ function RecordSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (v: 
 
 export function BottomNav() {
   const [catatOpen, setCatatOpen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
 
   return (
     <>
       <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden">
         <div className="flex items-stretch">
-          {NAV_ITEMS.slice(0, 2).map((item) => {
-            const Icon = item.icon
-            return (
-              <Link
-                key={item.to}
-                to={item.to}
-                activeOptions={{ exact: item.exact ?? false }}
-                className={columnLinkBase}
-                activeProps={{ className: 'text-secondary' }}
-              >
-                <Icon className="size-5" />
-                {item.label}
-              </Link>
-            )
-          })}
-
-          <button
-            type="button"
-            onClick={() => setCatatOpen(true)}
-            className="flex flex-1 flex-col items-center justify-center py-2 text-[10px] font-semibold text-muted-foreground"
-            aria-label="Catat aktivitas"
-          >
-            <span className="-mt-6 flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-secondary-foreground shadow-lg shadow-secondary/40 ring-4 ring-background">
-              <Plus className="size-6" />
-            </span>
-            <span className="mt-0.5">Catat</span>
-          </button>
-
-          {NAV_ITEMS.slice(2).map((item) => {
+          {MOBILE_NAV.map((item) => {
+            if ('kind' in item) {
+              if (item.kind === 'catat') {
+                return (
+                  <button
+                    key="catat"
+                    type="button"
+                    onClick={() => setCatatOpen(true)}
+                    className="flex flex-1 flex-col items-center justify-center py-2 text-[10px] font-semibold text-muted-foreground"
+                    aria-label="Catat aktivitas"
+                  >
+                    <span className="-mt-6 flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-secondary-foreground shadow-lg shadow-secondary/40 ring-4 ring-background">
+                      <Plus className="size-6" />
+                    </span>
+                    <span className="mt-0.5">Catat</span>
+                  </button>
+                )
+              }
+              return (
+                <button
+                  key="settings"
+                  type="button"
+                  onClick={() => setSettingsOpen(true)}
+                  className="flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[10px] font-semibold text-muted-foreground"
+                  aria-label="Settings"
+                >
+                  <Settings className="size-5" />
+                  Settings
+                </button>
+              )
+            }
             const Icon = item.icon
             return (
               <Link
@@ -221,6 +235,7 @@ export function BottomNav() {
         </div>
       </nav>
       <RecordSheet open={catatOpen} onOpenChange={setCatatOpen} />
+      <SettingsSheet open={settingsOpen} onOpenChange={setSettingsOpen} />
     </>
   )
 }
