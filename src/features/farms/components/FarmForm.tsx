@@ -17,7 +17,7 @@ import {
 
 interface FarmFormData {
   name: string
-  location: string
+  address: string
 }
 
 interface FarmFormProps {
@@ -31,12 +31,12 @@ export function FarmForm({ open, onOpenChange, farm }: FarmFormProps) {
   const updateFarm = useUpdateFarm()
   const isSubmitting = createFarm.isPending || updateFarm.isPending
   const { register, handleSubmit, reset } = useForm<FarmFormData>({
-    defaultValues: { name: farm?.name ?? '', location: farm?.location ?? '' },
+    defaultValues: { name: farm?.name ?? '', address: farm?.address ?? '' },
   })
 
   useEffect(() => {
     if (open) {
-      reset({ name: farm?.name ?? '', location: farm?.location ?? '' })
+      reset({ name: farm?.name ?? '', address: farm?.address ?? '' })
     }
   }, [open, farm, reset])
 
@@ -69,8 +69,8 @@ export function FarmForm({ open, onOpenChange, farm }: FarmFormProps) {
             <Input id="name" {...register('name', { required: 'Nama wajib diisi' })} />
           </div>
           <div>
-            <Label htmlFor="location">Lokasi</Label>
-            <Input id="location" {...register('location')} />
+            <Label htmlFor="address">Lokasi</Label>
+            <Input id="address" {...register('address')} />
           </div>
           <DialogFooter>
             <DialogClose render={<Button type="button" variant="outline" />}>

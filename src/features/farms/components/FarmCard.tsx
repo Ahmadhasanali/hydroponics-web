@@ -14,7 +14,7 @@ export function FarmCard({ farm }: { farm: Farm }) {
     <Card>
       <CardHeader>
         <CardTitle>{farm.name}</CardTitle>
-        {farm.location && <CardDescription>{farm.location}</CardDescription>}
+        {farm.address && <CardDescription>{farm.address}</CardDescription>}
       </CardHeader>
       <CardContent>
         <p className="text-sm text-muted-foreground">

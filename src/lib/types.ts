@@ -32,7 +32,8 @@ export interface User {
 export interface Farm {
   id: number
   name: string
-  location?: string
+  address?: string
+  description?: string
   tanks_count?: number
   created_by: number
 }

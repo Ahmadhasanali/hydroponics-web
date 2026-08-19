@@ -60,7 +60,7 @@ function FarmDetailPage() {
 
       <div>
         <h1 className="text-2xl font-semibold text-foreground">{detail.name}</h1>
-        {detail.location && <p className="text-sm text-muted-foreground">{detail.location}</p>}
+        {detail.address && <p className="text-sm text-muted-foreground">{detail.address}</p>}
       </div>
 
       <Card>
