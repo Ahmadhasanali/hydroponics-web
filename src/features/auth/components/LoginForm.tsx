@@ -1,13 +1,11 @@
+import { Link } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
-import { useAuth } from '../../../hooks/useAuth'
+
 import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input'
-import { Label } from '../../../components/ui/label'
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card'
-import { DropletsIcon } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
-
-const glassCard = 'w-full max-w-sm rounded-[1.75rem] border border-white/10 bg-white/10 shadow-2xl shadow-black/30 ring-0 backdrop-blur-2xl'
+import { useAuth } from '../../../hooks/useAuth'
+import { AuthShell } from './AuthShell'
+import { ErrorNote, Field } from './field'
 
 interface LoginFormData {
   email: string
@@ -21,35 +19,64 @@ export function LoginForm() {
   const onSubmit = (data: LoginFormData) => login(data)
 
   return (
-    <Card className={glassCard}>
-      <CardHeader className="items-center gap-3 pt-8 text-center">
-        <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground">
-          <DropletsIcon className="size-5" />
-        </div>
-        <CardTitle className="text-lg text-white">Masuk</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <Label htmlFor="email" className="text-white">Email</Label>
-            <Input id="email" type="email" {...register('email', { required: 'Email wajib diisi' })} />
-            {errors.email && <p className="text-rose-300 text-sm">{errors.email.message}</p>}
-          </div>
-          <div>
-            <Label htmlFor="password" className="text-white">Kata Sandi</Label>
-            <Input id="password" type="password" {...register('password', { required: 'Kata sandi wajib diisi' })} />
-            {errors.password && <p className="text-rose-300 text-sm">{errors.password.message}</p>}
-          </div>
-          {loginError && <p className="text-rose-300 text-sm">{(loginError as { message: string }).message}</p>}
-          <Button type="submit" className="w-full" disabled={isLoggingIn}>
-            {isLoggingIn ? 'Memuat...' : 'Masuk'}
-          </Button>
-        </form>
-        <div className="mt-4 text-sm text-center space-y-1">
-          <p><Link to="/forgot-password" className="text-secondary hover:text-foreground">Lupa kata sandi?</Link></p>
-          <p>Belum punya akun? <Link to="/register" className="text-secondary hover:text-foreground">Daftar</Link></p>
-        </div>
-      </CardContent>
-    </Card>
+    <AuthShell
+      eyebrow="Akses Sistem"
+      title="Masuk ke dasbor."
+      description="Pantau pH, nutrisi, dan kondisi tank hidroponik Anda dalam satu tempat."
+      footer={
+        <>
+          Belum punya akun?{' '}
+          <Link to="/register" className="font-medium text-foreground underline-offset-4 hover:underline">
+            Daftar
+          </Link>
+        </>
+      }
+    >
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+        <Field label="Email" htmlFor="email" error={errors.email?.message}>
+          <Input
+            id="email"
+            type="email"
+            autoComplete="email"
+            placeholder="nama@email.com"
+            className="h-10 rounded-sm bg-background px-3 text-[15px]"
+            aria-invalid={!!errors.email}
+            {...register('email', { required: 'Email wajib diisi' })}
+          />
+        </Field>
+
+        <Field
+          label="Kata sandi"
+          htmlFor="password"
+          error={errors.password?.message}
+          hint={
+            <Link
+              to="/forgot-password"
+              className="text-[13px] text-muted-foreground underline-offset-4 hover:text-foreground hover:underline"
+            >
+              Lupa kata sandi?
+            </Link>
+          }
+        >
+          <Input
+            id="password"
+            type="password"
+            autoComplete="current-password"
+            placeholder="••••••••"
+            className="h-10 rounded-sm bg-background px-3 text-[15px]"
+            aria-invalid={!!errors.password}
+            {...register('password', { required: 'Kata sandi wajib diisi' })}
+          />
+        </Field>
+
+        {loginError && (
+          <ErrorNote>{(loginError as { message: string }).message || 'Gagal masuk. Periksa kembali email dan kata sandi.'}</ErrorNote>
+        )}
+
+        <Button type="submit" size="lg" className="h-11 w-full rounded-sm text-sm" disabled={isLoggingIn}>
+          {isLoggingIn ? 'Memproses…' : 'Masuk'}
+        </Button>
+      </form>
+    </AuthShell>
   )
 }

@@ -1,16 +1,13 @@
+import { Link, useSearch } from '@tanstack/react-router'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useSearch } from '@tanstack/react-router'
-import { api } from '../../../lib/api'
-import type { ApiResponse } from '../../../lib/types'
+
 import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input'
-import { Label } from '../../../components/ui/label'
-import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card'
-import { DropletsIcon } from 'lucide-react'
-import { Link } from '@tanstack/react-router'
-
-const glassCard = 'w-full max-w-sm rounded-[1.75rem] border border-white/10 bg-white/10 shadow-2xl shadow-black/30 ring-0 backdrop-blur-2xl'
+import { api } from '../../../lib/api'
+import type { ApiResponse } from '../../../lib/types'
+import { AuthShell } from './AuthShell'
+import { ErrorNote, Field, SuccessNote } from './field'
 
 interface ResetPasswordData {
   email: string
@@ -44,7 +41,7 @@ export function ResetPasswordForm() {
     setSuccess(null)
     try {
       const res = await api.post<ApiResponse<null>>('/password/reset', data)
-      setSuccess(res.message || 'Password berhasil direset. Silakan login.')
+      setSuccess(res.message || 'Kata sandi berhasil diatur ulang. Silakan masuk.')
     } catch (err) {
       setError((err as { message?: string })?.message || 'Terjadi kesalahan. Silakan coba lagi.')
     } finally {
@@ -53,44 +50,59 @@ export function ResetPasswordForm() {
   }
 
   return (
-    <Card className={glassCard}>
-      <CardHeader className="items-center gap-3 pt-8 text-center">
-        <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground">
-          <DropletsIcon className="size-5" />
-        </div>
-        <CardTitle className="text-lg text-white">Atur Ulang Kata Sandi</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <input type="hidden" {...register('token')} />
-          <div>
-            <Label htmlFor="email" className="text-white">Email</Label>
-            <Input id="email" type="email" {...register('email', { required: 'Email wajib diisi' })} />
-            {errors.email && <p className="text-rose-300 text-sm">{errors.email.message}</p>}
-          </div>
-          <div>
-            <Label htmlFor="password" className="text-white">Kata Sandi Baru</Label>
-            <Input id="password" type="password" {...register('password', { required: 'Kata sandi wajib diisi', minLength: { value: 8, message: 'Kata sandi minimal 8 karakter' } })} />
-            {errors.password && <p className="text-rose-300 text-sm">{errors.password.message}</p>}
-          </div>
-          <div>
-            <Label htmlFor="password_confirmation" className="text-white">Konfirmasi Kata Sandi</Label>
-            <Input id="password_confirmation" type="password" {...register('password_confirmation', {
+    <AuthShell
+      eyebrow="Pemulihan Akun"
+      title="Buat kata sandi baru."
+      description="Pilih kata sandi baru untuk akun Anda. Gunakan minimal delapan karakter."
+      footer={
+        <>
+          <Link to="/login" className="font-medium text-foreground underline-offset-4 hover:underline">
+            Kembali ke masuk
+          </Link>
+        </>
+      }
+    >
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
+        <input type="hidden" {...register('token')} />
+        <input type="hidden" {...register('email')} />
+
+        <Field label="Kata sandi baru" htmlFor="password" error={errors.password?.message}>
+          <Input
+            id="password"
+            type="password"
+            autoComplete="new-password"
+            placeholder="Minimal 8 karakter"
+            className="h-10 rounded-sm bg-background px-3 text-[15px]"
+            aria-invalid={!!errors.password}
+            {...register('password', {
+              required: 'Kata sandi wajib diisi',
+              minLength: { value: 8, message: 'Kata sandi minimal 8 karakter' },
+            })}
+          />
+        </Field>
+
+        <Field label="Konfirmasi kata sandi" htmlFor="password_confirmation" error={errors.password_confirmation?.message}>
+          <Input
+            id="password_confirmation"
+            type="password"
+            autoComplete="new-password"
+            placeholder="Ulangi kata sandi"
+            className="h-10 rounded-sm bg-background px-3 text-[15px]"
+            aria-invalid={!!errors.password_confirmation}
+            {...register('password_confirmation', {
               required: 'Konfirmasi kata sandi wajib diisi',
               validate: (value) => value === password || 'Konfirmasi kata sandi tidak cocok',
-            })} />
-            {errors.password_confirmation && <p className="text-rose-300 text-sm">{errors.password_confirmation.message}</p>}
-          </div>
-          {error && <p className="text-rose-300 text-sm">{error}</p>}
-          {success && <p className="text-success text-sm">{success}</p>}
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Memuat...' : 'Atur Ulang Kata Sandi'}
-          </Button>
-        </form>
-        <div className="mt-4 text-sm text-center">
-          <p><Link to="/login" className="text-secondary hover:text-foreground">Kembali ke Masuk</Link></p>
-        </div>
-      </CardContent>
-    </Card>
+            })}
+          />
+        </Field>
+
+        {error && <ErrorNote>{error}</ErrorNote>}
+        {success && <SuccessNote>{success}</SuccessNote>}
+
+        <Button type="submit" size="lg" className="h-11 w-full rounded-sm text-sm" disabled={loading}>
+          {loading ? 'Memproses…' : 'Atur ulang kata sandi'}
+        </Button>
+      </form>
+    </AuthShell>
   )
 }

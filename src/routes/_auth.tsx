@@ -6,13 +6,5 @@ export const Route = createFileRoute('/_auth')({
       throw redirect({ to: '/' })
     }
   },
-  component: AuthLayout,
+  component: () => <Outlet />,
 })
-
-function AuthLayout() {
-  return (
-    <div className="auth-shell flex min-h-screen items-center justify-center p-4 antialiased">
-      <Outlet />
-    </div>
-  )
-}
