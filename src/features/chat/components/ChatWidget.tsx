@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import { MessageCircleIcon, SendIcon, XIcon } from 'lucide-react'
+import { MessageCircleIcon, PanelLeftCloseIcon, PanelLeftOpenIcon, SendIcon, XIcon } from 'lucide-react'
 import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input'
 import {
@@ -21,6 +21,7 @@ import type { ChatMessagesResponse } from '../types'
 
 export function ChatWidget() {
   const [open, setOpen] = useState(false)
+  const [showHistory, setShowHistory] = useState(false)
   const [activeSessionId, setActiveSessionId] = useState<number | null>(null)
   const [input, setInput] = useState('')
   const [error, setError] = useState<string | null>(null)
@@ -116,7 +117,18 @@ export function ChatWidget() {
         >
           <DialogHeader className="flex flex-row items-center justify-between gap-2 rounded-t-[2rem] border-b border-background/10 bg-foreground px-4 py-3">
             <DialogTitle className="text-background">Asisten Hidroponik</DialogTitle>
-            <DialogClose
+            <div className="flex items-center gap-1">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                aria-label={showHistory ? 'Sembunyikan riwayat' : 'Tampilkan riwayat'}
+                onClick={() => setShowHistory((v) => !v)}
+                className="text-background/70 hover:bg-background/10 hover:text-background"
+              >
+                {showHistory ? <PanelLeftCloseIcon /> : <PanelLeftOpenIcon />}
+              </Button>
+              <DialogClose
               render={
                 <Button
                   variant="ghost"
@@ -128,22 +140,24 @@ export function ChatWidget() {
             >
               <XIcon />
             </DialogClose>
+            </div>
           </DialogHeader>
 
           <div className="flex min-h-0 flex-1">
-            <aside className="w-60 shrink-0 border-r bg-muted/20">
-              <ChatSessionList
-                sessions={sessionsQuery.data?.sessions ?? []}
-                activeId={activeSessionId}
-                onSelect={setActiveSessionId}
-                onNew={() => {
-                  setActiveSessionId(null)
-                  setError(null)
-                }}
-                onDelete={handleDeleteSession}
-              />
-            </aside>
-
+            {showHistory && (
+              <aside className="w-60 shrink-0 border-r bg-muted/20">
+                <ChatSessionList
+                  sessions={sessionsQuery.data?.sessions ?? []}
+                  activeId={activeSessionId}
+                  onSelect={setActiveSessionId}
+                  onNew={() => {
+                    setActiveSessionId(null)
+                    setError(null)
+                  }}
+                  onDelete={handleDeleteSession}
+                />
+              </aside>
+            )}
             <section className="flex min-w-0 flex-1 flex-col">
               <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4">
                 {activeSessionId === null ? (
