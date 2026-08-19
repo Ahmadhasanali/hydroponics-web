@@ -32,12 +32,31 @@ export function ChatWidget() {
   const queryClient = useQueryClient()
 
   const scrollRef = useRef<HTMLDivElement>(null)
+  const lastOpenedRef = useRef(0)
 
   const messages = messagesQuery.data?.messages ?? []
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight })
   }, [messages.length, activeSessionId, open])
+
+  useEffect(() => {
+    if (!open || !sessionsQuery.data) return
+    // Re-evaluate every time the dialog is opened (not just the first time),
+    // so a session becomes stale after 24h and a fresh chat + welcome shows.
+    const openedAt = Date.now()
+    const shouldReapply = openedAt - lastOpenedRef.current > 60 * 1000
+    if (!shouldReapply) return
+    lastOpenedRef.current = openedAt
+
+    const sessions = sessionsQuery.data.sessions ?? []
+    const cutoff = Date.now() - 24 * 60 * 60 * 1000
+    const recent = sessions.find(
+      (s) => s.updated_at && new Date(s.updated_at).getTime() >= cutoff,
+    )
+    setActiveSessionId(recent ? recent.id : null)
+    setError(null)
+  }, [open, sessionsQuery.data])
 
   const handleSend = () => {
     const text = input.trim()
@@ -128,9 +147,14 @@ export function ChatWidget() {
             <section className="flex min-w-0 flex-1 flex-col">
               <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4">
                 {activeSessionId === null ? (
-                  <div className="flex h-full items-center justify-center">
-                    <p className="text-sm text-muted-foreground">
-                      Mulai percakapan baru dengan asisten hidroponik.
+                  <div className="space-y-3">
+                    <div className="flex justify-start">
+                      <div className="max-w-[80%] rounded-xl bg-muted px-3 py-2 text-sm">
+                        Halo! Saya asisten hidroponik Anda. Saya bisa membantu mencatat monitoring, nutrisi, pH, dan menjawab pertanyaan seputar kebun Anda. Silakan mulai percakapan!
+                      </div>
+                    </div>
+                    <p className="text-center text-xs text-muted-foreground">
+                      Mulai percakapan baru atau pilih riwayat di samping.
                     </p>
                   </div>
                 ) : messagesQuery.isLoading ? (
