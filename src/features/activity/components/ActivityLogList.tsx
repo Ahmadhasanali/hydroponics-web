@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { Link } from '@tanstack/react-router'
 import { useActivityLogs } from '../hooks/useActivityLogs'
 import { Button } from '../../../components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card'
+import { activityLogTarget } from '../lib/activityTarget'
 
 function formatDate(value: string): string {
   const d = new Date(value)
@@ -34,21 +36,37 @@ export function ActivityLogList({ farmId }: { farmId: number }) {
           <p className="text-sm text-muted-foreground">Belum ada aktivitas.</p>
         ) : (
           <ul className="space-y-3">
-            {logs.map((log) => (
-              <li key={log.id} className="flex items-start justify-between gap-3 text-sm">
-                <div>
-                  <p>{log.description}</p>
+            {logs.map((log) => {
+              const target = activityLogTarget(log)
+              const content = (
+                <>
+                  <p>{log.description ?? 'Aktivitas'}</p>
                   {(log.user?.name ?? log.staff?.name) && (
                     <p className="text-xs text-muted-foreground">
                       {log.user?.name ?? log.staff?.name}
                     </p>
                   )}
-                </div>
-                <span className="shrink-0 text-xs text-muted-foreground">
-                  {formatDate(log.created_at)}
-                </span>
-              </li>
-            ))}
+                </>
+              )
+              return (
+                <li key={log.id} className="flex items-start justify-between gap-3 text-sm">
+                  {target ? (
+                    <Link
+                      to={target.to}
+                      params={target.params}
+                      className="min-w-0 text-secondary hover:text-foreground hover:underline"
+                    >
+                      {content}
+                    </Link>
+                  ) : (
+                    <div className="min-w-0">{content}</div>
+                  )}
+                  <span className="shrink-0 text-xs text-muted-foreground">
+                    {formatDate(log.created_at)}
+                  </span>
+                </li>
+              )
+            })}
           </ul>
         )}
 

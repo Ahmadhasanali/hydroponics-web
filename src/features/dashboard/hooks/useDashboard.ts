@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { api } from '../../../lib/api'
 import type { ApiResponse, Farm, Tank } from '../../../lib/types'
+import type { ActivityLog } from '../../activity/types'
 
 export interface DashboardStats {
   total_tanks: number
@@ -8,14 +9,6 @@ export interface DashboardStats {
   avg_ppm: number | null
   avg_ph: number | null
   avg_temp: number | null
-}
-
-export interface ActivityLog {
-  id: number
-  description?: string
-  log_type?: string
-  created_at?: string
-  user?: { id: number; name: string }
 }
 
 export interface DashboardData {
