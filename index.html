@@ -4,7 +4,15 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/pwa-assets/icon-192.png" />
-    <meta name="theme-color" content="#16a34a" />
+    <meta name="theme-color" content="#000000" />
+    <script>
+      (function () {
+        var stored = localStorage.getItem('theme') || 'system';
+        var dark = stored === 'dark' ||
+          (stored === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        if (dark) document.documentElement.classList.add('dark');
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hydroponics Farm</title>
   </head>

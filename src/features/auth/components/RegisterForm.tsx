@@ -27,7 +27,7 @@ export function RegisterForm() {
   return (
     <Card className={glassCard}>
       <CardHeader className="items-center gap-3 pt-8 text-center">
-        <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[#ffce54] text-[#1a1c1e]">
+        <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground">
           <DropletsIcon className="size-5" />
         </div>
         <CardTitle className="text-lg text-white">Daftar</CardTitle>
@@ -63,7 +63,7 @@ export function RegisterForm() {
           </Button>
         </form>
         <div className="mt-4 text-sm text-center">
-          <p>Sudah punya akun? <Link to="/login" className="text-[#ffce54] hover:text-[#f0b830]">Masuk</Link></p>
+          <p>Sudah punya akun? <Link to="/login" className="text-secondary hover:text-foreground">Masuk</Link></p>
         </div>
       </CardContent>
     </Card>

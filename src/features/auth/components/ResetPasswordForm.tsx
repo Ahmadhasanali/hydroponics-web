@@ -55,7 +55,7 @@ export function ResetPasswordForm() {
   return (
     <Card className={glassCard}>
       <CardHeader className="items-center gap-3 pt-8 text-center">
-        <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[#ffce54] text-[#1a1c1e]">
+        <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground">
           <DropletsIcon className="size-5" />
         </div>
         <CardTitle className="text-lg text-white">Atur Ulang Kata Sandi</CardTitle>
@@ -82,13 +82,13 @@ export function ResetPasswordForm() {
             {errors.password_confirmation && <p className="text-rose-300 text-sm">{errors.password_confirmation.message}</p>}
           </div>
           {error && <p className="text-rose-300 text-sm">{error}</p>}
-          {success && <p className="text-[#a3c44a] text-sm">{success}</p>}
+          {success && <p className="text-success text-sm">{success}</p>}
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? 'Memuat...' : 'Atur Ulang Kata Sandi'}
           </Button>
         </form>
         <div className="mt-4 text-sm text-center">
-          <p><Link to="/login" className="text-[#ffce54] hover:text-[#f0b830]">Kembali ke Masuk</Link></p>
+          <p><Link to="/login" className="text-secondary hover:text-foreground">Kembali ke Masuk</Link></p>
         </div>
       </CardContent>
     </Card>

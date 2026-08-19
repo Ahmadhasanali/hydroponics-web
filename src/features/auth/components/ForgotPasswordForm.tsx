@@ -38,27 +38,27 @@ export function ForgotPasswordForm() {
   return (
     <Card className={glassCard}>
       <CardHeader className="items-center gap-3 pt-8 text-center">
-        <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[#ffce54] text-[#1a1c1e]">
+        <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground">
           <DropletsIcon className="size-5" />
         </div>
         <CardTitle className="text-lg text-white">Lupa Kata Sandi</CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <p className="text-sm text-slate-300">Masukkan email Anda dan kami akan mengirimkan link untuk mengatur ulang kata sandi.</p>
+          <p className="text-sm text-muted-foreground">Masukkan email Anda dan kami akan mengirimkan link untuk mengatur ulang kata sandi.</p>
           <div>
             <Label htmlFor="email" className="text-white">Email</Label>
             <Input id="email" type="email" {...register('email', { required: 'Email wajib diisi' })} />
             {errors.email && <p className="text-rose-300 text-sm">{errors.email.message}</p>}
           </div>
           {error && <p className="text-rose-300 text-sm">{error}</p>}
-          {success && <p className="text-[#a3c44a] text-sm">{success}</p>}
+          {success && <p className="text-success text-sm">{success}</p>}
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? 'Memuat...' : 'Kirim Link Atur Ulang'}
           </Button>
         </form>
         <div className="mt-4 text-sm text-center">
-          <p>Ingat kata sandi? <Link to="/login" className="text-[#ffce54] hover:text-[#f0b830]">Masuk</Link></p>
+          <p>Ingat kata sandi? <Link to="/login" className="text-secondary hover:text-foreground">Masuk</Link></p>
         </div>
       </CardContent>
     </Card>

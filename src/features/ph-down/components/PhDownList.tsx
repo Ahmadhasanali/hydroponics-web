@@ -28,7 +28,7 @@ export function PhDownList({ farmId, tankId }: { farmId: number; tankId: number 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-slate-900">pH Down</h1>
+        <h1 className="text-2xl font-semibold text-foreground">pH Down</h1>
         <Button
           onClick={() => {
             setEditing(undefined)

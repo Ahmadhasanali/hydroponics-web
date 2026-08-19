@@ -21,6 +21,7 @@ import {
 } from '../ui/dialog'
 import { useFarms } from '../../features/farms/hooks/useFarms'
 import { useTanks } from '../../features/tanks/hooks/useTanks'
+import { ThemeToggle } from '../theme/ThemeToggle'
 
 type NavItem = {
   to: string
@@ -38,23 +39,23 @@ const NAV_ITEMS: NavItem[] = [
 ]
 
 const rowLinkBase =
-  'flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold text-slate-700 transition-colors ' +
-  'hover:bg-[#ffce54]/10 hover:text-[#1a1c1e]'
+  'flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold text-muted-foreground transition-colors ' +
+  'hover:bg-muted hover:text-foreground'
 
 const columnLinkBase =
   'flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[10px] font-semibold ' +
-  'text-slate-500'
+  'text-muted-foreground'
 
 export function Sidebar() {
   return (
-    <aside className="sticky top-16 hidden h-[calc(100dvh-4rem)] w-60 shrink-0 flex-col gap-1 overflow-y-auto border-r border-slate-200/80 p-3 md:flex">
+    <aside className="sticky top-16 hidden h-[calc(100dvh-4rem)] w-60 shrink-0 flex-col gap-1 overflow-y-auto border-r border-border p-3 md:flex">
       <div className="mb-4 flex items-center gap-3 px-2 pt-2">
-        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#ffce54] text-[#1a1c1e]">
+        <span className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground">
           <Droplets className="size-5" />
         </span>
-        <span className="text-base font-bold text-slate-900">HydroFarm</span>
+        <span className="text-base font-bold text-foreground">HydroFarm</span>
       </div>
-      <p className="px-3 pt-1 pb-2 text-xs font-semibold tracking-[0.2em] text-slate-400 uppercase">
+      <p className="px-3 pt-1 pb-2 text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase">
         Menu
       </p>
       {NAV_ITEMS.map((item) => {
@@ -65,13 +66,17 @@ export function Sidebar() {
             to={item.to}
             activeOptions={{ exact: item.exact ?? false }}
             className={rowLinkBase}
-            activeProps={{ className: 'bg-[#ffce54]/15 text-[#1a1c1e]' }}
+            activeProps={{ className: 'bg-secondary/15 text-secondary' }}
           >
             <Icon className="size-4" />
             {item.label}
           </Link>
         )
       })}
+      <div className="mt-auto flex items-center justify-between border-t border-border px-2 pt-3">
+        <span className="text-xs font-medium text-muted-foreground">Tema</span>
+        <ThemeToggle />
+      </div>
     </aside>
   )
 }
@@ -145,13 +150,13 @@ function RecordSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (v: 
                 key={action.kind}
                 type="button"
                 onClick={() => goToRecord(action.kind)}
-                className="flex items-center gap-3 rounded-xl border border-slate-200/80 bg-white px-4 py-3 text-left transition-colors hover:bg-[#ffce54]/10"
+                className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-left transition-colors hover:bg-secondary/10"
               >
-                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#ffce54]/20 text-[#1a1c1e]">
+                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary/15 text-secondary">
                   <Icon className="size-5" />
                 </span>
                 <span>
-                  <span className="block text-sm font-semibold text-slate-900">{action.label}</span>
+                  <span className="block text-sm font-semibold text-foreground">{action.label}</span>
                   <span className="block text-xs text-muted-foreground">{action.description}</span>
                 </span>
               </button>
@@ -168,7 +173,7 @@ export function BottomNav() {
 
   return (
     <>
-      <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-background/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:hidden">
         <div className="flex items-stretch">
           {NAV_ITEMS.slice(0, 2).map((item) => {
             const Icon = item.icon
@@ -178,7 +183,7 @@ export function BottomNav() {
                 to={item.to}
                 activeOptions={{ exact: item.exact ?? false }}
                 className={columnLinkBase}
-                activeProps={{ className: 'text-[#d4a020]' }}
+                activeProps={{ className: 'text-secondary' }}
               >
                 <Icon className="size-5" />
                 {item.label}
@@ -189,10 +194,10 @@ export function BottomNav() {
           <button
             type="button"
             onClick={() => setCatatOpen(true)}
-            className="flex flex-1 flex-col items-center justify-center py-2 text-[10px] font-semibold text-slate-500"
+            className="flex flex-1 flex-col items-center justify-center py-2 text-[10px] font-semibold text-muted-foreground"
             aria-label="Catat aktivitas"
           >
-            <span className="-mt-6 flex h-12 w-12 items-center justify-center rounded-full bg-[#ffce54] text-[#1a1c1e] shadow-lg shadow-[#ffce54]/40 ring-4 ring-white">
+            <span className="-mt-6 flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-secondary-foreground shadow-lg shadow-secondary/40 ring-4 ring-background">
               <Plus className="size-6" />
             </span>
             <span className="mt-0.5">Catat</span>
@@ -206,7 +211,7 @@ export function BottomNav() {
                 to={item.to}
                 activeOptions={{ exact: item.exact ?? false }}
                 className={columnLinkBase}
-                activeProps={{ className: 'text-[#d4a020]' }}
+                activeProps={{ className: 'text-secondary' }}
               >
                 <Icon className="size-5" />
                 {item.label}

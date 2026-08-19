@@ -23,7 +23,7 @@ export function LoginForm() {
   return (
     <Card className={glassCard}>
       <CardHeader className="items-center gap-3 pt-8 text-center">
-        <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-[#ffce54] text-[#1a1c1e]">
+        <div className="inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-secondary text-secondary-foreground">
           <DropletsIcon className="size-5" />
         </div>
         <CardTitle className="text-lg text-white">Masuk</CardTitle>
@@ -46,8 +46,8 @@ export function LoginForm() {
           </Button>
         </form>
         <div className="mt-4 text-sm text-center space-y-1">
-          <p><Link to="/forgot-password" className="text-[#ffce54] hover:text-[#f0b830]">Lupa kata sandi?</Link></p>
-          <p>Belum punya akun? <Link to="/register" className="text-[#ffce54] hover:text-[#f0b830]">Daftar</Link></p>
+          <p><Link to="/forgot-password" className="text-secondary hover:text-foreground">Lupa kata sandi?</Link></p>
+          <p>Belum punya akun? <Link to="/register" className="text-secondary hover:text-foreground">Daftar</Link></p>
         </div>
       </CardContent>
     </Card>

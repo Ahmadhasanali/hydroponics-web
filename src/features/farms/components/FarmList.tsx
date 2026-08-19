@@ -22,7 +22,7 @@ export function FarmList() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold text-slate-900">Farm</h1>
+        <h1 className="text-2xl font-semibold text-foreground">Farm</h1>
         <Button onClick={() => { setEditing(undefined); setCreateOpen(true) }}>Buat Farm</Button>
       </div>
 

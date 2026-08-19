@@ -21,7 +21,7 @@ function PhDownPage() {
       <Link
         to="/farms/$farmId/tanks/$tankId"
         params={{ farmId, tankId }}
-        className="text-sm text-[#d4a020] hover:text-[#8a6d00] hover:underline"
+        className="text-sm text-secondary hover:text-foreground hover:underline"
       >
         &larr; Kembali ke detail tank
       </Link>

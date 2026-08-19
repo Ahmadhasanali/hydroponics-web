@@ -4,6 +4,7 @@ import { ChatWidget } from '../features/chat/components/ChatWidget'
 import { usePushNotifications } from '../hooks/usePushNotifications'
 import { useAuth } from '../hooks/useAuth'
 import { DropletsIcon } from 'lucide-react'
+import { ThemeToggle } from '../components/theme/ThemeToggle'
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: () => {
@@ -51,27 +52,30 @@ function AppLayout() {
 
   return (
     <div className="min-h-screen">
-      <header className="sticky top-0 z-30 h-16 border-b border-slate-200/80 bg-white/90 shadow-sm shadow-slate-900/5 backdrop-blur-xl">
+      <header className="sticky top-0 z-30 h-16 border-b border-border bg-background/90 shadow-sm shadow-foreground/5 backdrop-blur-xl">
         <div className="flex h-full items-center gap-3 px-4">
           <Link to="/" className="flex shrink-0 items-center gap-2 md:hidden">
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-[#ffce54] text-[#1a1c1e]">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-xl bg-secondary text-secondary-foreground">
               <DropletsIcon className="size-5" />
             </span>
-            <span className="text-sm font-bold text-slate-900">HydroFarm</span>
+            <span className="text-sm font-bold text-foreground">HydroFarm</span>
           </Link>
 
           <div className="min-w-0 flex-1">
-            <p className="text-[10px] leading-none font-medium tracking-[0.24em] text-[#d4a020] uppercase">
+            <p className="text-[10px] leading-none font-medium tracking-[0.24em] text-secondary uppercase">
               HydroFarm
             </p>
-            <h1 className="mt-1 truncate text-xl leading-none font-semibold text-slate-900">
+            <h1 className="mt-1 truncate text-xl leading-none font-semibold text-foreground">
               {title}
             </h1>
           </div>
 
-          <span className="hidden shrink-0 rounded-2xl bg-slate-100 px-3 py-2 text-sm font-semibold text-slate-700 md:inline-block">
+          <span className="hidden shrink-0 rounded-2xl bg-muted px-3 py-2 text-sm font-semibold text-foreground md:inline-block">
             {user?.name ?? 'Pengguna'}
           </span>
+          <div className="hidden shrink-0 md:block">
+            <ThemeToggle />
+          </div>
         </div>
       </header>
       <div className="flex">

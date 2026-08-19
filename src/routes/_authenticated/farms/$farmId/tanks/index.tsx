@@ -20,7 +20,7 @@ function TankListPage() {
       <Link
         to="/farms/$farmId"
         params={{ farmId }}
-        className="text-sm text-[#d4a020] hover:text-[#8a6d00]"
+        className="text-sm text-secondary hover:text-foreground"
       >
         &larr; {farm?.name ?? 'Kembali ke farm'}
       </Link>
