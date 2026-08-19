@@ -14,6 +14,16 @@ export function useReminders(farmId: number, page = 1) {
   })
 }
 
+export function useGlobalReminders(page = 1) {
+  return useQuery({
+    queryKey: ['reminders', 'all', page],
+    queryFn: () =>
+      api.get<PaginatedResponse<Reminder>>('/reminders', {
+        params: { page },
+      }),
+  })
+}
+
 export function useCreateReminder() {
   const qc = useQueryClient()
   return useMutation({

@@ -15,6 +15,7 @@ export interface ReminderTarget {
 export interface Reminder {
   id: number
   farm_id: number
+  farm?: { id: number; name: string }
   title: string
   body: string
   starts_at: string

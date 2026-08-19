@@ -38,6 +38,7 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/farms', label: 'Farms', icon: Warehouse },
   { to: '/reports', label: 'Laporan', icon: BarChart3 },
   { to: '/activity', label: 'Aktivitas', icon: History },
+  { to: '/reminders', label: 'Pengingat', icon: Bell },
   { to: '/profile', label: 'Profil', icon: User },
 ]
 
