@@ -40,8 +40,9 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
       </div>
 
       {records?.length ? (
-        <div className="rounded-md border">
-          <Table>
+        <>
+          <div className="hidden md:block rounded-md border">
+            <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Tanggal</TableHead>
@@ -92,7 +93,62 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
               ))}
             </TableBody>
           </Table>
-        </div>
+          </div>
+
+          <div className="space-y-3 md:hidden">
+            {records.map((record) => (
+              <div key={record.id} className="rounded-2xl border border-border bg-card p-4">
+                <p className="font-medium">{record.log_date}</p>
+                <dl className="mt-3 grid grid-cols-2 gap-2 text-sm">
+                  <div>
+                    <dt className="text-muted-foreground">PPM Sebelum</dt>
+                    <dd className="font-medium">{record.ppm_before}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground">PPM Setelah</dt>
+                    <dd className="font-medium">{record.ppm_after}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground">A (ml)</dt>
+                    <dd className="font-medium">{record.nutrient_a_ml}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground">B (ml)</dt>
+                    <dd className="font-medium">{record.nutrient_b_ml}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground">Catatan</dt>
+                    <dd className="font-medium">{record.notes || '–'}</dd>
+                  </div>
+                </dl>
+                <div className="mt-3 flex justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setEditing(record)
+                      setCreateOpen(true)
+                    }}
+                  >
+                    Ubah
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => {
+                      if (window.confirm(`Hapus penambahan nutrisi tanggal ${record.log_date}?`)) {
+                        deleteNutrient.mutate(record.id)
+                      }
+                    }}
+                    disabled={deleteNutrient.isPending}
+                  >
+                    Hapus
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       ) : (
         <p className="text-sm text-muted-foreground">Belum ada data penambahan nutrisi untuk tank ini.</p>
       )}

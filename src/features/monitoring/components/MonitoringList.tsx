@@ -40,8 +40,9 @@ export function MonitoringList({ farmId, tankId }: { farmId: number; tankId: num
       </div>
 
       {records?.length ? (
-        <div className="rounded-md border">
-          <Table>
+        <>
+          <div className="hidden md:block rounded-md border">
+            <Table>
             <TableHeader>
               <TableRow>
                 <TableHead>Tanggal</TableHead>
@@ -92,7 +93,63 @@ export function MonitoringList({ farmId, tankId }: { farmId: number; tankId: num
               ))}
             </TableBody>
           </Table>
-        </div>
+          </div>
+
+          <div className="space-y-3 md:hidden">
+            {records.map((record) => (
+              <div key={record.id} className="rounded-2xl border border-border bg-card p-4">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="font-medium">{record.log_date}</p>
+                  <span className="text-xs text-muted-foreground">{record.user?.name ?? ''}</span>
+                </div>
+                <dl className="mt-3 grid grid-cols-2 gap-2 text-sm">
+                  <div>
+                    <dt className="text-muted-foreground">PPM</dt>
+                    <dd className="font-medium">{record.ppm}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground">pH</dt>
+                    <dd className="font-medium">{record.ph}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground">Suhu (°C)</dt>
+                    <dd className="font-medium">
+                      {record.water_temperature != null ? record.water_temperature : '–'}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="text-muted-foreground">Catatan</dt>
+                    <dd className="font-medium">{record.notes || '–'}</dd>
+                  </div>
+                </dl>
+                <div className="mt-3 flex justify-end gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setEditing(record)
+                      setCreateOpen(true)
+                    }}
+                  >
+                    Ubah
+                  </Button>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={() => {
+                      if (window.confirm(`Hapus log monitoring tanggal ${record.log_date}?`)) {
+                        deleteMonitoring.mutate(record.id)
+                      }
+                    }}
+                    disabled={deleteMonitoring.isPending}
+                  >
+                    Hapus
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       ) : (
         <p className="text-sm text-muted-foreground">Belum ada data monitoring untuk tank ini.</p>
       )}
