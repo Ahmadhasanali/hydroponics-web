@@ -31,6 +31,7 @@ export function useCreateReminder() {
       api.post<ApiResponse<{ reminder: Reminder }>>('/reminders', data),
     onSuccess: (_res, variables) => {
       qc.invalidateQueries({ queryKey: ['reminders', variables.farm_id] })
+      qc.invalidateQueries({ queryKey: ['reminders'] })
     },
   })
 }
