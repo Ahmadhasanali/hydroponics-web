@@ -72,7 +72,14 @@ export function Dashboard() {
   return (
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
+        <div>
+          <h1 className="text-2xl font-semibold text-foreground">Dashboard</h1>
+          {data.selectedFarm && (
+            <p className="mt-1 text-sm text-muted-foreground">
+              Farm aktif: <span className="font-medium text-foreground">{data.selectedFarm.name}</span>
+            </p>
+          )}
+        </div>
         <FarmSwitcher
           farms={data.farms}
           selectedFarmId={farmId}
