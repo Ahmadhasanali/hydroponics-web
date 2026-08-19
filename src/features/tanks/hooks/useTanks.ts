@@ -5,7 +5,7 @@ import type { CreateTankInput, TankDetail, UpdateTankInput } from '../types'
 
 export function useTanks(farmId: number) {
   return useQuery({
-    queryKey: ['tanks', farmId],
+    queryKey: ['tanks', 'list', farmId],
     queryFn: () =>
       api
         .get<ApiResponse<{ tanks: Tank[] }>>('/tanks', { params: { farm_id: farmId } })
@@ -16,7 +16,7 @@ export function useTanks(farmId: number) {
 
 export function useTank(id: number) {
   return useQuery({
-    queryKey: ['tanks', id],
+    queryKey: ['tanks', 'detail', id],
     queryFn: () =>
       api
         .get<ApiResponse<{ tank: TankDetail }>>(`/tanks/${id}`)

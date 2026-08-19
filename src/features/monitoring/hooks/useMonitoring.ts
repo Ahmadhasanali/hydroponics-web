@@ -21,7 +21,7 @@ export function useMonitoring(farmId: number, page = 1) {
 
 export function useTankMonitorings(tankId: number) {
   return useQuery({
-    queryKey: ['tanks', tankId, 'monitorings'],
+    queryKey: ['tanks', 'detail', tankId, 'monitorings'],
     queryFn: () =>
       api
         .get<ApiResponse<{ tank: unknown; monitorings: PaginatedResponse<DailyMonitoring> }>>(
