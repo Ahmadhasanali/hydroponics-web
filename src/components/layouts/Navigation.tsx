@@ -104,25 +104,29 @@ type RecordAction = {
 function RecordSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
   const navigate = useNavigate()
   const { data: farms } = useFarms()
-  const firstFarmId = farms?.[0]?.id
-  const { data: tanks } = useTanks(firstFarmId ?? 0)
+  const [step, setStep] = useState<'farm' | 'tank' | 'type'>('farm')
+  const [farmId, setFarmId] = useState<number | null>(null)
+  const [tankId, setTankId] = useState<number | null>(null)
+  const { data: tanks } = useTanks(farmId ?? 0)
 
-  const firstTankId = tanks?.[0]?.id
+  // reset when dialog closes
+  const close = () => {
+    onOpenChange(false)
+    setStep('farm')
+    setFarmId(null)
+    setTankId(null)
+  }
 
   const goToRecord = (kind: RecordKind) => {
+    if (!farmId || !tankId) return
     onOpenChange(false)
-    if (!firstTankId) {
-      navigate({ to: '/farms' })
-      return
-    }
-    const base = { farmId: String(firstFarmId), tankId: String(firstTankId) }
-    if (kind === 'monitoring') {
-      navigate({ to: '/farms/$farmId/tanks/$tankId/monitoring', params: base })
-    } else if (kind === 'nutrients') {
-      navigate({ to: '/farms/$farmId/tanks/$tankId/nutrients', params: base })
-    } else {
-      navigate({ to: '/farms/$farmId/tanks/$tankId/ph-down', params: base })
-    }
+    const base = { farmId: String(farmId), tankId: String(tankId) }
+    if (kind === 'monitoring') navigate({ to: '/farms/$farmId/tanks/$tankId/monitoring', params: base })
+    else if (kind === 'nutrients') navigate({ to: '/farms/$farmId/tanks/$tankId/nutrients', params: base })
+    else navigate({ to: '/farms/$farmId/tanks/$tankId/ph-down', params: base })
+    setStep('farm')
+    setFarmId(null)
+    setTankId(null)
   }
 
   const actions: RecordAction[] = [
@@ -147,32 +151,65 @@ function RecordSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (v: 
   ]
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={(o) => { onOpenChange(o); if (!o) close() }}>
       <DialogContent showCloseButton={false} className="bottom-0 top-auto left-1/2 -translate-x-1/2 translate-y-0 rounded-b-none sm:bottom-auto sm:top-1/2 sm:-translate-y-1/2 sm:rounded-b-xl">
         <DialogHeader>
-          <DialogTitle>Catat Aktivitas</DialogTitle>
-          <DialogDescription>Pilih jenis catatan yang ingin Anda input.</DialogDescription>
+          <DialogTitle>
+            {step === 'farm' ? 'Pilih Farm' : step === 'tank' ? 'Pilih Tank' : 'Catat Aktivitas'}
+          </DialogTitle>
+          <DialogDescription>
+            {step === 'farm' ? 'Pilih farm tujuan catatan.' : step === 'tank' ? 'Pilih tank tujuan catatan.' : 'Pilih jenis catatan yang ingin Anda input.'}
+          </DialogDescription>
         </DialogHeader>
         <div className="grid gap-2">
-          {actions.map((action) => {
-            const Icon = action.icon
-            return (
-              <button
-                key={action.kind}
-                type="button"
-                onClick={() => goToRecord(action.kind)}
-                className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-left transition-colors hover:bg-secondary/10"
-              >
-                <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary/15 text-secondary">
-                  <Icon className="size-5" />
-                </span>
-                <span>
-                  <span className="block text-sm font-semibold text-foreground">{action.label}</span>
-                  <span className="block text-xs text-muted-foreground">{action.description}</span>
-                </span>
-              </button>
-            )
-          })}
+          {step === 'farm' && (farms ?? []).map((farm) => (
+            <button
+              key={farm.id}
+              type="button"
+              onClick={() => { setFarmId(farm.id); setStep('tank') }}
+              className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-left transition-colors hover:bg-secondary/10"
+            >
+              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary/15 text-secondary">
+                <Warehouse className="size-5" />
+              </span>
+              <span className="text-sm font-semibold text-foreground">{farm.name}</span>
+            </button>
+          ))}
+
+          {step === 'tank' && (tanks ?? []).map((tank) => (
+            <button
+              key={tank.id}
+              type="button"
+              onClick={() => { setTankId(tank.id); setStep('type') }}
+              className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-left transition-colors hover:bg-secondary/10"
+            >
+              <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary/15 text-secondary">
+                <Droplets className="size-5" />
+              </span>
+              <span className="text-sm font-semibold text-foreground">{tank.name}</span>
+            </button>
+          ))}
+
+          {step === 'type' &&
+            actions.map((action) => {
+              const Icon = action.icon
+              return (
+                <button
+                  key={action.kind}
+                  type="button"
+                  onClick={() => goToRecord(action.kind)}
+                  className="flex items-center gap-3 rounded-xl border border-border bg-card px-4 py-3 text-left transition-colors hover:bg-secondary/10"
+                >
+                  <span className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary/15 text-secondary">
+                    <Icon className="size-5" />
+                  </span>
+                  <span>
+                    <span className="block text-sm font-semibold text-foreground">{action.label}</span>
+                    <span className="block text-xs text-muted-foreground">{action.description}</span>
+                  </span>
+                </button>
+              )
+            })}
         </div>
       </DialogContent>
     </Dialog>
