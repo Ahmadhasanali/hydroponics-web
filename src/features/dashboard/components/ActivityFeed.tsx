@@ -28,7 +28,7 @@ export function ActivityFeed({ logs }: { logs: ActivityLog[] }) {
           <p className="text-sm text-muted-foreground">Belum ada aktivitas terbaru.</p>
         ) : (
           <ul className="space-y-3">
-            {logs.map((log) => (
+            {logs.slice(0, 3).map((log) => (
               <li
                 key={log.id}
                 className="flex items-start gap-3 rounded-[2rem] border border-border bg-card p-4 text-sm"
