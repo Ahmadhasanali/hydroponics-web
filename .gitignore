@@ -12,6 +12,15 @@ dist
 dist-ssr
 *.local
 
+# Env files (never commit)
+.env
+.env.*
+!.env.example
+
+# Google/FCM credentials (never commit)
+google-services.json
+android/app/google-services.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
