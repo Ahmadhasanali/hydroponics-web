@@ -7,6 +7,19 @@ export interface Recurrence {
   days_of_month?: number[]
 }
 
+export type OccurrenceStatus = 'pending' | 'done' | 'skipped'
+
+export interface ReminderOccurrence {
+  id: number
+  reminder_id: number
+  scheduled_at: string
+  advance_notify_at: string | null
+  advance_notified_at: string | null
+  notified_at: string | null
+  status: OccurrenceStatus
+  completed_at: string | null
+}
+
 export interface ReminderTarget {
   id: number
   targetable?: { id: number; name: string }
@@ -23,7 +36,7 @@ export interface Reminder {
   advance_notify_minutes: number | null
   is_active: boolean
   targets?: ReminderTarget[]
-  occurrences?: unknown[]
+  occurrences?: ReminderOccurrence[]
 }
 
 export interface CreateReminderInput {
