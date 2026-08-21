@@ -23,9 +23,10 @@ import { Route as AuthenticatedRemindersRouteImport } from './routes/_authentica
 import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
 import { Route as AuthenticatedFarmsIndexRouteImport } from './routes/_authenticated/farms/index'
 import { Route as AuthenticatedFarmsFarmIdIndexRouteImport } from './routes/_authenticated/farms/$farmId/index'
-import { Route as AuthenticatedFarmsFarmIdRemindersRouteImport } from './routes/_authenticated/farms/$farmId/reminders'
 import { Route as AuthenticatedFarmsFarmIdStaffRouteImport } from './routes/_authenticated/farms/$farmId/staff'
 import { Route as AuthenticatedFarmsFarmIdTanksRouteImport } from './routes/_authenticated/farms/$farmId/tanks'
+import { Route as AuthenticatedFarmsFarmIdRemindersIndexRouteImport } from './routes/_authenticated/farms/$farmId/reminders/index'
+import { Route as AuthenticatedFarmsFarmIdRemindersReminderIdRouteImport } from './routes/_authenticated/farms/$farmId/reminders/$reminderId'
 import { Route as AuthenticatedFarmsFarmIdTanksIndexRouteImport } from './routes/_authenticated/farms/$farmId/tanks/index'
 import { Route as AuthenticatedFarmsFarmIdTanksTankIdRouteImport } from './routes/_authenticated/farms/$farmId/tanks/$tankId'
 import { Route as AuthenticatedFarmsFarmIdTanksTankIdIndexRouteImport } from './routes/_authenticated/farms/$farmId/tanks/$tankId/index'
@@ -102,12 +103,6 @@ const AuthenticatedFarmsFarmIdIndexRoute =
     path: '/farms/$farmId/',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
-const AuthenticatedFarmsFarmIdRemindersRoute =
-  AuthenticatedFarmsFarmIdRemindersRouteImport.update({
-    id: '/farms/$farmId/reminders',
-    path: '/farms/$farmId/reminders',
-    getParentRoute: () => AuthenticatedRoute,
-  } as any)
 const AuthenticatedFarmsFarmIdStaffRoute =
   AuthenticatedFarmsFarmIdStaffRouteImport.update({
     id: '/farms/$farmId/staff',
@@ -118,6 +113,18 @@ const AuthenticatedFarmsFarmIdTanksRoute =
   AuthenticatedFarmsFarmIdTanksRouteImport.update({
     id: '/farms/$farmId/tanks',
     path: '/farms/$farmId/tanks',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedFarmsFarmIdRemindersIndexRoute =
+  AuthenticatedFarmsFarmIdRemindersIndexRouteImport.update({
+    id: '/farms/$farmId/reminders/',
+    path: '/farms/$farmId/reminders/',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedFarmsFarmIdRemindersReminderIdRoute =
+  AuthenticatedFarmsFarmIdRemindersReminderIdRouteImport.update({
+    id: '/farms/$farmId/reminders/$reminderId',
+    path: '/farms/$farmId/reminders/$reminderId',
     getParentRoute: () => AuthenticatedRoute,
   } as any)
 const AuthenticatedFarmsFarmIdTanksIndexRoute =
@@ -169,11 +176,12 @@ export interface FileRoutesByFullPath {
   '/reminders': typeof AuthenticatedRemindersRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/farms/': typeof AuthenticatedFarmsIndexRoute
-  '/farms/$farmId/reminders': typeof AuthenticatedFarmsFarmIdRemindersRoute
   '/farms/$farmId/staff': typeof AuthenticatedFarmsFarmIdStaffRoute
   '/farms/$farmId/tanks': typeof AuthenticatedFarmsFarmIdTanksRouteWithChildren
   '/farms/$farmId/': typeof AuthenticatedFarmsFarmIdIndexRoute
+  '/farms/$farmId/reminders/$reminderId': typeof AuthenticatedFarmsFarmIdRemindersReminderIdRoute
   '/farms/$farmId/tanks/$tankId': typeof AuthenticatedFarmsFarmIdTanksTankIdRouteWithChildren
+  '/farms/$farmId/reminders/': typeof AuthenticatedFarmsFarmIdRemindersIndexRoute
   '/farms/$farmId/tanks/': typeof AuthenticatedFarmsFarmIdTanksIndexRoute
   '/farms/$farmId/tanks/$tankId/monitoring': typeof AuthenticatedFarmsFarmIdTanksTankIdMonitoringRoute
   '/farms/$farmId/tanks/$tankId/nutrients': typeof AuthenticatedFarmsFarmIdTanksTankIdNutrientsRoute
@@ -192,9 +200,10 @@ export interface FileRoutesByTo {
   '/reminders': typeof AuthenticatedRemindersRoute
   '/reports': typeof AuthenticatedReportsRoute
   '/farms': typeof AuthenticatedFarmsIndexRoute
-  '/farms/$farmId/reminders': typeof AuthenticatedFarmsFarmIdRemindersRoute
   '/farms/$farmId/staff': typeof AuthenticatedFarmsFarmIdStaffRoute
   '/farms/$farmId': typeof AuthenticatedFarmsFarmIdIndexRoute
+  '/farms/$farmId/reminders/$reminderId': typeof AuthenticatedFarmsFarmIdRemindersReminderIdRoute
+  '/farms/$farmId/reminders': typeof AuthenticatedFarmsFarmIdRemindersIndexRoute
   '/farms/$farmId/tanks': typeof AuthenticatedFarmsFarmIdTanksIndexRoute
   '/farms/$farmId/tanks/$tankId/monitoring': typeof AuthenticatedFarmsFarmIdTanksTankIdMonitoringRoute
   '/farms/$farmId/tanks/$tankId/nutrients': typeof AuthenticatedFarmsFarmIdTanksTankIdNutrientsRoute
@@ -216,11 +225,12 @@ export interface FileRoutesById {
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/farms/': typeof AuthenticatedFarmsIndexRoute
-  '/_authenticated/farms/$farmId/reminders': typeof AuthenticatedFarmsFarmIdRemindersRoute
   '/_authenticated/farms/$farmId/staff': typeof AuthenticatedFarmsFarmIdStaffRoute
   '/_authenticated/farms/$farmId/tanks': typeof AuthenticatedFarmsFarmIdTanksRouteWithChildren
   '/_authenticated/farms/$farmId/': typeof AuthenticatedFarmsFarmIdIndexRoute
+  '/_authenticated/farms/$farmId/reminders/$reminderId': typeof AuthenticatedFarmsFarmIdRemindersReminderIdRoute
   '/_authenticated/farms/$farmId/tanks/$tankId': typeof AuthenticatedFarmsFarmIdTanksTankIdRouteWithChildren
+  '/_authenticated/farms/$farmId/reminders/': typeof AuthenticatedFarmsFarmIdRemindersIndexRoute
   '/_authenticated/farms/$farmId/tanks/': typeof AuthenticatedFarmsFarmIdTanksIndexRoute
   '/_authenticated/farms/$farmId/tanks/$tankId/monitoring': typeof AuthenticatedFarmsFarmIdTanksTankIdMonitoringRoute
   '/_authenticated/farms/$farmId/tanks/$tankId/nutrients': typeof AuthenticatedFarmsFarmIdTanksTankIdNutrientsRoute
@@ -241,11 +251,12 @@ export interface FileRouteTypes {
     | '/reminders'
     | '/reports'
     | '/farms/'
-    | '/farms/$farmId/reminders'
     | '/farms/$farmId/staff'
     | '/farms/$farmId/tanks'
     | '/farms/$farmId/'
+    | '/farms/$farmId/reminders/$reminderId'
     | '/farms/$farmId/tanks/$tankId'
+    | '/farms/$farmId/reminders/'
     | '/farms/$farmId/tanks/'
     | '/farms/$farmId/tanks/$tankId/monitoring'
     | '/farms/$farmId/tanks/$tankId/nutrients'
@@ -264,9 +275,10 @@ export interface FileRouteTypes {
     | '/reminders'
     | '/reports'
     | '/farms'
-    | '/farms/$farmId/reminders'
     | '/farms/$farmId/staff'
     | '/farms/$farmId'
+    | '/farms/$farmId/reminders/$reminderId'
+    | '/farms/$farmId/reminders'
     | '/farms/$farmId/tanks'
     | '/farms/$farmId/tanks/$tankId/monitoring'
     | '/farms/$farmId/tanks/$tankId/nutrients'
@@ -287,11 +299,12 @@ export interface FileRouteTypes {
     | '/_authenticated/reports'
     | '/_authenticated/'
     | '/_authenticated/farms/'
-    | '/_authenticated/farms/$farmId/reminders'
     | '/_authenticated/farms/$farmId/staff'
     | '/_authenticated/farms/$farmId/tanks'
     | '/_authenticated/farms/$farmId/'
+    | '/_authenticated/farms/$farmId/reminders/$reminderId'
     | '/_authenticated/farms/$farmId/tanks/$tankId'
+    | '/_authenticated/farms/$farmId/reminders/'
     | '/_authenticated/farms/$farmId/tanks/'
     | '/_authenticated/farms/$farmId/tanks/$tankId/monitoring'
     | '/_authenticated/farms/$farmId/tanks/$tankId/nutrients'
@@ -405,13 +418,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedFarmsFarmIdIndexRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/farms/$farmId/reminders': {
-      id: '/_authenticated/farms/$farmId/reminders'
-      path: '/farms/$farmId/reminders'
-      fullPath: '/farms/$farmId/reminders'
-      preLoaderRoute: typeof AuthenticatedFarmsFarmIdRemindersRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
     '/_authenticated/farms/$farmId/staff': {
       id: '/_authenticated/farms/$farmId/staff'
       path: '/farms/$farmId/staff'
@@ -424,6 +430,20 @@ declare module '@tanstack/react-router' {
       path: '/farms/$farmId/tanks'
       fullPath: '/farms/$farmId/tanks'
       preLoaderRoute: typeof AuthenticatedFarmsFarmIdTanksRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/farms/$farmId/reminders/': {
+      id: '/_authenticated/farms/$farmId/reminders/'
+      path: '/farms/$farmId/reminders'
+      fullPath: '/farms/$farmId/reminders/'
+      preLoaderRoute: typeof AuthenticatedFarmsFarmIdRemindersIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/farms/$farmId/reminders/$reminderId': {
+      id: '/_authenticated/farms/$farmId/reminders/$reminderId'
+      path: '/farms/$farmId/reminders/$reminderId'
+      fullPath: '/farms/$farmId/reminders/$reminderId'
+      preLoaderRoute: typeof AuthenticatedFarmsFarmIdRemindersReminderIdRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/farms/$farmId/tanks/': {
@@ -536,10 +556,11 @@ interface AuthenticatedRouteChildren {
   AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedFarmsIndexRoute: typeof AuthenticatedFarmsIndexRoute
-  AuthenticatedFarmsFarmIdRemindersRoute: typeof AuthenticatedFarmsFarmIdRemindersRoute
   AuthenticatedFarmsFarmIdStaffRoute: typeof AuthenticatedFarmsFarmIdStaffRoute
   AuthenticatedFarmsFarmIdTanksRoute: typeof AuthenticatedFarmsFarmIdTanksRouteWithChildren
   AuthenticatedFarmsFarmIdIndexRoute: typeof AuthenticatedFarmsFarmIdIndexRoute
+  AuthenticatedFarmsFarmIdRemindersReminderIdRoute: typeof AuthenticatedFarmsFarmIdRemindersReminderIdRoute
+  AuthenticatedFarmsFarmIdRemindersIndexRoute: typeof AuthenticatedFarmsFarmIdRemindersIndexRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
@@ -549,12 +570,14 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedReportsRoute: AuthenticatedReportsRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedFarmsIndexRoute: AuthenticatedFarmsIndexRoute,
-  AuthenticatedFarmsFarmIdRemindersRoute:
-    AuthenticatedFarmsFarmIdRemindersRoute,
   AuthenticatedFarmsFarmIdStaffRoute: AuthenticatedFarmsFarmIdStaffRoute,
   AuthenticatedFarmsFarmIdTanksRoute:
     AuthenticatedFarmsFarmIdTanksRouteWithChildren,
   AuthenticatedFarmsFarmIdIndexRoute: AuthenticatedFarmsFarmIdIndexRoute,
+  AuthenticatedFarmsFarmIdRemindersReminderIdRoute:
+    AuthenticatedFarmsFarmIdRemindersReminderIdRoute,
+  AuthenticatedFarmsFarmIdRemindersIndexRoute:
+    AuthenticatedFarmsFarmIdRemindersIndexRoute,
 }
 
 const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(

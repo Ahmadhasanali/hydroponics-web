@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 import type { Reminder } from '../types'
 import { useReminders, useDeleteReminder } from '../hooks/useReminders'
 import { ReminderForm } from './ReminderForm'
@@ -18,6 +19,7 @@ function formatDate(value: string): string {
 }
 
 export function ReminderList({ farmId }: { farmId: number }) {
+  const navigate = useNavigate()
   const [page, setPage] = useState(1)
   const { data, isLoading, isError, isFetching } = useReminders(farmId, page)
   const deleteReminder = useDeleteReminder()
@@ -51,7 +53,19 @@ export function ReminderList({ farmId }: { farmId: number }) {
           {reminders.map((reminder) => {
             const recurring = reminder.recurrence && reminder.recurrence.type !== 'none'
             return (
-              <Card key={reminder.id}>
+              <Card
+                key={reminder.id}
+                className="cursor-pointer transition-colors hover:bg-secondary/5"
+                onClick={() =>
+                  navigate({
+                    to: '/farms/$farmId/reminders/$reminderId',
+                    params: {
+                      farmId: String(reminder.farm_id),
+                      reminderId: String(reminder.id),
+                    },
+                  })
+                }
+              >
                 <CardContent className="flex items-start justify-between gap-3">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
@@ -73,7 +87,8 @@ export function ReminderList({ farmId }: { farmId: number }) {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation()
                         setEditing(reminder)
                         setFormOpen(true)
                       }}
@@ -83,7 +98,8 @@ export function ReminderList({ farmId }: { farmId: number }) {
                     <Button
                       variant="destructive"
                       size="sm"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation()
                         if (window.confirm(`Hapus reminder "${reminder.title}"?`)) {
                           deleteReminder.mutate(reminder.id)
                         }

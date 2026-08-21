@@ -1,8 +1,8 @@
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { ReminderList } from '../../../../features/reminders/components/ReminderList'
-import { useFarm } from '../../../../features/farms/hooks/useFarms'
+import { ReminderList } from '../../../../../features/reminders/components/ReminderList'
+import { useFarm } from '../../../../../features/farms/hooks/useFarms'
 
-export const Route = createFileRoute('/_authenticated/farms/$farmId/reminders')({
+export const Route = createFileRoute('/_authenticated/farms/$farmId/reminders/')({
   component: RemindersPage,
 })
 
