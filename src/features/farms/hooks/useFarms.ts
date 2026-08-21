@@ -1,6 +1,43 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { api } from '../../../lib/api'
 import type { ApiResponse, Farm } from '../../../lib/types'
+import type { FarmMember } from '../types'
+
+export function useFarmMembers(farmId: number) {
+  return useQuery({
+    queryKey: ['farms', farmId, 'members'],
+    queryFn: () =>
+      api
+        .get<ApiResponse<{ farm: { users: FarmMember[]; staff: unknown[] } }>>(`/farms/${farmId}/members`)
+        .then((r) => r.data.farm),
+    enabled: !!farmId,
+  })
+}
+
+export function useAddFarmMember() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ farmId, email }: { farmId: number; email: string }) =>
+      api.post<ApiResponse<{ farm: unknown }>>(`/farms/${farmId}/members`, { email }),
+    onSuccess: (_data, vars) => {
+      qc.invalidateQueries({ queryKey: ['farms', vars.farmId, 'members'] })
+      qc.invalidateQueries({ queryKey: ['farms', vars.farmId] })
+      qc.invalidateQueries({ queryKey: ['farms'] })
+    },
+  })
+}
+
+export function useRemoveFarmMember() {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: ({ farmId, farmUserId }: { farmId: number; farmUserId: number }) =>
+      api.delete<ApiResponse<null>>(`/farms/${farmId}/members/${farmUserId}`),
+    onSuccess: (_data, vars) => {
+      qc.invalidateQueries({ queryKey: ['farms', vars.farmId, 'members'] })
+      qc.invalidateQueries({ queryKey: ['farms', vars.farmId] })
+    },
+  })
+}
 
 export function useFarms() {
   return useQuery({
