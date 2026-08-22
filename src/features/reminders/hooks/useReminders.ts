@@ -3,23 +3,29 @@ import { api } from '../../../lib/api'
 import type { ApiResponse, PaginatedResponse } from '../../../lib/types'
 import type { CreateReminderInput, Reminder, ReminderOccurrence, UpdateReminderInput } from '../types'
 
-export function useReminders(farmId: number, page = 1) {
+export type RemindersView = 'aktif' | 'riwayat'
+
+export function useReminders(farmId: number, page = 1, view: RemindersView = 'aktif') {
   return useQuery({
-    queryKey: ['reminders', farmId, page],
+    queryKey: ['reminders', farmId, view, page],
     queryFn: () =>
       api.get<PaginatedResponse<Reminder>>('/reminders', {
-        params: { farm_id: farmId, page },
+        params: {
+          farm_id: farmId,
+          page,
+          ...(view === 'riwayat' ? { history: 1 } : { upcoming: 1 }),
+        },
       }),
     enabled: !!farmId,
   })
 }
 
-export function useGlobalReminders(page = 1) {
+export function useGlobalReminders(page = 1, view: RemindersView = 'aktif') {
   return useQuery({
-    queryKey: ['reminders', 'all', 'upcoming', page],
+    queryKey: ['reminders', 'all', view, page],
     queryFn: () =>
       api.get<PaginatedResponse<Reminder>>('/reminders', {
-        params: { page, upcoming: 1 },
+        params: { page, ...(view === 'riwayat' ? { history: 1 } : { upcoming: 1 }) },
       }),
   })
 }
@@ -91,5 +97,14 @@ export function useOccurrenceSkip() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['reminders'] })
     },
+  })
+}
+
+export function useAcknowledgeReminder() {
+  return useMutation({
+    mutationFn: ({ reminderId, occurrenceId }: { reminderId: number; occurrenceId: number }) =>
+      api.post<ApiResponse<{ message: string }>>(
+        `/reminders/${reminderId}/occurrences/${occurrenceId}/acknowledge`,
+      ),
   })
 }
