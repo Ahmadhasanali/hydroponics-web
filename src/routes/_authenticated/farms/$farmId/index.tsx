@@ -109,7 +109,16 @@ function FarmDetailPage() {
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Anggota</CardTitle>
           {canManage && (
-            <Dialog open={addOpen} onOpenChange={setAddOpen}>
+            <Dialog
+              open={addOpen}
+              onOpenChange={(open) => {
+                setAddOpen(open)
+                if (!open) {
+                  setEmailError(null)
+                  setEmail('')
+                }
+              }}
+            >
               <DialogTrigger render={<Button size="sm" />}>Tambah Manager</DialogTrigger>
               <DialogContent>
                 <DialogHeader>
@@ -175,7 +184,7 @@ function FarmDetailPage() {
                       <TableCell>{member.role}</TableCell>
                       <TableCell>
                         <Button
-                          variant="ghost"
+                          variant="destructive"
                           size="sm"
                           disabled={disableDelete || removeMember.isPending}
                           onClick={async () => {
