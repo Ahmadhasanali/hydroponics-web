@@ -1,9 +1,13 @@
+import { useState } from 'react'
 import { createFileRoute, Link } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
-import { api } from '../../../../lib/api'
-import type { ApiResponse } from '../../../../lib/types'
-import { useFarm } from '../../../../features/farms/hooks/useFarms'
-import type { FarmDetail, FarmMember } from '../../../../features/farms/types'
+import {
+  useFarm,
+  useFarmMembers,
+  useAddFarmMember,
+  useRemoveFarmMember,
+} from '../../../../features/farms/hooks/useFarms'
+import { useAuth } from '../../../../hooks/useAuth'
+import type { FarmDetail } from '../../../../features/farms/types'
 import { Button } from '../../../../components/ui/button'
 import {
   Table,
@@ -20,27 +24,32 @@ import {
   CardDescription,
   CardContent,
 } from '../../../../components/ui/card'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '../../../../components/ui/dialog'
+import { Input } from '../../../../components/ui/input'
+import { Label } from '../../../../components/ui/label'
 
 export const Route = createFileRoute('/_authenticated/farms/$farmId/')({
   component: FarmDetailPage,
 })
-
-function useFarmMembers(id: number) {
-  return useQuery({
-    queryKey: ['farms', id, 'members'],
-    queryFn: () =>
-      api
-        .get<ApiResponse<{ farm: { users: FarmMember[]; staff: unknown[] } }>>(`/farms/${id}/members`)
-        .then((r) => r.data.farm),
-    enabled: !!id,
-  })
-}
 
 function FarmDetailPage() {
   const { farmId } = Route.useParams()
   const id = Number(farmId)
   const { data: farm, isLoading, isError } = useFarm(id)
   const membersQuery = useFarmMembers(id)
+  const { user: currentUser } = useAuth()
+  const addMember = useAddFarmMember()
+  const removeMember = useRemoveFarmMember()
+  const [addOpen, setAddOpen] = useState(false)
+  const [email, setEmail] = useState('')
+  const [emailError, setEmailError] = useState<string | null>(null)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
 
   if (!farmId || Number.isNaN(id)) {
     return <p className="text-sm text-red-600">ID farm tidak valid.</p>
@@ -51,6 +60,8 @@ function FarmDetailPage() {
 
   const detail = farm as FarmDetail
   const members = membersQuery.data?.users ?? []
+  const currentRole = members.find((m) => m.id === currentUser?.id)?.role
+  const canManage = currentRole === 'owner' || currentRole === 'manager'
 
   return (
     <div className="space-y-6">
@@ -95,25 +106,97 @@ function FarmDetailPage() {
       </Card>
 
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Anggota</CardTitle>
+          {canManage && (
+            <Dialog open={addOpen} onOpenChange={setAddOpen}>
+              <DialogTrigger render={<Button size="sm" />}>Tambah Manager</DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Tambah Manager</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-3">
+                  <Label htmlFor="member-email">Email manager</Label>
+                  <Input
+                    id="member-email"
+                    type="email"
+                    placeholder="nama@email.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                  {emailError && <p className="text-sm text-red-600">{emailError}</p>}
+                  <Button
+                    disabled={addMember.isPending}
+                    onClick={async () => {
+                      setEmailError(null)
+                      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                        setEmailError('Email tidak valid')
+                        return
+                      }
+                      try {
+                        await addMember.mutateAsync({ farmId: id, email })
+                        setEmail('')
+                        setAddOpen(false)
+                      } catch (err: any) {
+                        const msg =
+                          err?.errors?.email?.[0] || err?.message || 'Gagal menambahkan anggota'
+                        setEmailError(msg)
+                      }
+                    }}
+                  >
+                    {addMember.isPending ? 'Menambahkan...' : 'Tambahkan'}
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          )}
         </CardHeader>
         <CardContent>
+          {deleteError && <p className="mb-2 text-sm text-red-600">{deleteError}</p>}
           {members.length ? (
             <Table>
               <TableHeader>
                 <TableRow>
                   <TableHead>Nama</TableHead>
+                  <TableHead>Email</TableHead>
                   <TableHead>Peran</TableHead>
+                  <TableHead>Aksi</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {members.map((member) => (
-                  <TableRow key={member.id}>
-                    <TableCell>{member.name}</TableCell>
-                    <TableCell>{member.role}</TableCell>
-                  </TableRow>
-                ))}
+                {members.map((member) => {
+                  const isOwner = member.role === 'owner'
+                  const isSelf = member.id === currentUser?.id
+                  const disableDelete = isOwner || isSelf || !canManage || !member.farmUserId
+                  return (
+                    <TableRow key={member.id}>
+                      <TableCell>{member.name}</TableCell>
+                      <TableCell>{member.email ?? '-'}</TableCell>
+                      <TableCell>{member.role}</TableCell>
+                      <TableCell>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          disabled={disableDelete || removeMember.isPending}
+                          onClick={async () => {
+                            if (!window.confirm(`Hapus ${member.name} dari farm?`)) return
+                            try {
+                              await removeMember.mutateAsync({
+                                farmId: id,
+                                farmUserId: member.farmUserId!,
+                              })
+                              setDeleteError(null)
+                            } catch (e: any) {
+                              setDeleteError(e?.message || 'Gagal menghapus')
+                            }
+                          }}
+                        >
+                          Hapus
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  )
+                })}
               </TableBody>
             </Table>
           ) : (
