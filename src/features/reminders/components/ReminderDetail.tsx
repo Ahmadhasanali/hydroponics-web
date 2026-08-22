@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from '@tanstack/react-router'
 import type { ReminderOccurrence } from '../types'
 import {
+  useAcknowledgeReminder,
   useDeleteReminder,
   useOccurrenceDone,
   useOccurrenceSkip,
@@ -32,6 +33,14 @@ const STATUS_LABEL: Record<string, string> = {
 export function ReminderDetail({ reminderId }: { reminderId: number }) {
   const navigate = useNavigate()
   const { data: reminder, isLoading, isError } = useReminder(reminderId)
+  const acknowledge = useAcknowledgeReminder()
+
+  useEffect(() => {
+    if (!reminder?.occurrences?.length) return
+    reminder.occurrences.forEach((o) => {
+      acknowledge.mutate({ reminderId: reminder.id, occurrenceId: o.id })
+    })
+  }, [reminder?.id])
   const occurrenceDone = useOccurrenceDone()
   const occurrenceSkip = useOccurrenceSkip()
   const deleteReminder = useDeleteReminder()
