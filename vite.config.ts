@@ -17,8 +17,8 @@ export default defineConfig({
       manifest: {
         name: 'Hydroponics Farm',
         short_name: 'HydroFarm',
-        theme_color: '#0b1220',
-        background_color: '#0b1220',
+        theme_color: '#0099ff',
+        background_color: '#0099ff',
         display: 'standalone',
         icons: [
           { src: '/pwa-assets/icon-192.png', sizes: '192x192', type: 'image/png' },
