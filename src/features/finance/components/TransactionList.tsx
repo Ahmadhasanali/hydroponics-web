@@ -4,22 +4,8 @@ import { Input } from '../../../components/ui/input'
 import { Card, CardContent } from '../../../components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../../components/ui/table'
 import { useDeleteTransaction, useFinancialTransactions } from '../hooks/useFinancialData'
+import { formatDate, formatRupiah } from '../utils/format'
 import type { TransactionFilters } from '../types'
-
-function formatRupiah(n: number | string): string {
-  const num = typeof n === 'string' ? Number(n) : n
-  return new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR',
-    maximumFractionDigits: 0,
-  }).format(Number.isFinite(num) ? num : 0)
-}
-
-function formatDate(iso: string): string {
-  const d = new Date(iso)
-  if (Number.isNaN(d.getTime())) return iso
-  return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })
-}
 
 interface TransactionListProps {
   farmId: number | ''

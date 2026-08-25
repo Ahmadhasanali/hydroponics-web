@@ -8,27 +8,16 @@ import { TransactionList } from '../../features/finance/components/TransactionLi
 import { TransactionFormDialog } from '../../features/finance/components/TransactionFormDialog'
 import { CategoryManagerModal } from '../../features/finance/components/CategoryManagerModal'
 import { useFinancialCategories, useFinancialSummary } from '../../features/finance/hooks/useFinancialData'
+import { formatRupiah, toISO } from '../../features/finance/utils/format'
 
 export const Route = createFileRoute('/_authenticated/finance')({
   component: FinancePage,
 })
 
-function toISO(d: Date): string {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
-}
-
 function monthRange(date: Date): { from: string; to: string } {
   const from = new Date(date.getFullYear(), date.getMonth(), 1)
   const to = new Date(date.getFullYear(), date.getMonth() + 1, 0)
   return { from: toISO(from), to: toISO(to) }
-}
-
-function formatRupiah(n: number): string {
-  return new Intl.NumberFormat('id-ID', {
-    style: 'currency',
-    currency: 'IDR',
-    maximumFractionDigits: 0,
-  }).format(n)
 }
 
 function deltaLabel(current: number, prev: number): string | null {

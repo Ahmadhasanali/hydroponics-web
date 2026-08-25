@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../../compo
 import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input'
 import { useCreateTransaction } from '../hooks/useFinancialData'
+import { todayISO } from '../utils/format'
 import type { FinancialCategory, TransactionType } from '../types'
 
 interface TransactionFormDialogProps {
@@ -10,11 +11,6 @@ interface TransactionFormDialogProps {
   onClose: () => void
   farmId: number
   categories: FinancialCategory[]
-}
-
-function todayISO(): string {
-  const now = new Date()
-  return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`
 }
 
 export function TransactionFormDialog({ open, onClose, farmId, categories }: TransactionFormDialogProps) {
@@ -63,7 +59,10 @@ export function TransactionFormDialog({ open, onClose, farmId, categories }: Tra
         <div className="grid grid-cols-2 gap-2">
           <button
             type="button"
-            onClick={() => setType('expense')}
+            onClick={() => {
+              setType('expense')
+              setCategoryId(null)
+            }}
             className={
               type === 'expense'
                 ? 'rounded-xl px-3 py-2 font-semibold bg-red-500/15 text-red-600'
@@ -74,7 +73,10 @@ export function TransactionFormDialog({ open, onClose, farmId, categories }: Tra
           </button>
           <button
             type="button"
-            onClick={() => setType('income')}
+            onClick={() => {
+              setType('income')
+              setCategoryId(null)
+            }}
             className={
               type === 'income'
                 ? 'rounded-xl px-3 py-2 font-semibold bg-emerald-500/15 text-emerald-600'
