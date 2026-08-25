@@ -98,8 +98,8 @@ export function FinanceWidget() {
                   expenseDelta.positive === null
                     ? 'text-xs text-muted-foreground'
                     : expenseDelta.positive
-                      ? 'text-xs font-semibold text-emerald-600'
-                      : 'text-xs font-semibold text-red-600'
+                      ? 'text-xs font-semibold text-red-600'
+                      : 'text-xs font-semibold text-emerald-600'
                 }
               >
                 {expenseDelta.text} vs lalu

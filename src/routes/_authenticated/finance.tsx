@@ -21,11 +21,17 @@ function monthRange(date: Date): { from: string; to: string } {
   return { from: toISO(from), to: toISO(to) }
 }
 
-function deltaLabel(current: number, prev: number): string | null {
-  if (prev === 0) return current === 0 ? null : 'baru'
+function deltaLabel(current: number, prev: number): { text: string; positive: boolean | null } {
+  if (prev === 0) return { text: current === 0 ? '—' : 'baru', positive: null }
   const pct = ((current - prev) / Math.abs(prev)) * 100
   const sign = pct > 0 ? '↑' : pct < 0 ? '↓' : '→'
-  return `${sign} ${Math.abs(pct).toFixed(0)}%`
+  return { text: `${sign} ${Math.abs(pct).toFixed(0)}%`, positive: pct > 0 ? true : pct < 0 ? false : null }
+}
+
+function deltaClass(positive: boolean | null, inverted = false): string {
+  if (positive === null) return 'text-muted-foreground'
+  if (inverted) return positive ? 'text-red-600' : 'text-emerald-600'
+  return positive ? 'text-emerald-600' : 'text-red-600'
 }
 
 function FinancePage() {
@@ -80,9 +86,14 @@ function FinancePage() {
             </CardHeader>
             <CardContent>
               <p className="text-xl font-semibold text-emerald-600">{formatRupiah(currSummary?.income ?? 0)}</p>
-              <p className="text-xs text-muted-foreground">
-                {deltaLabel(currSummary?.income ?? 0, prevSummary?.income ?? 0) ?? '—'} vs bulan lalu
-              </p>
+              {(() => {
+                const d = deltaLabel(currSummary?.income ?? 0, prevSummary?.income ?? 0)
+                return (
+                  <p className={`text-xs font-medium ${deltaClass(d.positive)}`}>
+                    {d.text} <span className="font-normal text-muted-foreground">vs bulan lalu</span>
+                  </p>
+                )
+              })()}
             </CardContent>
           </Card>
           <Card>
@@ -91,9 +102,14 @@ function FinancePage() {
             </CardHeader>
             <CardContent>
               <p className="text-xl font-semibold text-red-600">{formatRupiah(currSummary?.expense ?? 0)}</p>
-              <p className="text-xs text-muted-foreground">
-                {deltaLabel(currSummary?.expense ?? 0, prevSummary?.expense ?? 0) ?? '—'} vs bulan lalu
-              </p>
+              {(() => {
+                const d = deltaLabel(currSummary?.expense ?? 0, prevSummary?.expense ?? 0)
+                return (
+                  <p className={`text-xs font-medium ${deltaClass(d.positive, true)}`}>
+                    {d.text} <span className="font-normal text-muted-foreground">vs bulan lalu</span>
+                  </p>
+                )
+              })()}
             </CardContent>
           </Card>
           <Card>
@@ -102,9 +118,14 @@ function FinancePage() {
             </CardHeader>
             <CardContent>
               <p className="text-xl font-semibold text-foreground">{formatRupiah(currSummary?.net ?? 0)}</p>
-              <p className="text-xs text-muted-foreground">
-                {deltaLabel(currSummary?.net ?? 0, prevSummary?.net ?? 0) ?? '—'} vs bulan lalu
-              </p>
+              {(() => {
+                const d = deltaLabel(currSummary?.net ?? 0, prevSummary?.net ?? 0)
+                return (
+                  <p className={`text-xs font-medium ${deltaClass(d.positive)}`}>
+                    {d.text} <span className="font-normal text-muted-foreground">vs bulan lalu</span>
+                  </p>
+                )
+              })()}
             </CardContent>
           </Card>
         </div>
