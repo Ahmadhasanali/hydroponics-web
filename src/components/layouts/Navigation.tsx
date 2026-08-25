@@ -11,6 +11,7 @@ import {
   Settings,
   Thermometer,
   User,
+  Wallet,
   Warehouse,
   type LucideIcon,
 } from 'lucide-react'
@@ -36,6 +37,7 @@ type NavItem = {
 const NAV_ITEMS: NavItem[] = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { to: '/farms', label: 'Farms', icon: Warehouse },
+  { to: '/finance', label: 'Keuangan', icon: Wallet },
   { to: '/reports', label: 'Laporan', icon: BarChart3 },
   { to: '/activity', label: 'Aktivitas', icon: History },
   { to: '/reminders', label: 'Pengingat', icon: Bell },
