@@ -6,6 +6,7 @@ import { Droplets, Gauge, FlaskConical, Thermometer, Zap } from 'lucide-react'
 import { FarmSwitcher } from './FarmSwitcher'
 import { TankStatusCard } from './TankStatusCard'
 import { ActivityFeed } from './ActivityFeed'
+import { FinanceWidget } from '../../finance/components/FinanceWidget'
 import { useDashboard, type DashboardStats } from '../hooks/useDashboard'
 
 function isStatsObject(stats: unknown): stats is DashboardStats {
@@ -121,6 +122,8 @@ export function Dashboard() {
           />
         </div>
       )}
+
+      <FinanceWidget />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {data.tanks.length === 0 ? (

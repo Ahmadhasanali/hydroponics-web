@@ -7,6 +7,7 @@ import { FarmPicker } from '../../features/finance/components/FarmPicker'
 import { TransactionList } from '../../features/finance/components/TransactionList'
 import { TransactionFormDialog } from '../../features/finance/components/TransactionFormDialog'
 import { CategoryManagerModal } from '../../features/finance/components/CategoryManagerModal'
+import { FinanceReport } from '../../features/finance/components/FinanceReport'
 import { useFinancialCategories, useFinancialSummary } from '../../features/finance/hooks/useFinancialData'
 import { formatRupiah, toISO } from '../../features/finance/utils/format'
 
@@ -126,9 +127,7 @@ function FinancePage() {
         </TabsContent>
 
         <TabsContent value="laporan" className="pt-4">
-          <div className="rounded-xl border border-dashed p-8 text-center text-sm text-muted-foreground">
-            Laporan keuangan akan tersedia di sini.
-          </div>
+          <FinanceReport farmId={farmId} />
         </TabsContent>
 
         <TabsContent value="kategori" className="space-y-3 pt-4">
