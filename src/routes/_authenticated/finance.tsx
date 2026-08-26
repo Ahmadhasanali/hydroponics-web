@@ -10,6 +10,8 @@ import { CategoryManagerModal } from '../../features/finance/components/Category
 import { FinanceReport } from '../../features/finance/components/FinanceReport'
 import { useFinancialCategories, useFinancialSummary } from '../../features/finance/hooks/useFinancialData'
 import { formatRupiah, toISO } from '../../features/finance/utils/format'
+import { useFarms } from '../../features/farms/hooks/useFarms'
+import { useAutoSelectSingle } from '../../hooks/useAutoSelectSingle'
 
 export const Route = createFileRoute('/_authenticated/finance')({
   component: FinancePage,
@@ -38,6 +40,9 @@ function FinancePage() {
   const [farmId, setFarmId] = useState<number | ''>('')
   const [txOpen, setTxOpen] = useState(false)
   const [catOpen, setCatOpen] = useState(false)
+
+  const { data: farms } = useFarms()
+  useAutoSelectSingle(farms, farmId, (farm) => setFarmId(farm.id))
 
   const { data: categories = [] } = useFinancialCategories(farmId)
 
