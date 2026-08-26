@@ -1,6 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useFarms } from '../../features/farms/hooks/useFarms'
+import { useAutoSelectSingle } from '../../hooks/useAutoSelectSingle'
 import { FarmSwitcher } from '../../features/dashboard/components/FarmSwitcher'
 import { ActivityLogList } from '../../features/activity/components/ActivityLogList'
 
@@ -12,11 +13,7 @@ function ActivityPage() {
   const { data: farms } = useFarms()
   const [farmId, setFarmId] = useState<number | undefined>(undefined)
 
-  useEffect(() => {
-    if (farmId === undefined && farms?.length) {
-      setFarmId(farms[0].id)
-    }
-  }, [farms, farmId])
+  useAutoSelectSingle(farms, farmId, (farm) => setFarmId(farm.id))
 
   return (
     <div className="space-y-6 p-6">
