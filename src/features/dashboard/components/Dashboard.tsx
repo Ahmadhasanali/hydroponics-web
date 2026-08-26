@@ -8,6 +8,7 @@ import { TankStatusCard } from './TankStatusCard'
 import { ActivityFeed } from './ActivityFeed'
 import { FinanceWidget } from '../../finance/components/FinanceWidget'
 import { useDashboard, type DashboardStats } from '../hooks/useDashboard'
+import { useAutoSelectSingle } from '../../../hooks/useAutoSelectSingle'
 
 function isStatsObject(stats: unknown): stats is DashboardStats {
   return typeof stats === 'object' && stats !== null && !Array.isArray(stats)
@@ -44,6 +45,7 @@ function StatCard({
 export function Dashboard() {
   const [farmId, setFarmId] = useState<number | undefined>(undefined)
   const { data, isLoading, isError } = useDashboard(farmId)
+  useAutoSelectSingle(data?.farms, farmId, (farm) => setFarmId(farm.id))
 
   if (isLoading) return <p className="text-sm text-muted-foreground">Memuat dashboard...</p>
   if (isError || !data) return <p className="text-sm text-red-600">Gagal memuat dashboard.</p>
