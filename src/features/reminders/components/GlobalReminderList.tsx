@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import type { Reminder } from '../types'
 import { useGlobalReminders } from '../hooks/useReminders'
+import { useFarms } from '../../farms/hooks/useFarms'
 import { Button } from '../../../components/ui/button'
 import { Card, CardContent } from '../../../components/ui/card'
 import { ReminderForm } from './ReminderForm'
@@ -49,6 +50,17 @@ export function GlobalReminderList() {
   const [pickerOpen, setPickerOpen] = useState(false)
   const [formOpen, setFormOpen] = useState(false)
   const [formFarmId, setFormFarmId] = useState<number | null>(null)
+  const { data: farms } = useFarms()
+
+  const openNewReminder = () => {
+    const list = farms ?? []
+    if (list.length === 1) {
+      setFormFarmId(list[0].id)
+      setFormOpen(true)
+      return
+    }
+    setPickerOpen(true)
+  }
 
   const openDetail = (r: Reminder) =>
     navigate({
@@ -59,7 +71,7 @@ export function GlobalReminderList() {
   return (
     <div className="space-y-3">
       <div className="flex justify-end">
-        <Button onClick={() => setPickerOpen(true)}>Tambah Pengingat</Button>
+        <Button onClick={openNewReminder}>Tambah Pengingat</Button>
       </div>
 
       <section className="space-y-3">
