@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from '@tanstack/react-router'
 import {
   BarChart3,
@@ -112,6 +112,23 @@ function RecordSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (v: 
   const [tankId, setTankId] = useState<number | null>(null)
   const { data: tanks } = useTanks(farmId ?? 0)
 
+  useEffect(() => {
+    if (step === 'farm' && farms && farms.length === 1 && farmId === null) {
+      setFarmId(farms[0].id)
+      setStep('tank')
+    }
+  }, [farms, step, farmId])
+
+  useEffect(() => {
+    if (step === 'tank' && farmId !== null && tanks && tanks.length === 1 && tankId === null) {
+      setTankId(tanks[0].id)
+      setStep('type')
+    }
+  }, [tanks, step, farmId, tankId])
+
+  const selectedFarm = farms?.find((f) => f.id === farmId) ?? null
+  const selectedTank = tanks?.find((t) => t.id === tankId) ?? null
+
   // reset when dialog closes
   const close = () => {
     onOpenChange(false)
@@ -164,6 +181,20 @@ function RecordSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (v: 
             {step === 'farm' ? 'Pilih farm tujuan catatan.' : step === 'tank' ? 'Pilih tank tujuan catatan.' : 'Pilih jenis catatan yang ingin Anda input.'}
           </DialogDescription>
         </DialogHeader>
+        {(selectedFarm || selectedTank) && (
+          <div className="flex flex-wrap gap-2">
+            {selectedFarm && (
+              <span className="rounded-full bg-secondary/15 px-3 py-1 text-xs font-semibold text-secondary">
+                Farm: {selectedFarm.name}
+              </span>
+            )}
+            {selectedTank && (
+              <span className="rounded-full bg-secondary/15 px-3 py-1 text-xs font-semibold text-secondary">
+                Tank: {selectedTank.name}
+              </span>
+            )}
+          </div>
+        )}
         <div className="grid gap-2">
           {step === 'farm' && (farms ?? []).map((farm) => (
             <button
@@ -192,6 +223,10 @@ function RecordSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (v: 
               <span className="text-sm font-semibold text-foreground">{tank.name}</span>
             </button>
           ))}
+
+          {step === 'tank' && tanks && tanks.length === 0 && (
+            <p className="py-4 text-center text-sm text-muted-foreground">Belum ada tank di farm ini.</p>
+          )}
 
           {step === 'type' &&
             actions.map((action) => {

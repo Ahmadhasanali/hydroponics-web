@@ -3,6 +3,7 @@ import { useFarms } from '../../farms/hooks/useFarms'
 import { useTanks } from '../../tanks/hooks/useTanks'
 import { Input } from '../../../components/ui/input'
 import { Label } from '../../../components/ui/label'
+import { useAutoSelectSingle } from '../../../hooks/useAutoSelectSingle'
 import type { ReportParams } from '../types'
 
 interface ReportFiltersProps {
@@ -21,6 +22,14 @@ export function ReportFilters({ params, onChange }: ReportFiltersProps) {
 
   const farms = farmsQuery.data ?? []
   const tanks = tanksQuery.data ?? []
+
+  useAutoSelectSingle(farms, params.farm_id, (farm) =>
+    onChange({ ...params, farm_id: String(farm.id), tank_id: '' }),
+  )
+
+  useAutoSelectSingle(tanksQuery.data, params.tank_id, (tank) =>
+    onChange({ ...params, tank_id: String(tank.id) }),
+  )
 
   useEffect(() => {
     setTankId(params.tank_id ?? '')
