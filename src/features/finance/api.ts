@@ -90,8 +90,9 @@ export async function createCategory(input: {
   farm_id: number
   name: string
   type: TransactionType
-}): Promise<void> {
-  await api.post('/financial-categories', input)
+}): Promise<FinancialCategory> {
+  const res = await api.post<SuccessEnvelope<{ category: FinancialCategory }>>('/financial-categories', input)
+  return res.data.category
 }
 
 export async function deactivateCategory(id: number): Promise<void> {

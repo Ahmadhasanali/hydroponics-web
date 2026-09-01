@@ -1,8 +1,9 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
+import { Plus } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../../components/ui/dialog'
 import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input'
-import { useCreateTransaction } from '../hooks/useFinancialData'
+import { useCreateCategory, useCreateTransaction } from '../hooks/useFinancialData'
 import { todayISO } from '../utils/format'
 import type { FinancialCategory, TransactionType } from '../types'
 
@@ -16,17 +17,88 @@ interface TransactionFormDialogProps {
 export function TransactionFormDialog({ open, onClose, farmId, categories }: TransactionFormDialogProps) {
   const [type, setType] = useState<TransactionType>('expense')
   const [categoryId, setCategoryId] = useState<number | null>(null)
+  const [categoryQuery, setCategoryQuery] = useState('')
+  const [categoryOpen, setCategoryOpen] = useState(false)
   const [amount, setAmount] = useState('')
   const [date, setDate] = useState(todayISO())
   const [note, setNote] = useState('')
   const create = useCreateTransaction()
+  const createCategory = useCreateCategory()
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   const visibleCategories = useMemo(
     () => categories.filter((c) => c.type === type && c.is_active),
     [categories, type],
   )
 
+  const filteredCategories = useMemo(() => {
+    const q = categoryQuery.trim().toLowerCase()
+    if (q === '') return visibleCategories
+    return visibleCategories.filter((c) => c.name.toLowerCase().includes(q))
+  }, [visibleCategories, categoryQuery])
+
+  const selectedCategory = useMemo(
+    () => categories.find((c) => c.id === categoryId) ?? null,
+    [categories, categoryId],
+  )
+
+  const hasExactMatch = useMemo(() => {
+    const q = categoryQuery.trim().toLowerCase()
+    if (q === '') return false
+    return visibleCategories.some((c) => c.name.toLowerCase() === q)
+  }, [visibleCategories, categoryQuery])
+
+  const showCreateOption = categoryQuery.trim() !== '' && !hasExactMatch
+
   const canSubmit = categoryId !== null && amount !== '' && Number(amount) > 0 && farmId !== 0
+
+  useEffect(() => {
+    if (!open) {
+      setCategoryOpen(false)
+    }
+  }, [open])
+
+  useEffect(() => {
+    function handlePointerDownOutside(e: PointerEvent | MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setCategoryOpen(false)
+      }
+    }
+    if (categoryOpen) {
+      document.addEventListener('pointerdown', handlePointerDownOutside, true)
+      document.addEventListener('mousedown', handlePointerDownOutside, true)
+      return () => {
+        document.removeEventListener('pointerdown', handlePointerDownOutside, true)
+        document.removeEventListener('mousedown', handlePointerDownOutside, true)
+      }
+    }
+  }, [categoryOpen])
+
+  function handleTypeChange(next: TransactionType) {
+    setType(next)
+    setCategoryId(null)
+    setCategoryQuery('')
+    setCategoryOpen(false)
+  }
+
+  function handleSelectCategory(cat: FinancialCategory) {
+    setCategoryId(cat.id)
+    setCategoryQuery(cat.name)
+    setCategoryOpen(false)
+  }
+
+  async function handleCreateCategory() {
+    const name = categoryQuery.trim()
+    if (name === '' || farmId === 0) return
+    try {
+      const created = await createCategory.mutateAsync({ farm_id: farmId, name, type })
+      setCategoryId(created.id)
+      setCategoryQuery(created.name)
+      setCategoryOpen(false)
+    } catch {
+      // error handled by mutation; keep dropdown open
+    }
+  }
 
   function submit(): void {
     if (!canSubmit || categoryId === null) return
@@ -43,6 +115,8 @@ export function TransactionFormDialog({ open, onClose, farmId, categories }: Tra
         onSuccess: () => {
           setAmount('')
           setNote('')
+          setCategoryId(null)
+          setCategoryQuery('')
           onClose()
         },
       },
@@ -59,10 +133,7 @@ export function TransactionFormDialog({ open, onClose, farmId, categories }: Tra
         <div className="grid grid-cols-2 gap-2">
           <button
             type="button"
-            onClick={() => {
-              setType('expense')
-              setCategoryId(null)
-            }}
+            onClick={() => handleTypeChange('expense')}
             className={
               type === 'expense'
                 ? 'rounded-xl px-3 py-2 font-semibold bg-red-500/15 text-red-600'
@@ -73,10 +144,7 @@ export function TransactionFormDialog({ open, onClose, farmId, categories }: Tra
           </button>
           <button
             type="button"
-            onClick={() => {
-              setType('income')
-              setCategoryId(null)
-            }}
+            onClick={() => handleTypeChange('income')}
             className={
               type === 'income'
                 ? 'rounded-xl px-3 py-2 font-semibold bg-emerald-500/15 text-emerald-600'
@@ -87,21 +155,65 @@ export function TransactionFormDialog({ open, onClose, farmId, categories }: Tra
           </button>
         </div>
 
-        <div className="flex flex-wrap gap-2">
-          {visibleCategories.map((c) => (
-            <button
-              key={c.id}
-              type="button"
-              onClick={() => setCategoryId(c.id)}
-              className={
-                categoryId === c.id
-                  ? 'rounded-full px-3 py-1.5 text-sm font-semibold bg-primary text-primary-foreground'
-                  : 'rounded-full px-3 py-1.5 text-sm border border-border text-muted-foreground'
+        <div ref={dropdownRef} className="relative">
+          <Input
+            placeholder="Kategori"
+            value={categoryOpen ? categoryQuery : selectedCategory ? selectedCategory.name : categoryQuery}
+            onFocus={() => setCategoryOpen(true)}
+            onChange={(e) => {
+              setCategoryQuery(e.target.value)
+              setCategoryOpen(true)
+              // if user edits query to not match selected, clear selection
+              if (selectedCategory && e.target.value !== selectedCategory.name) {
+                const stillMatches = visibleCategories.some(
+                  (c) => c.id === selectedCategory.id && c.name.toLowerCase() === e.target.value.trim().toLowerCase(),
+                )
+                if (!stillMatches && e.target.value.trim() !== selectedCategory.name) {
+                  setCategoryId(null)
+                }
               }
-            >
-              {c.name}
-            </button>
-          ))}
+            }}
+          />
+
+          {categoryOpen && (
+            <div className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-xl border border-border bg-popover shadow-lg">
+              {filteredCategories.length === 0 && !showCreateOption ? (
+                <div className="px-3 py-3 text-sm text-muted-foreground">Tidak ada kategori</div>
+              ) : (
+                filteredCategories.map((c) => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    onClick={() => handleSelectCategory(c)}
+                    className={`flex w-full items-center justify-between px-3 py-2.5 text-left text-sm hover:bg-muted ${
+                      categoryId === c.id ? 'bg-muted font-semibold text-foreground' : 'text-foreground'
+                    }`}
+                  >
+                    <span>{c.name}</span>
+                    {c.is_default && (
+                      <span className="ml-2 rounded-full bg-secondary/20 px-2 py-0.5 text-[10px] font-medium text-secondary">bawaan</span>
+                    )}
+                  </button>
+                ))
+              )}
+              {showCreateOption && (
+                <button
+                  type="button"
+                  onClick={handleCreateCategory}
+                  disabled={createCategory.isPending}
+                  className="flex w-full items-center gap-2 border-t border-border px-3 py-2.5 text-left text-sm font-medium text-primary hover:bg-muted disabled:opacity-50"
+                >
+                  <Plus className="size-4 shrink-0" />
+                  {createCategory.isPending ? 'Membuat...' : `Buat kategori "${categoryQuery.trim()}"`}
+                </button>
+              )}
+            </div>
+          )}
+          {selectedCategory && !categoryOpen && (
+            <p className="mt-1 text-xs text-muted-foreground">
+              Terpilih: <span className="font-medium text-foreground">{selectedCategory.name}</span>
+            </p>
+          )}
         </div>
 
         <Input
