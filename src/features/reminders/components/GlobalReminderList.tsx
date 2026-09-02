@@ -20,6 +20,31 @@ function formatDate(value: string): string {
   })
 }
 
+function getNearestMillis(reminder: Reminder): number {
+  const occ = reminder.occurrences ?? []
+  const pending = occ.filter((o) => o.status === 'pending' && !o.notified_at)
+  const candidate =
+    pending.length > 0
+      ? [...pending].sort(
+          (a, b) => new Date(a.scheduled_at).getTime() - new Date(b.scheduled_at).getTime(),
+        )[0].scheduled_at
+      : reminder.starts_at
+  const t = new Date(candidate).getTime()
+  return Number.isNaN(t) ? Infinity : t
+}
+
+function getLatestMillis(reminder: Reminder): number {
+  const occ = reminder.occurrences ?? []
+  const candidate =
+    occ.length > 0
+      ? [...occ].sort(
+          (a, b) => new Date(b.scheduled_at).getTime() - new Date(a.scheduled_at).getTime(),
+        )[0].scheduled_at
+      : reminder.starts_at
+  const t = new Date(candidate).getTime()
+  return Number.isNaN(t) ? -Infinity : t
+}
+
 function ReminderCard({ reminder, onOpen }: { reminder: Reminder; onOpen: () => void }) {
   return (
     <Card className="cursor-pointer transition-colors hover:bg-secondary/5" onClick={onOpen}>
@@ -83,9 +108,11 @@ export function GlobalReminderList() {
         ) : (activeQuery.data?.data ?? []).length === 0 ? (
           <p className="text-sm text-muted-foreground">Belum ada pengingat aktif.</p>
         ) : (
-          (activeQuery.data?.data ?? []).map((reminder: Reminder) => (
-            <ReminderCard key={reminder.id} reminder={reminder} onOpen={() => openDetail(reminder)} />
-          ))
+          [...(activeQuery.data?.data ?? [])]
+            .sort((a, b) => getNearestMillis(a) - getNearestMillis(b))
+            .map((reminder: Reminder) => (
+              <ReminderCard key={reminder.id} reminder={reminder} onOpen={() => openDetail(reminder)} />
+            ))
         )}
         {activeQuery.data?.meta && activeQuery.data.meta.last_page > 1 && (
           <div className="flex items-center justify-between text-sm">
@@ -121,9 +148,11 @@ export function GlobalReminderList() {
         ) : (historyQuery.data?.data ?? []).length === 0 ? (
           <p className="text-sm text-muted-foreground">Belum ada riwayat.</p>
         ) : (
-          (historyQuery.data?.data ?? []).map((reminder: Reminder) => (
-            <ReminderCard key={reminder.id} reminder={reminder} onOpen={() => openDetail(reminder)} />
-          ))
+          [...(historyQuery.data?.data ?? [])]
+            .sort((a, b) => getLatestMillis(b) - getLatestMillis(a))
+            .map((reminder: Reminder) => (
+              <ReminderCard key={reminder.id} reminder={reminder} onOpen={() => openDetail(reminder)} />
+            ))
         )}
         {historyQuery.data?.meta && historyQuery.data.meta.last_page > 1 && (
           <div className="flex items-center justify-between text-sm">

@@ -18,6 +18,31 @@ function formatDate(value: string): string {
   })
 }
 
+function getNearestMillis(reminder: Reminder): number {
+  const occ = reminder.occurrences ?? []
+  const pending = occ.filter((o) => o.status === 'pending' && !o.notified_at)
+  const candidate =
+    pending.length > 0
+      ? [...pending].sort(
+          (a, b) => new Date(a.scheduled_at).getTime() - new Date(b.scheduled_at).getTime(),
+        )[0].scheduled_at
+      : reminder.starts_at
+  const t = new Date(candidate).getTime()
+  return Number.isNaN(t) ? Infinity : t
+}
+
+function getLatestMillis(reminder: Reminder): number {
+  const occ = reminder.occurrences ?? []
+  const candidate =
+    occ.length > 0
+      ? [...occ].sort(
+          (a, b) => new Date(b.scheduled_at).getTime() - new Date(a.scheduled_at).getTime(),
+        )[0].scheduled_at
+      : reminder.starts_at
+  const t = new Date(candidate).getTime()
+  return Number.isNaN(t) ? -Infinity : t
+}
+
 function ReminderCard({
   reminder,
   showEdit,
@@ -118,21 +143,23 @@ export function ReminderList({ farmId }: { farmId: number }) {
           <p className="text-sm text-muted-foreground">Belum ada pengingat aktif.</p>
         ) : (
           <div className="space-y-3">
-            {(activeQuery.data?.data ?? []).map((r) => (
-              <ReminderCard
-                key={r.id}
-                reminder={r}
-                showEdit
-                onEdit={() => {
-                  setEditing(r)
-                  setFormOpen(true)
-                }}
-                onDelete={() => {
-                  if (window.confirm(`Hapus reminder "${r.title}"?`)) deleteReminder.mutate(r.id)
-                }}
-                onOpen={() => openDetail(r)}
-              />
-            ))}
+            {[...(activeQuery.data?.data ?? [])]
+              .sort((a, b) => getNearestMillis(a) - getNearestMillis(b))
+              .map((r) => (
+                <ReminderCard
+                  key={r.id}
+                  reminder={r}
+                  showEdit
+                  onEdit={() => {
+                    setEditing(r)
+                    setFormOpen(true)
+                  }}
+                  onDelete={() => {
+                    if (window.confirm(`Hapus reminder "${r.title}"?`)) deleteReminder.mutate(r.id)
+                  }}
+                  onOpen={() => openDetail(r)}
+                />
+              ))}
           </div>
         )}
         {activeQuery.data?.meta && activeQuery.data.meta.last_page > 1 && (
@@ -170,17 +197,19 @@ export function ReminderList({ farmId }: { farmId: number }) {
           <p className="text-sm text-muted-foreground">Belum ada riwayat.</p>
         ) : (
           <div className="space-y-3">
-            {(historyQuery.data?.data ?? []).map((r) => (
-              <ReminderCard
-                key={r.id}
-                reminder={r}
-                showEdit={false}
-                onDelete={() => {
-                  if (window.confirm(`Hapus reminder "${r.title}"?`)) deleteReminder.mutate(r.id)
-                }}
-                onOpen={() => openDetail(r)}
-              />
-            ))}
+            {[...(historyQuery.data?.data ?? [])]
+              .sort((a, b) => getLatestMillis(b) - getLatestMillis(a))
+              .map((r) => (
+                <ReminderCard
+                  key={r.id}
+                  reminder={r}
+                  showEdit={false}
+                  onDelete={() => {
+                    if (window.confirm(`Hapus reminder "${r.title}"?`)) deleteReminder.mutate(r.id)
+                  }}
+                  onOpen={() => openDetail(r)}
+                />
+              ))}
           </div>
         )}
         {historyQuery.data?.meta && historyQuery.data.meta.last_page > 1 && (

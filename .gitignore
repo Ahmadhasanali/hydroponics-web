@@ -39,3 +39,7 @@ vendor/
 
 # Local tooling
 .commandcode/
+
+# Playwright
+test-results/
+playwright-report/
