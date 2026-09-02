@@ -129,7 +129,6 @@ function RecordSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (v: 
   const selectedFarm = farms?.find((f) => f.id === farmId) ?? null
   const selectedTank = tanks?.find((t) => t.id === tankId) ?? null
 
-  // reset when dialog closes
   const close = () => {
     onOpenChange(false)
     setStep('farm')

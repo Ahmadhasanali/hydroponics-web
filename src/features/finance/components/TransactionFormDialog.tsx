@@ -96,7 +96,6 @@ export function TransactionFormDialog({ open, onClose, farmId, categories }: Tra
       setCategoryQuery(created.name)
       setCategoryOpen(false)
     } catch {
-      // error handled by mutation; keep dropdown open
     }
   }
 
@@ -163,7 +162,6 @@ export function TransactionFormDialog({ open, onClose, farmId, categories }: Tra
             onChange={(e) => {
               setCategoryQuery(e.target.value)
               setCategoryOpen(true)
-              // if user edits query to not match selected, clear selection
               if (selectedCategory && e.target.value !== selectedCategory.name) {
                 const stillMatches = visibleCategories.some(
                   (c) => c.id === selectedCategory.id && c.name.toLowerCase() === e.target.value.trim().toLowerCase(),
