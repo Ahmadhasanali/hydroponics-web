@@ -1,5 +1,5 @@
 import { Link } from '@tanstack/react-router'
-import { History, User, BarChart3, type LucideIcon } from 'lucide-react'
+import { History, User, BarChart3, Send, type LucideIcon } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -12,6 +12,7 @@ const SETTINGS_ITEMS: { to: string; label: string; icon: LucideIcon }[] = [
   { to: '/profile', label: 'Profil', icon: User },
   { to: '/activity', label: 'Activity Log', icon: History },
   { to: '/reports', label: 'Laporan', icon: BarChart3 },
+  { to: '/settings/telegram', label: 'Telegram', icon: Send },
 ]
 
 export function SettingsSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {

@@ -22,6 +22,7 @@ import { Route as AuthenticatedFinanceRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedRemindersRouteImport } from './routes/_authenticated/reminders'
 import { Route as AuthenticatedReportsRouteImport } from './routes/_authenticated/reports'
+import { Route as AuthenticatedSettingsTelegramRouteImport } from './routes/_authenticated/settings/telegram'
 import { Route as AuthenticatedFarmsIndexRouteImport } from './routes/_authenticated/farms/index'
 import { Route as AuthenticatedFarmsFarmIdIndexRouteImport } from './routes/_authenticated/farms/$farmId/index'
 import { Route as AuthenticatedFarmsFarmIdStaffRouteImport } from './routes/_authenticated/farms/$farmId/staff'
@@ -98,6 +99,12 @@ const AuthenticatedReportsRoute = AuthenticatedReportsRouteImport.update({
   path: '/reports',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
+const AuthenticatedSettingsTelegramRoute =
+  AuthenticatedSettingsTelegramRouteImport.update({
+    id: '/settings/telegram',
+    path: '/settings/telegram',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 const AuthenticatedFarmsIndexRoute = AuthenticatedFarmsIndexRouteImport.update({
   id: '/farms/',
   path: '/farms/',
@@ -182,8 +189,8 @@ export interface FileRoutesByFullPath {
   '/profile': typeof AuthenticatedProfileRoute
   '/reminders': typeof AuthenticatedRemindersRoute
   '/reports': typeof AuthenticatedReportsRoute
+  '/settings/telegram': typeof AuthenticatedSettingsTelegramRoute
   '/farms/': typeof AuthenticatedFarmsIndexRoute
-  '/farms/$farmId/staff': typeof AuthenticatedFarmsFarmIdStaffRoute
   '/farms/$farmId/tanks': typeof AuthenticatedFarmsFarmIdTanksRouteWithChildren
   '/farms/$farmId/': typeof AuthenticatedFarmsFarmIdIndexRoute
   '/farms/$farmId/reminders/$reminderId': typeof AuthenticatedFarmsFarmIdRemindersReminderIdRoute
@@ -207,6 +214,7 @@ export interface FileRoutesByTo {
   '/profile': typeof AuthenticatedProfileRoute
   '/reminders': typeof AuthenticatedRemindersRoute
   '/reports': typeof AuthenticatedReportsRoute
+  '/settings/telegram': typeof AuthenticatedSettingsTelegramRoute
   '/farms': typeof AuthenticatedFarmsIndexRoute
   '/farms/$farmId/staff': typeof AuthenticatedFarmsFarmIdStaffRoute
   '/farms/$farmId': typeof AuthenticatedFarmsFarmIdIndexRoute
@@ -232,6 +240,7 @@ export interface FileRoutesById {
   '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/reminders': typeof AuthenticatedRemindersRoute
   '/_authenticated/reports': typeof AuthenticatedReportsRoute
+  '/_authenticated/settings/telegram': typeof AuthenticatedSettingsTelegramRoute
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/farms/': typeof AuthenticatedFarmsIndexRoute
   '/_authenticated/farms/$farmId/staff': typeof AuthenticatedFarmsFarmIdStaffRoute
@@ -260,6 +269,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/reminders'
     | '/reports'
+    | '/settings/telegram'
     | '/farms/'
     | '/farms/$farmId/staff'
     | '/farms/$farmId/tanks'
@@ -285,6 +295,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/reminders'
     | '/reports'
+    | '/settings/telegram'
     | '/farms'
     | '/farms/$farmId/staff'
     | '/farms/$farmId'
@@ -309,6 +320,7 @@ export interface FileRouteTypes {
     | '/_authenticated/profile'
     | '/_authenticated/reminders'
     | '/_authenticated/reports'
+    | '/_authenticated/settings/telegram'
     | '/_authenticated/'
     | '/_authenticated/farms/'
     | '/_authenticated/farms/$farmId/staff'
@@ -421,6 +433,13 @@ declare module '@tanstack/react-router' {
       path: '/reports'
       fullPath: '/reports'
       preLoaderRoute: typeof AuthenticatedReportsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/settings/telegram': {
+      id: '/_authenticated/settings/telegram'
+      path: '/settings/telegram'
+      fullPath: '/settings/telegram'
+      preLoaderRoute: typeof AuthenticatedSettingsTelegramRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
     '/_authenticated/farms/': {
@@ -574,6 +593,7 @@ interface AuthenticatedRouteChildren {
   AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedRemindersRoute: typeof AuthenticatedRemindersRoute
   AuthenticatedReportsRoute: typeof AuthenticatedReportsRoute
+  AuthenticatedSettingsTelegramRoute: typeof AuthenticatedSettingsTelegramRoute
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedFarmsIndexRoute: typeof AuthenticatedFarmsIndexRoute
   AuthenticatedFarmsFarmIdStaffRoute: typeof AuthenticatedFarmsFarmIdStaffRoute
@@ -589,6 +609,7 @@ const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedRemindersRoute: AuthenticatedRemindersRoute,
   AuthenticatedReportsRoute: AuthenticatedReportsRoute,
+  AuthenticatedSettingsTelegramRoute: AuthenticatedSettingsTelegramRoute,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedFarmsIndexRoute: AuthenticatedFarmsIndexRoute,
   AuthenticatedFarmsFarmIdStaffRoute: AuthenticatedFarmsFarmIdStaffRoute,

@@ -6,6 +6,7 @@ import ReactDOM from 'react-dom/client'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { ThemeProvider } from './hooks/useTheme'
 import { useAndroidBackButton } from './hooks/useAndroidBackButton'
+import { Toaster } from 'sonner'
 import './index.css'
 
 const queryClient = new QueryClient()
@@ -28,6 +29,7 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
+      <Toaster richColors />
       {toast && (
         <div className="fixed bottom-20 left-1/2 z-[100] -translate-x-1/2 rounded-full bg-foreground px-4 py-2 text-sm font-medium text-background shadow-lg">
           {toast}
