@@ -7,6 +7,7 @@ import { FarmSwitcher } from './FarmSwitcher'
 import { TankStatusCard } from './TankStatusCard'
 import { ActivityFeed } from './ActivityFeed'
 import { FinanceWidget } from '../../finance/components/FinanceWidget'
+import { ReceivableWidget } from '../../sales/components/ReceivableWidget'
 import { useDashboard, type DashboardStats } from '../hooks/useDashboard'
 import { useAutoSelectSingle } from '../../../hooks/useAutoSelectSingle'
 
@@ -126,6 +127,7 @@ export function Dashboard() {
       )}
 
       <FinanceWidget />
+      <ReceivableWidget />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {data.tanks.length === 0 ? (

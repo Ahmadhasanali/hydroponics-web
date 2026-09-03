@@ -102,6 +102,11 @@ export async function mockApi(page: Page, state: TelegramState) {
       )
     }
 
+    // Piutang widget dashboard
+    if (path === '/sales/receivables/summary') {
+      return json(ok({ summary: { total_remaining: 250000, customer_count: 2, overdue_count: 1 } }))
+    }
+
     // Fallback: biar test tidak fail diam-diam saat ada endpoint lain
     return json(ok(null))
   })
