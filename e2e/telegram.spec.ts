@@ -12,8 +12,8 @@ test.beforeEach(async ({ page }) => {
 async function goToTelegramSettings(page: Page) {
   await page.goto('/')
   await expect(page.getByRole('main').getByRole('heading', { name: 'Dashboard' })).toBeVisible()
-  await page.getByRole('button', { name: 'Settings' }).click()
-  await expect(page.getByRole('heading', { name: 'Settings' })).toBeVisible()
+  await page.getByRole('link', { name: 'Lainnya' }).click()
+  await expect(page.getByRole('main').getByRole('heading', { name: 'Lainnya' })).toBeVisible()
   await page.getByRole('link', { name: 'Telegram' }).click()
   await expect(page.getByRole('main').getByRole('heading', { name: 'Telegram' })).toBeVisible()
 }

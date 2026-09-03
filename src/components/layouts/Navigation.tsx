@@ -8,8 +8,8 @@ import {
   History,
   Landmark,
   LayoutDashboard,
+  LayoutList,
   Plus,
-  Settings,
   ShoppingCart,
   Thermometer,
   User,
@@ -27,7 +27,6 @@ import {
 import { useFarms } from '../../features/farms/hooks/useFarms'
 import { useTanks } from '../../features/tanks/hooks/useTanks'
 import { ThemeToggle } from '../theme/ThemeToggle'
-import { SettingsSheet } from '../../features/settings/components/SettingsSheet'
 
 type NavItem = {
   to: string
@@ -48,14 +47,12 @@ const NAV_ITEMS: NavItem[] = [
   { to: '/profile', label: 'Profil', icon: User },
 ]
 
-const MOBILE_NAV: (NavItem | { kind: 'catat' } | { kind: 'settings' })[] = [
+const MOBILE_NAV: (NavItem | { kind: 'catat' })[] = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { to: '/farms', label: 'Farms', icon: Warehouse },
-  { to: '/sales', label: 'Penjualan', icon: ShoppingCart },
-  { to: '/accounts', label: 'Akun', icon: Landmark },
   { kind: 'catat' },
   { to: '/reminders', label: 'Pengingat', icon: Bell },
-  { kind: 'settings' },
+  { to: '/more', label: 'Lainnya', icon: LayoutList },
 ]
 
 const rowLinkBase =
@@ -261,7 +258,6 @@ function RecordSheet({ open, onOpenChange }: { open: boolean; onOpenChange: (v: 
 
 export function BottomNav() {
   const [catatOpen, setCatatOpen] = useState(false)
-  const [settingsOpen, setSettingsOpen] = useState(false)
 
   return (
     <>
@@ -269,32 +265,18 @@ export function BottomNav() {
         <div className="flex items-stretch">
           {MOBILE_NAV.map((item) => {
             if ('kind' in item) {
-              if (item.kind === 'catat') {
-                return (
-                  <button
-                    key="catat"
-                    type="button"
-                    onClick={() => setCatatOpen(true)}
-                    className="flex flex-1 flex-col items-center justify-center py-2 text-[10px] font-semibold text-muted-foreground"
-                    aria-label="Catat aktivitas"
-                  >
-                    <span className="-mt-6 flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-secondary-foreground shadow-lg shadow-secondary/40 ring-4 ring-background">
-                      <Plus className="size-6" />
-                    </span>
-                    <span className="mt-0.5">Catat</span>
-                  </button>
-                )
-              }
               return (
                 <button
-                  key="settings"
+                  key="catat"
                   type="button"
-                  onClick={() => setSettingsOpen(true)}
-                  className="flex flex-1 flex-col items-center justify-center gap-0.5 py-2 text-[10px] font-semibold text-muted-foreground"
-                  aria-label="Settings"
+                  onClick={() => setCatatOpen(true)}
+                  className="flex flex-1 flex-col items-center justify-center py-2 text-[10px] font-semibold text-muted-foreground"
+                  aria-label="Catat aktivitas"
                 >
-                  <Settings className="size-5" />
-                  Settings
+                  <span className="-mt-6 flex h-12 w-12 items-center justify-center rounded-full bg-secondary text-secondary-foreground shadow-lg shadow-secondary/40 ring-4 ring-background">
+                    <Plus className="size-6" />
+                  </span>
+                  <span className="mt-0.5">Catat</span>
                 </button>
               )
             }
@@ -315,7 +297,6 @@ export function BottomNav() {
         </div>
       </nav>
       <RecordSheet open={catatOpen} onOpenChange={setCatatOpen} />
-      <SettingsSheet open={settingsOpen} onOpenChange={setSettingsOpen} />
     </>
   )
 }
