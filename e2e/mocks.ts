@@ -6,6 +6,9 @@ export type TelegramState = {
   linkedAt?: string
   defaultFarmId?: number | null
   code?: string
+  sales?: unknown[]
+  receivables?: unknown[]
+  summary?: object
 }
 
 const farm = { id: 1, name: 'Kebun A', created_by: 1 }
@@ -102,10 +105,36 @@ export async function mockApi(page: Page, state: TelegramState) {
       )
     }
 
-    // Piutang widget dashboard
-    if (path === '/sales/receivables/summary') {
-      return json(ok({ summary: { total_remaining: 250000, customer_count: 2, overdue_count: 1 } }))
+    // Sales
+    if (path === '/sales/receivables') {
+      return json({ success: true, data: state.receivables ?? [], meta: { current_page: 1, last_page: 1, per_page: 20, total: (state.receivables ?? []).length }, message: '' })
     }
+    if (path === '/sales/receivables/summary') {
+      return json(ok({ summary: state.summary ?? { total_remaining: 63000, customer_count: 1, overdue_count: 0 } }))
+    }
+    if (path === '/sales' && method === 'POST') {
+      const body = route.request().postDataJSON()
+      state.receivables = [{
+        id: 9,
+        customer: { id: 1, name: 'Warung Bu Siti' },
+        due_date: body.due_date,
+        total_amount: body.items.reduce((t: number, i: { qty: number; price: number }) => t + i.qty * i.price, 0),
+        paid_amount: 0,
+        remaining_amount: body.items.reduce((t: number, i: { qty: number; price: number }) => t + i.qty * i.price, 0),
+        status: 'unpaid',
+        overdue: false,
+      }]
+      return json(ok({ sale: { id: 9, status: 'unpaid' } }))
+    }
+    if (path === '/sales/9/payments' && method === 'POST') {
+      state.receivables = []
+      state.summary = { total_remaining: 0, customer_count: 0, overdue_count: 0 }
+      return json(ok({ payment: { id: 1 } }))
+    }
+    // Customers, products, accounts (dipakai form penjualan)
+    if (path === '/customers') return json(ok({ customers: [{ id: 1, name: 'Warung Bu Siti', is_active: true }] }))
+    if (path === '/products') return json(ok({ products: [{ id: 1, name: 'Selada', unit: 'kg', default_price: '21000.00', is_active: true }] }))
+    if (path === '/accounts') return json(ok({ accounts: [{ id: 1, name: 'Cash', type: 'cash', is_default: true, is_active: true, balance: 100000 }, { id: 2, name: 'Dana', type: 'ewallet', is_default: false, is_active: true, balance: 0 }] }))
 
     // Fallback: biar test tidak fail diam-diam saat ada endpoint lain
     return json(ok(null))
