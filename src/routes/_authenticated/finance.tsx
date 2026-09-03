@@ -9,6 +9,7 @@ import { TransactionFormDialog } from '../../features/finance/components/Transac
 import { CategoryManagerModal } from '../../features/finance/components/CategoryManagerModal'
 import { FinanceReport } from '../../features/finance/components/FinanceReport'
 import { useFinancialCategories, useFinancialSummary } from '../../features/finance/hooks/useFinancialData'
+import { useAccounts } from '../../features/accounts/hooks/useAccounts'
 import { formatRupiah, toISO } from '../../features/finance/utils/format'
 import { useFarms } from '../../features/farms/hooks/useFarms'
 import { useAutoSelectSingle } from '../../hooks/useAutoSelectSingle'
@@ -45,6 +46,7 @@ function FinancePage() {
   useAutoSelectSingle(farms, farmId, (farm) => setFarmId(farm.id))
 
   const { data: categories = [] } = useFinancialCategories(farmId)
+  const { data: accounts = [] } = useAccounts(farmId)
 
   const now = useMemo(() => new Date(), [])
   const currRange = useMemo(() => monthRange(now), [now])
@@ -204,6 +206,7 @@ function FinancePage() {
             onClose={() => setTxOpen(false)}
             farmId={Number(farmId)}
             categories={categories}
+            accounts={accounts}
           />
           <CategoryManagerModal
             open={catOpen}

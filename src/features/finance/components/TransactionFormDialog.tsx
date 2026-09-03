@@ -3,6 +3,7 @@ import { Plus } from 'lucide-react'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../../components/ui/dialog'
 import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input'
+import { Label } from '../../../components/ui/label'
 import { useCreateCategory, useCreateTransaction } from '../hooks/useFinancialData'
 import { todayISO } from '../utils/format'
 import type { FinancialCategory, TransactionType } from '../types'
@@ -12,9 +13,10 @@ interface TransactionFormDialogProps {
   onClose: () => void
   farmId: number
   categories: FinancialCategory[]
+  accounts?: { id: number; name: string }[]
 }
 
-export function TransactionFormDialog({ open, onClose, farmId, categories }: TransactionFormDialogProps) {
+export function TransactionFormDialog({ open, onClose, farmId, categories, accounts = [] }: TransactionFormDialogProps) {
   const [type, setType] = useState<TransactionType>('expense')
   const [categoryId, setCategoryId] = useState<number | null>(null)
   const [categoryQuery, setCategoryQuery] = useState('')
@@ -22,6 +24,7 @@ export function TransactionFormDialog({ open, onClose, farmId, categories }: Tra
   const [amount, setAmount] = useState('')
   const [date, setDate] = useState(todayISO())
   const [note, setNote] = useState('')
+  const [accountId, setAccountId] = useState<number | null>(null)
   const create = useCreateTransaction()
   const createCategory = useCreateCategory()
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -109,6 +112,7 @@ export function TransactionFormDialog({ open, onClose, farmId, categories }: Tra
         amount: Number(amount),
         transaction_date: date,
         note: note.trim() === '' ? undefined : note.trim(),
+        account_id: accountId ?? undefined,
       },
       {
         onSuccess: () => {
@@ -116,6 +120,7 @@ export function TransactionFormDialog({ open, onClose, farmId, categories }: Tra
           setNote('')
           setCategoryId(null)
           setCategoryQuery('')
+          setAccountId(null)
           onClose()
         },
       },
@@ -213,6 +218,22 @@ export function TransactionFormDialog({ open, onClose, farmId, categories }: Tra
             </p>
           )}
         </div>
+
+        {accounts.length > 0 && (
+          <div className="space-y-1.5">
+            <Label>Akun (opsional)</Label>
+            <select
+              className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm"
+              value={accountId ?? ''}
+              onChange={(e) => setAccountId(e.target.value === '' ? null : Number(e.target.value))}
+            >
+              <option value="">Tanpa akun</option>
+              {accounts.map((a) => (
+                <option key={a.id} value={a.id}>{a.name}</option>
+              ))}
+            </select>
+          </div>
+        )}
 
         <Input
           inputMode="numeric"

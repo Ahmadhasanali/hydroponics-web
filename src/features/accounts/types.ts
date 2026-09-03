@@ -10,3 +10,18 @@ export interface Account {
   is_active: boolean
   balance?: number
 }
+
+export interface AccountTransferInput {
+  farm_id: number
+  from_account_id: number
+  to_account_id: number
+  amount: number
+  transfer_date: string
+  note?: string
+}
+
+export interface BalanceAdjustmentInput {
+  amount: number
+  adjustment_date: string
+  reason: string
+}

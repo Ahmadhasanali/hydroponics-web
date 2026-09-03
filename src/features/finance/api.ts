@@ -72,6 +72,7 @@ export interface TransactionInput {
   amount: number
   transaction_date: string
   note?: string
+  account_id?: number
 }
 
 export async function createTransaction(input: TransactionInput): Promise<void> {
