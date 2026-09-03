@@ -127,7 +127,7 @@ export function Dashboard() {
       )}
 
       <FinanceWidget />
-      <ReceivableWidget />
+      <ReceivableWidget farmId={farmId ?? (data.farms[0]?.id ?? '')} />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {data.tanks.length === 0 ? (

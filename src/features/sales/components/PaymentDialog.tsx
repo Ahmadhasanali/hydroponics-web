@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '../../../components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../../components/ui/dialog'
 import { Input } from '../../../components/ui/input'
@@ -20,6 +20,10 @@ export function PaymentDialog({ open, onClose, saleId, maxAmount, farmId }: Paym
   const [amount, setAmount] = useState(String(maxAmount))
   const [date, setDate] = useState(todayISO())
   const createPayment = useCreatePayment()
+
+  useEffect(() => {
+    if (open) setAmount(String(maxAmount))
+  }, [open, maxAmount])
 
   const { data: accounts = [] } = useAccounts(farmId)
 

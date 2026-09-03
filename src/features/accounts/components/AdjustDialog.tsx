@@ -18,7 +18,7 @@ export function AdjustDialog({ open, onClose, account }: Props) {
   const [amount, setAmount] = useState('')
   const [reason, setReason] = useState('')
   const [date, setDate] = useState(todayISO())
-  const createAdjustment = useCreateAdjustment(account?.id ?? 0)
+  const createAdjustment = useCreateAdjustment()
 
   const canSubmit = account !== undefined && Number(amount) > 0 && reason.trim() !== ''
 
@@ -26,7 +26,7 @@ export function AdjustDialog({ open, onClose, account }: Props) {
     if (!canSubmit || !account) return
     const value = direction === 'in' ? Number(amount) : -Number(amount)
     createAdjustment.mutate(
-      { amount: value, adjustment_date: date, reason: reason.trim() },
+      { accountId: account.id, amount: value, adjustment_date: date, reason: reason.trim() },
       {
         onSuccess: () => {
           setAmount('')

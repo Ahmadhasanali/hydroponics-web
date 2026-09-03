@@ -5,9 +5,15 @@ import { useFarms } from '../../farms/hooks/useFarms'
 import { useReceivableSummary } from '../hooks/useSalesData'
 import { formatRupiah } from '../../finance/utils/format'
 
-export function ReceivableWidget() {
+interface ReceivableWidgetProps {
+  farmId?: number | ''
+}
+
+export function ReceivableWidget({ farmId: propFarmId }: ReceivableWidgetProps) {
   const { data: farms } = useFarms()
-  const farmId = farms?.[0]?.id ?? ''
+  // Prefer prop farmId (Dashboard selectedFarm) to avoid desync; fallback to farms[0] for standalone mount.
+  // TODO(deferred MVP): single-farm assumption — multi-farm switch stale handled via prop.
+  const farmId = propFarmId ?? farms?.[0]?.id ?? ''
   const { data: summary } = useReceivableSummary(farmId)
 
   if (!farms || farms.length === 0 || farmId === '') return null

@@ -39,5 +39,6 @@ export async function fetchReceivableSummary(farmId: number): Promise<Receivable
   return res.data.summary
 }
 export async function createPayment(input: { sale_id: number; account_id: number; amount: number; payment_date: string; note?: string }): Promise<void> {
-  await api.post(`/sales/${input.sale_id}/payments`, input)
+  const { sale_id, ...body } = input
+  await api.post(`/sales/${sale_id}/payments`, body)
 }

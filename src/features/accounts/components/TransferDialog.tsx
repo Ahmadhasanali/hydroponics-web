@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '../../../components/ui/button'
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../../components/ui/dialog'
 import { Input } from '../../../components/ui/input'
@@ -21,6 +21,10 @@ export function TransferDialog({ open, onClose, farmId, fromId, accounts }: Prop
   const [amount, setAmount] = useState('')
   const [date, setDate] = useState(todayISO())
   const [note, setNote] = useState('')
+
+  useEffect(() => {
+    if (open) setFrom(fromId ?? null)
+  }, [open, fromId])
   const createTransfer = useCreateTransfer()
 
   const canSubmit = from !== null && to !== null && from !== to && Number(amount) > 0

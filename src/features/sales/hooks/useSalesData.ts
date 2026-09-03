@@ -46,25 +46,28 @@ export function useReceivableSummary(farmId: number | '') {
   })
 }
 
-function useInvalidateSales() {
+function useInvalidateSalesAndAccounts() {
   const qc = useQueryClient()
-  return () => qc.invalidateQueries({ queryKey: ['sales'] })
+  return () => {
+    qc.invalidateQueries({ queryKey: ['sales'] })
+    qc.invalidateQueries({ queryKey: ['accounts'] })
+  }
 }
 
 export function useCreateSale() {
-  const invalidate = useInvalidateSales()
+  const invalidate = useInvalidateSalesAndAccounts()
   return useMutation({ mutationFn: (input: SaleInput) => createSale(input), onSuccess: invalidate })
 }
 export function useCreatePayment() {
-  const invalidate = useInvalidateSales()
+  const invalidate = useInvalidateSalesAndAccounts()
   return useMutation({ mutationFn: createPayment, onSuccess: invalidate })
 }
 export function useCreateCustomer() {
-  const invalidate = useInvalidateSales()
+  const invalidate = useInvalidateSalesAndAccounts()
   return useMutation({ mutationFn: createCustomer, onSuccess: invalidate })
 }
 
 export function useCreateProduct() {
-  const invalidate = useInvalidateSales()
+  const invalidate = useInvalidateSalesAndAccounts()
   return useMutation({ mutationFn: createProduct, onSuccess: invalidate })
 }

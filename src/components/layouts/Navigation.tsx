@@ -51,6 +51,8 @@ const NAV_ITEMS: NavItem[] = [
 const MOBILE_NAV: (NavItem | { kind: 'catat' } | { kind: 'settings' })[] = [
   { to: '/', label: 'Dashboard', icon: LayoutDashboard, exact: true },
   { to: '/farms', label: 'Farms', icon: Warehouse },
+  { to: '/sales', label: 'Penjualan', icon: ShoppingCart },
+  { to: '/accounts', label: 'Akun', icon: Landmark },
   { kind: 'catat' },
   { to: '/reminders', label: 'Pengingat', icon: Bell },
   { kind: 'settings' },

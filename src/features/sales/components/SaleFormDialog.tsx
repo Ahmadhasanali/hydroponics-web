@@ -43,7 +43,10 @@ export function SaleFormDialog({ open, onClose, farmId }: Props) {
     let total = 0
     const filled = rows.filter((r) => r.product_name && r.qty && r.price)
     for (const r of filled) {
-      total += Number(r.qty) * Number(r.price)
+      const qty = parseFloat(String(r.qty).replace(',', '.'))
+      const price = parseFloat(String(r.price))
+      if (!Number.isFinite(qty) || !Number.isFinite(price)) continue
+      total += qty * price
     }
     return { total, count: filled.length }
   }, [rows])
@@ -72,7 +75,7 @@ export function SaleFormDialog({ open, onClose, farmId }: Props) {
         product_id: r.product_id,
         product_name: r.product_name,
         unit: r.unit,
-        qty: Number(r.qty),
+        qty: parseFloat(String(r.qty).replace(',', '.')),
         price: Number(r.price),
       }))
     createSale.mutate(
@@ -146,7 +149,7 @@ export function SaleFormDialog({ open, onClose, farmId }: Props) {
                 </select>
                 <div className="grid grid-cols-3 gap-2">
                   <Input inputMode="numeric" placeholder="Qty" value={row.qty}
-                    onChange={(e) => updateRow(idx, { qty: e.target.value.replace(/[^0-9.,]/g, '') })} />
+                    onChange={(e) => updateRow(idx, { qty: e.target.value.replace(',', '.').replace(/[^0-9.]/g, '') })} />
                   <Input inputMode="numeric" placeholder="Harga" value={row.price}
                     onChange={(e) => updateRow(idx, { price: e.target.value.replace(/[^0-9]/g, '') })} />
                   <Button type="button" variant="ghost" onClick={() => setRows((prev) => prev.filter((_, i) => i !== idx))}>

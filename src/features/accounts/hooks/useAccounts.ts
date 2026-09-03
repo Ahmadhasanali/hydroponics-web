@@ -25,10 +25,17 @@ export function useCreateTransfer() {
   return useMutation({ mutationFn: createTransfer, onSuccess: invalidate })
 }
 
-export function useCreateAdjustment(accountId: number) {
+export function useCreateAdjustment() {
   const qc = useQueryClient()
   const invalidate = () => qc.invalidateQueries({ queryKey: ['accounts'] })
-  return useMutation({ mutationFn: (input: Parameters<typeof createAdjustment>[1]) => createAdjustment(accountId, input), onSuccess: invalidate })
+  return useMutation({
+    mutationFn: (vars: { accountId: number } & Parameters<typeof createAdjustment>[1]) => {
+      const { accountId, ...input } = vars as { accountId: number; amount: number; adjustment_date: string; reason: string }
+      if (!Number.isFinite(accountId) || accountId <= 0) throw new Error('accountId required')
+      return createAdjustment(accountId, input)
+    },
+    onSuccess: invalidate,
+  })
 }
 
 export function useAdjustments(accountId: number | null) {
