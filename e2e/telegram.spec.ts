@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
 
 async function goToTelegramSettings(page: Page) {
   await page.goto('/')
-  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible()
+  await expect(page.getByRole('main').getByRole('heading', { name: 'Dashboard' })).toBeVisible()
   await page.getByRole('button', { name: 'Settings' }).click()
   await expect(page.getByRole('heading', { name: 'Settings' })).toBeVisible()
   await page.getByRole('link', { name: 'Telegram' }).click()
@@ -72,7 +72,7 @@ test('pilih default farm langsung PATCH /telegram/default-farm', async ({ page }
 
 test('route telegram tanpa token auth → redirect login', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible()
+  await expect(page.getByRole('main').getByRole('heading', { name: 'Dashboard' })).toBeVisible()
 
   // Hapus token di setiap navigasi berikutnya (init script jalan setelah seedAuth)
   await page.addInitScript(() => localStorage.removeItem('auth_token'))
