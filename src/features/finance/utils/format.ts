@@ -16,6 +16,19 @@ export function formatRupiah(n: number | string): string {
   }).format(Number.isFinite(num) ? num : 0)
 }
 
+/** Format angka bulat rupiah dengan pemisah titik saat diketik, mis. "15000" → "15.000". */
+export function formatRupiahInput(value: string): string {
+  const digits = value.replace(/\D/g, '')
+  if (digits === '') return ''
+  return new Intl.NumberFormat('id-ID', { maximumFractionDigits: 0 }).format(Number(digits))
+}
+
+/** Ubah nilai input rupiah berformat titik menjadi angka, mis. "15.000" → 15000. */
+export function parseRupiah(value: string): number {
+  const digits = value.replace(/\D/g, '')
+  return digits === '' ? 0 : Number(digits)
+}
+
 export function formatDate(iso: string): string {
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return iso

@@ -5,7 +5,7 @@ import { Input } from '../../../components/ui/input'
 import { Label } from '../../../components/ui/label'
 import { useAccounts } from '../../accounts/hooks/useAccounts'
 import { useCreatePayment } from '../hooks/useSalesData'
-import { todayISO } from '../../finance/utils/format'
+import { formatRupiahInput, parseRupiah, todayISO } from '../../finance/utils/format'
 
 interface PaymentDialogProps {
   open: boolean
@@ -22,12 +22,12 @@ export function PaymentDialog({ open, onClose, saleId, maxAmount, farmId }: Paym
   const createPayment = useCreatePayment()
 
   useEffect(() => {
-    if (open) setAmount(String(maxAmount))
+    if (open) setAmount(formatRupiahInput(String(maxAmount)))
   }, [open, maxAmount])
 
   const { data: accounts = [] } = useAccounts(farmId)
 
-  const canSubmit = accountId !== null && Number(amount) > 0 && Number(amount) <= maxAmount
+  const canSubmit = accountId !== null && parseRupiah(amount) > 0 && parseRupiah(amount) <= maxAmount
 
   function submit() {
     if (!canSubmit || accountId === null) return
@@ -35,7 +35,7 @@ export function PaymentDialog({ open, onClose, saleId, maxAmount, farmId }: Paym
       {
         sale_id: saleId,
         account_id: accountId,
-        amount: Number(amount),
+        amount: parseRupiah(amount),
         payment_date: date,
       },
       { onSuccess: onClose },
@@ -59,7 +59,7 @@ export function PaymentDialog({ open, onClose, saleId, maxAmount, farmId }: Paym
           </div>
           <div className="space-y-1.5">
             <Label>Jumlah</Label>
-            <Input inputMode="numeric" value={amount} onChange={(e) => setAmount(e.target.value.replace(/[^0-9]/g, ''))} />
+            <Input inputMode="numeric" value={amount} onChange={(e) => setAmount(formatRupiahInput(e.target.value))} />
           </div>
           <div className="space-y-1.5">
             <Label>Tanggal bayar</Label>

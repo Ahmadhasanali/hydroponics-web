@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../../compo
 import { Input } from '../../../components/ui/input'
 import { Label } from '../../../components/ui/label'
 import { useCreateAdjustment } from '../hooks/useAccounts'
-import { todayISO } from '../../finance/utils/format'
+import { formatRupiahInput, parseRupiah, todayISO } from '../../finance/utils/format'
 import type { Account } from '../types'
 
 interface Props {
@@ -20,11 +20,11 @@ export function AdjustDialog({ open, onClose, account }: Props) {
   const [date, setDate] = useState(todayISO())
   const createAdjustment = useCreateAdjustment()
 
-  const canSubmit = account !== undefined && Number(amount) > 0 && reason.trim() !== ''
+  const canSubmit = account !== undefined && parseRupiah(amount) > 0 && reason.trim() !== ''
 
   function submit() {
     if (!canSubmit || !account) return
-    const value = direction === 'in' ? Number(amount) : -Number(amount)
+    const value = direction === 'in' ? parseRupiah(amount) : -parseRupiah(amount)
     createAdjustment.mutate(
       { accountId: account.id, amount: value, adjustment_date: date, reason: reason.trim() },
       {
@@ -54,7 +54,7 @@ export function AdjustDialog({ open, onClose, account }: Props) {
           </div>
           <div className="space-y-1.5">
             <Label>Nominal</Label>
-            <Input inputMode="numeric" value={amount} onChange={(e) => setAmount(e.target.value.replace(/[^0-9]/g, ''))} />
+            <Input inputMode="numeric" value={amount} onChange={(e) => setAmount(formatRupiahInput(e.target.value))} />
           </div>
           <div className="space-y-1.5">
             <Label>Alasan (wajib)</Label>

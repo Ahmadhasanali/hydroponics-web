@@ -7,7 +7,7 @@ import { Label } from '../../../components/ui/label'
 import { useCreateSale } from '../hooks/useSalesData'
 import { useCustomers, useProducts } from '../hooks/useSalesData'
 import { useAccounts } from '../../accounts/hooks/useAccounts'
-import { todayISO } from '../../finance/utils/format'
+import { formatRupiahInput, parseRupiah, todayISO } from '../../finance/utils/format'
 import type { Account } from '../../accounts/types'
 
 interface Props {
@@ -44,7 +44,7 @@ export function SaleFormDialog({ open, onClose, farmId }: Props) {
     const filled = rows.filter((r) => r.product_name && r.qty && r.price)
     for (const r of filled) {
       const qty = parseFloat(String(r.qty).replace(',', '.'))
-      const price = parseFloat(String(r.price))
+      const price = parseRupiah(r.price)
       if (!Number.isFinite(qty) || !Number.isFinite(price)) continue
       total += qty * price
     }
@@ -64,7 +64,7 @@ export function SaleFormDialog({ open, onClose, farmId }: Props) {
   function selectProduct(idx: number, productId: number) {
     const product = products.find((p) => p.id === productId)
     if (!product) return
-    updateRow(idx, { product_id: product.id, product_name: product.name, unit: product.unit, price: product.default_price })
+    updateRow(idx, { product_id: product.id, product_name: product.name, unit: product.unit, price: formatRupiahInput(String(Number(product.default_price))) })
   }
 
   function submit() {
@@ -76,7 +76,7 @@ export function SaleFormDialog({ open, onClose, farmId }: Props) {
         product_name: r.product_name,
         unit: r.unit,
         qty: parseFloat(String(r.qty).replace(',', '.')),
-        price: Number(r.price),
+        price: parseRupiah(r.price),
       }))
     createSale.mutate(
       {
@@ -151,7 +151,7 @@ export function SaleFormDialog({ open, onClose, farmId }: Props) {
                   <Input inputMode="numeric" placeholder="Qty" value={row.qty}
                     onChange={(e) => updateRow(idx, { qty: e.target.value.replace(',', '.').replace(/[^0-9.]/g, '') })} />
                   <Input inputMode="numeric" placeholder="Harga" value={row.price}
-                    onChange={(e) => updateRow(idx, { price: e.target.value.replace(/[^0-9]/g, '') })} />
+                    onChange={(e) => updateRow(idx, { price: formatRupiahInput(e.target.value) })} />
                   <Button type="button" variant="ghost" onClick={() => setRows((prev) => prev.filter((_, i) => i !== idx))}>
                     <Trash2 className="size-4" />
                   </Button>

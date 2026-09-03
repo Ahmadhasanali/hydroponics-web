@@ -4,6 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../../compo
 import { Input } from '../../../components/ui/input'
 import { Label } from '../../../components/ui/label'
 import { useCreateAccount } from '../hooks/useAccounts'
+import { formatRupiahInput, parseRupiah } from '../../finance/utils/format'
 import type { AccountType } from '../types'
 
 interface Props {
@@ -27,7 +28,7 @@ export function AccountFormDialog({ open, onClose, farmId }: Props) {
         farm_id: farmId,
         name: name.trim(),
         type,
-        balance_initial: initial === '' ? undefined : Number(initial),
+        balance_initial: initial === '' ? undefined : parseRupiah(initial),
       },
       {
         onSuccess: () => {
@@ -59,7 +60,7 @@ export function AccountFormDialog({ open, onClose, farmId }: Props) {
           </div>
           <div className="space-y-1.5">
             <Label>Saldo awal (opsional)</Label>
-            <Input inputMode="numeric" placeholder="0" value={initial} onChange={(e) => setInitial(e.target.value.replace(/[^0-9]/g, ''))} />
+            <Input inputMode="numeric" placeholder="0" value={initial} onChange={(e) => setInitial(formatRupiahInput(e.target.value))} />
           </div>
           <Button className="w-full" disabled={!canSubmit || createAccount.isPending} onClick={submit}>
             {createAccount.isPending ? 'Menyimpan…' : 'Simpan Akun'}

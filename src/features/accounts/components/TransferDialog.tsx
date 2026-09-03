@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../../compo
 import { Input } from '../../../components/ui/input'
 import { Label } from '../../../components/ui/label'
 import { useCreateTransfer } from '../hooks/useAccounts'
-import { todayISO } from '../../finance/utils/format'
+import { formatRupiahInput, parseRupiah, todayISO } from '../../finance/utils/format'
 import type { Account } from '../types'
 
 interface Props {
@@ -27,7 +27,7 @@ export function TransferDialog({ open, onClose, farmId, fromId, accounts }: Prop
   }, [open, fromId])
   const createTransfer = useCreateTransfer()
 
-  const canSubmit = from !== null && to !== null && from !== to && Number(amount) > 0
+  const canSubmit = from !== null && to !== null && from !== to && parseRupiah(amount) > 0
 
   function submit() {
     if (!canSubmit || from === null || to === null) return
@@ -36,7 +36,7 @@ export function TransferDialog({ open, onClose, farmId, fromId, accounts }: Prop
         farm_id: farmId,
         from_account_id: from,
         to_account_id: to,
-        amount: Number(amount),
+        amount: parseRupiah(amount),
         transfer_date: date,
         note: note.trim() === '' ? undefined : note.trim(),
       },
@@ -73,7 +73,7 @@ export function TransferDialog({ open, onClose, farmId, fromId, accounts }: Prop
           </div>
           <div className="space-y-1.5">
             <Label>Nominal</Label>
-            <Input inputMode="numeric" value={amount} onChange={(e) => setAmount(e.target.value.replace(/[^0-9]/g, ''))} />
+            <Input inputMode="numeric" value={amount} onChange={(e) => setAmount(formatRupiahInput(e.target.value))} />
           </div>
           <div className="grid grid-cols-2 gap-2">
             <div className="space-y-1.5">

@@ -5,7 +5,8 @@ import { Button } from '../../../components/ui/button'
 import { Input } from '../../../components/ui/input'
 import { Label } from '../../../components/ui/label'
 import { useCreateCategory, useCreateTransaction } from '../hooks/useFinancialData'
-import { todayISO } from '../utils/format'
+import { formatRupiahInput, parseRupiah, todayISO } from '../utils/format'
+import type { Account } from '../../accounts/types'
 import type { FinancialCategory, TransactionType } from '../types'
 
 interface TransactionFormDialogProps {
@@ -13,7 +14,7 @@ interface TransactionFormDialogProps {
   onClose: () => void
   farmId: number
   categories: FinancialCategory[]
-  accounts?: { id: number; name: string }[]
+  accounts?: Account[]
 }
 
 export function TransactionFormDialog({ open, onClose, farmId, categories, accounts = [] }: TransactionFormDialogProps) {
@@ -28,6 +29,18 @@ export function TransactionFormDialog({ open, onClose, farmId, categories, accou
   const create = useCreateTransaction()
   const createCategory = useCreateCategory()
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  const defaultCash = useMemo<Account | undefined>(
+    () => accounts.find((a) => a.type === 'cash' && a.is_default) ?? accounts.find((a) => a.is_default) ?? accounts[0],
+    [accounts],
+  )
+
+  useEffect(() => {
+    if (open) {
+      setAccountId(defaultCash?.id ?? null)
+      setAmount('')
+    }
+  }, [open, defaultCash])
 
   const visibleCategories = useMemo(
     () => categories.filter((c) => c.type === type && c.is_active),
@@ -53,7 +66,7 @@ export function TransactionFormDialog({ open, onClose, farmId, categories, accou
 
   const showCreateOption = categoryQuery.trim() !== '' && !hasExactMatch
 
-  const canSubmit = categoryId !== null && amount !== '' && Number(amount) > 0 && farmId !== 0
+  const canSubmit = categoryId !== null && amount !== '' && parseRupiah(amount) > 0 && farmId !== 0
 
   useEffect(() => {
     if (!open) {
@@ -109,7 +122,7 @@ export function TransactionFormDialog({ open, onClose, farmId, categories, accou
         farm_id: farmId,
         category_id: categoryId,
         type,
-        amount: Number(amount),
+        amount: parseRupiah(amount),
         transaction_date: date,
         note: note.trim() === '' ? undefined : note.trim(),
         account_id: accountId ?? undefined,
@@ -221,17 +234,18 @@ export function TransactionFormDialog({ open, onClose, farmId, categories, accou
 
         {accounts.length > 0 && (
           <div className="space-y-1.5">
-            <Label>Akun (opsional)</Label>
+            <Label>Akun</Label>
             <select
               className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm"
               value={accountId ?? ''}
               onChange={(e) => setAccountId(e.target.value === '' ? null : Number(e.target.value))}
             >
-              <option value="">Tanpa akun</option>
+              <option value="">Cash (default)</option>
               {accounts.map((a) => (
                 <option key={a.id} value={a.id}>{a.name}</option>
               ))}
             </select>
+            <p className="text-xs text-muted-foreground">Kosongkan untuk memakai akun Cash default.</p>
           </div>
         )}
 
@@ -239,7 +253,7 @@ export function TransactionFormDialog({ open, onClose, farmId, categories, accou
           inputMode="numeric"
           placeholder="Jumlah (Rp)"
           value={amount}
-          onChange={(e) => setAmount(e.target.value.replace(/[^0-9]/g, ''))}
+          onChange={(e) => setAmount(formatRupiahInput(e.target.value))}
         />
         <Input type="date" value={date} max={todayISO()} onChange={(e) => setDate(e.target.value)} />
         <Input placeholder="Catatan (opsional)" value={note} onChange={(e) => setNote(e.target.value)} />

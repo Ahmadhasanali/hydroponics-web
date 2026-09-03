@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../../compo
 import { Input } from '../../../components/ui/input'
 import { Label } from '../../../components/ui/label'
 import { useCreateCustomer, useCreateProduct, useCustomers, useProducts } from '../hooks/useSalesData'
-import { formatRupiah } from '../../finance/utils/format'
+import { formatRupiah, formatRupiahInput, parseRupiah } from '../../finance/utils/format'
 
 interface Props {
   open: boolean
@@ -41,9 +41,9 @@ export function CustomerProductManager({ open, onClose, farmId }: Props) {
       return
     }
 
-    if (name.trim() === '' || Number(price) <= 0) return
+    if (name.trim() === '' || parseRupiah(price) <= 0) return
     createProduct.mutate(
-      { farm_id: farmId, name: name.trim(), unit, default_price: Number(price) },
+      { farm_id: farmId, name: name.trim(), unit, default_price: parseRupiah(price) },
       {
         onSuccess: () => {
           setName('')
@@ -120,10 +120,10 @@ export function CustomerProductManager({ open, onClose, farmId }: Props) {
                 <div className="space-y-1.5">
                   <Label>Harga default</Label>
                   <Input inputMode="numeric" placeholder="21000" value={price}
-                    onChange={(e) => setPrice(e.target.value.replace(/[^0-9]/g, ''))} />
+                    onChange={(e) => setPrice(formatRupiahInput(e.target.value))} />
                 </div>
               </div>
-              <Button className="w-full" disabled={name.trim() === '' || Number(price) <= 0 || createProduct.isPending} onClick={submit}>
+              <Button className="w-full" disabled={name.trim() === '' || parseRupiah(price) <= 0 || createProduct.isPending} onClick={submit}>
                 <Plus className="size-4" /> Tambah Produk
               </Button>
             </>
