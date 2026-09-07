@@ -22,6 +22,10 @@ dist-ssr
 google-services.json
 android/app/google-services.json
 
+# Firebase Admin SDK (never commit)
+*-firebase-adminsdk-*.json
+**/*-firebase-adminsdk-*.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -39,6 +43,11 @@ vendor/
 
 # Local tooling
 .commandcode/
+.superpowers/
+.codex/
+
+# TanStack Router cache (regenerated on dev/build)
+.tanstack/
 
 # Playwright
 test-results/
