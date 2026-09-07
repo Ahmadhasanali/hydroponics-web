@@ -1,15 +1,19 @@
-name: Deploy Web
+name: Deploy Web Demo
 
 on:
   push:
     branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 env:
-  DEPLOY_PATH: /home/deploy/project/Hydroponic-Farm-Management-System_Laravel
+  DEMO_WEB_PATH: /home/deploy/project/hydroponic/demo/web
+  DEMO_ROOT: /home/deploy/project/hydroponic/demo
+  DEMO_COMPOSE_FILE: compose.yaml
+  DEMO_SERVICE: demo-hydroponic-web
 
 jobs:
   deploy:
@@ -33,7 +37,12 @@ jobs:
       - name: Add host key
         run: ssh-keyscan ${{ secrets.HOME_SERVER_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy
+      - name: Check demo web env exists
         run: |
           ssh ${{ secrets.HOME_SERVER_USER }}@${{ secrets.HOME_SERVER_HOST }} \
-            "cd $DEPLOY_PATH && git pull && docker compose -f compose.prod.yaml up -d --build web"
+            "test -f $DEMO_WEB_PATH/.env || (echo 'MISS: $DEMO_WEB_PATH/.env tidak ada (untracked, jangan di-commit). Buat dulu dari .env.example dengan VITE_API_URL demo + VITE_DEMO_MODE=true' && exit 1)"
+
+      - name: Deploy demo web
+        run: |
+          ssh ${{ secrets.HOME_SERVER_USER }}@${{ secrets.HOME_SERVER_HOST }} \
+            "cd $DEMO_WEB_PATH && git fetch --all && git reset --hard origin/main && cd $DEMO_ROOT && docker compose -f $DEMO_COMPOSE_FILE up -d --build $DEMO_SERVICE"
