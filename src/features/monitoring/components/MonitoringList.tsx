@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { DailyMonitoring } from '../types'
 import { useMonitoring, useDeleteMonitoring } from '../hooks/useMonitoring'
+import { formatDate } from '../../finance/utils/format'
 import { MonitoringForm } from './MonitoringForm'
 import { Button } from '../../../components/ui/button'
 import {
@@ -56,7 +57,7 @@ export function MonitoringList({ farmId, tankId }: { farmId: number; tankId: num
             <TableBody>
               {records.map((record) => (
                 <TableRow key={record.id}>
-                  <TableCell>{record.log_date}</TableCell>
+                  <TableCell>{formatDate(record.log_date)}</TableCell>
                   <TableCell>{record.ppm}</TableCell>
                   <TableCell>{record.ph}</TableCell>
                   <TableCell>
@@ -79,7 +80,7 @@ export function MonitoringList({ farmId, tankId }: { farmId: number; tankId: num
                         variant="destructive"
                         size="sm"
                         onClick={() => {
-                          if (window.confirm(`Hapus log monitoring tanggal ${record.log_date}?`)) {
+                          if (window.confirm(`Hapus log monitoring tanggal ${formatDate(record.log_date)}?`)) {
                             deleteMonitoring.mutate(record.id)
                           }
                         }}
@@ -99,7 +100,7 @@ export function MonitoringList({ farmId, tankId }: { farmId: number; tankId: num
             {records.map((record) => (
               <div key={record.id} className="rounded-2xl border border-border bg-card p-4">
                 <div className="flex items-center justify-between gap-2">
-                  <p className="font-medium">{record.log_date}</p>
+                  <p className="font-medium">{formatDate(record.log_date)}</p>
                   <span className="text-xs text-muted-foreground">{record.user?.name ?? ''}</span>
                 </div>
                 <dl className="mt-3 grid grid-cols-2 gap-2 text-sm">
@@ -137,7 +138,7 @@ export function MonitoringList({ farmId, tankId }: { farmId: number; tankId: num
                     variant="destructive"
                     size="sm"
                     onClick={() => {
-                      if (window.confirm(`Hapus log monitoring tanggal ${record.log_date}?`)) {
+                      if (window.confirm(`Hapus log monitoring tanggal ${formatDate(record.log_date)}?`)) {
                         deleteMonitoring.mutate(record.id)
                       }
                     }}

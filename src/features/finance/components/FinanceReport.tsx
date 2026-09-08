@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card'
 import { useFinancialSummary } from '../hooks/useFinancialData'
 import type { GroupBy } from '../types'
-import { formatRupiah, toISO } from '../utils/format'
+import { formatDate, formatRupiah, toISO } from '../utils/format'
 
 function defaultRange(): { from: string; to: string } {
   const now = new Date()
@@ -164,8 +164,8 @@ export function FinanceReport({ farmId }: { farmId: number | '' }) {
                           style={{ height: `${Math.max((point.expense / maxSeriesVal) * 100, point.expense > 0 ? 4 : 0)}%` }}
                         />
                       </div>
-                      <span className="max-w-16 truncate text-[10px] text-muted-foreground" title={point.period}>
-                        {point.period}
+                      <span className="max-w-16 truncate text-[10px] text-muted-foreground" title={formatDate(point.period)}>
+                        {formatDate(point.period)}
                       </span>
                     </div>
                   ))}

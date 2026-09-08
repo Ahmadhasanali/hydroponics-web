@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { NutrientAddition } from '../types'
 import { useNutrients, useDeleteNutrient } from '../hooks/useNutrients'
+import { formatDate } from '../../finance/utils/format'
 import { NutrientForm } from './NutrientForm'
 import { Button } from '../../../components/ui/button'
 import {
@@ -57,7 +58,7 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
             <TableBody>
               {records.map((record) => (
                 <TableRow key={record.id}>
-                  <TableCell>{record.log_date}</TableCell>
+                  <TableCell>{formatDate(record.log_date)}</TableCell>
                   <TableCell>{record.ppm_before}</TableCell>
                   <TableCell>{record.ppm_after}</TableCell>
                   <TableCell>{record.nutrient_a_ml}</TableCell>
@@ -79,7 +80,7 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
                         variant="destructive"
                         size="sm"
                         onClick={() => {
-                          if (window.confirm(`Hapus penambahan nutrisi tanggal ${record.log_date}?`)) {
+                          if (window.confirm(`Hapus penambahan nutrisi tanggal ${formatDate(record.log_date)}?`)) {
                             deleteNutrient.mutate(record.id)
                           }
                         }}
@@ -98,7 +99,7 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
           <div className="space-y-3 md:hidden">
             {records.map((record) => (
               <div key={record.id} className="rounded-2xl border border-border bg-card p-4">
-                <p className="font-medium">{record.log_date}</p>
+                <p className="font-medium">{formatDate(record.log_date)}</p>
                 <dl className="mt-3 grid grid-cols-2 gap-2 text-sm">
                   <div>
                     <dt className="text-muted-foreground">PPM Sebelum</dt>
@@ -136,7 +137,7 @@ export function NutrientList({ farmId, tankId }: { farmId: number; tankId: numbe
                     variant="destructive"
                     size="sm"
                     onClick={() => {
-                      if (window.confirm(`Hapus penambahan nutrisi tanggal ${record.log_date}?`)) {
+                      if (window.confirm(`Hapus penambahan nutrisi tanggal ${formatDate(record.log_date)}?`)) {
                         deleteNutrient.mutate(record.id)
                       }
                     }}

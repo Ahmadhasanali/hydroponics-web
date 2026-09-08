@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { PhDownLog } from '../types'
 import { usePhDown, useDeletePhDown } from '../hooks/usePhDown'
+import { formatDate } from '../../finance/utils/format'
 import { PhDownForm } from './PhDownForm'
 import { Button } from '../../../components/ui/button'
 import {
@@ -56,7 +57,7 @@ export function PhDownList({ farmId, tankId }: { farmId: number; tankId: number 
             <TableBody>
               {records.map((record) => (
                 <TableRow key={record.id}>
-                  <TableCell>{record.log_date}</TableCell>
+                  <TableCell>{formatDate(record.log_date)}</TableCell>
                   <TableCell>{record.ph_before}</TableCell>
                   <TableCell>{record.ph_after}</TableCell>
                   <TableCell>{record.ph_down_ml}</TableCell>
@@ -77,7 +78,7 @@ export function PhDownList({ farmId, tankId }: { farmId: number; tankId: number 
                         variant="destructive"
                         size="sm"
                         onClick={() => {
-                          if (window.confirm(`Hapus pH down tanggal ${record.log_date}?`)) {
+                          if (window.confirm(`Hapus pH down tanggal ${formatDate(record.log_date)}?`)) {
                             deletePhDown.mutate(record.id)
                           }
                         }}
@@ -96,7 +97,7 @@ export function PhDownList({ farmId, tankId }: { farmId: number; tankId: number 
           <div className="space-y-3 md:hidden">
             {records.map((record) => (
               <div key={record.id} className="rounded-2xl border border-border bg-card p-4">
-                <p className="font-medium">{record.log_date}</p>
+                <p className="font-medium">{formatDate(record.log_date)}</p>
                 <dl className="mt-3 grid grid-cols-2 gap-2 text-sm">
                   <div>
                     <dt className="text-muted-foreground">pH Sebelum</dt>
@@ -130,7 +131,7 @@ export function PhDownList({ farmId, tankId }: { farmId: number; tankId: number 
                     variant="destructive"
                     size="sm"
                     onClick={() => {
-                      if (window.confirm(`Hapus pH down tanggal ${record.log_date}?`)) {
+                      if (window.confirm(`Hapus pH down tanggal ${formatDate(record.log_date)}?`)) {
                         deletePhDown.mutate(record.id)
                       }
                     }}

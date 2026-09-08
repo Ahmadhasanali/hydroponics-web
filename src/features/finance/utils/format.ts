@@ -30,6 +30,14 @@ export function parseRupiah(value: string): number {
 }
 
 export function formatDate(iso: string): string {
+  if (!iso) return iso
+  // Tanggal saja (YYYY-MM-DD) harus diparsing sebagai lokal agar tidak geser hari karena UTC.
+  const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso.slice(0, 10))
+  if (dateOnly && iso.length <= 10) {
+    const d = new Date(Number(dateOnly[1]), Number(dateOnly[2]) - 1, Number(dateOnly[3]))
+    if (Number.isNaN(d.getTime())) return iso
+    return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })
+  }
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return iso
   return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' })
